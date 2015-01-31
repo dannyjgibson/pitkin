@@ -19,3 +19,15 @@ io.on('connection', function (socket) {
 http.listen(3000, function () {
     console.log('listening on *:3000');
 });
+
+
+function generateRoomId(IdLength) {
+    var text = [],
+        possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+
+    for (var i = 0; i < IdLength; i++) {
+        text[i] = possible.charAt(Math.floor(Math.random() * possible.length));
+    }
+
+    return text.join([separator='']);
+}

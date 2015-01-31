@@ -4,6 +4,7 @@
   "description": "socket.io chat app",
   "dependencies": {
     "express": "^4.11.1",
+    "jade": "^1.9.1",
     "socket.io": "^1.3.2"
   }
 }
