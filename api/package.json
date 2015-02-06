@@ -1,0 +1,21 @@
+{
+  "name": "pitkin-api",
+  "version": "0.0.1",
+  "description": "pitkin's simple api",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.11.0",
+    "expect.js": "^0.3.1",
+    "express": "^4.11.2",
+    "mocha": "^2.1.0",
+    "mongodb": "^1.4.30",
+    "mongoose": "^3.8.22",
+    "mongoskin": "^1.4.12",
+    "superagent": "^0.21.0"
+  }
+}
