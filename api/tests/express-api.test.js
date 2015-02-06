@@ -5,7 +5,7 @@ describe('express rest api server', function () {
 	var id;
 
 	it('post article', function (done) {
-		superagent.post('http://localhost:27017/articles')
+		superagent.post('http://localhost:3000/articles/')
 			.send({
 				topic: 'testing',
 				title: 'how to test',
@@ -23,7 +23,7 @@ describe('express rest api server', function () {
 	});
 
 	it('retrieves an article', function (done) {
-		superagent.get('http://localhost:27017/articles/' + id)
+		superagent.get('http://localhost:3000/articles/' + id)
 			.end(function (err, res) {
 				expect(err).to.eql(null);
 				expect(typeof res.body).to.eql('object');
@@ -34,7 +34,7 @@ describe('express rest api server', function () {
 	});
 
 	it('retrieves a collection of articles', function (done) {
-		superagent.get('http://localhost:27017/articles')
+		superagent.get('http://localhost:3000/articles/')
 			.end(function (err, res) {
 				expect(err).to.eql(null);
 				expect(res.body.length).to.be.above(0);
@@ -46,7 +46,7 @@ describe('express rest api server', function () {
 	});
 
 	it('updates an article', function (done) {
-		superagent.put('http://localhost:27017/articles/' + id)
+		superagent.put('http://localhost:3000/articles/' + id)
 			.send({
 				topic: 'still-testing',
 				title: 'how to test an update',
@@ -63,7 +63,7 @@ describe('express rest api server', function () {
 	});
 
 	it('checks updated article', function (done) {
-		superagent.get('http://localhost:27017/articles/' + id)
+		superagent.get('http://localhost:3000/articles/' + id)
 			.end(function (err, res) {
 				expect(err).to.eql(null);
 				expect(typeof res.body).to.eql('object');
@@ -75,7 +75,7 @@ describe('express rest api server', function () {
 	});
 
 	it('removes an article', function (done) {
-		superagent.del('http://localhost:27017/articles' + id)
+		superagent.del('http://localhost:3000/articles/' + id)
 			.end(function (err, res) {
 				expect(err).to.eql(null);
 				expect(typeof res.body).to.eql('object');
