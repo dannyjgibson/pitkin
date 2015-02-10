@@ -4,6 +4,7 @@ Pitkin is a Journalism web application. An end-user has the ability to research,
 The remainder of this document is as follows. Section 5.2 contains Pitkin's functional requirements, with each subsection being a single functional requirement described in detail. Section 5.3 contains Pitkin's performance requirements, with a performance requirement described in detail in each subsection. Section 5.4 contains Pitkin's Environment Requirements, with subsextion 5.4.1 describing the Development Environment Requirements and 5.4.2 describing the Execution Environment Requirements.
 
 ## 5.2 Functional Requirements
+	The Functional Requirements of Pitkin desribe the basic functionality provided by the four subsystems of the web-app. Without specifying the performance/appearance of the functionality, a user should be able to "check off" the Functional Requirements listed here as they use the app. 
 	5.2.1 Chat
 		5.2.1.1 Chatrooms shall have unique room IDs that can be shared
 		5.2.1.2 Chatroom users shall be able to change their handle.
@@ -24,6 +25,7 @@ The remainder of this document is as follows. Section 5.2 contains Pitkin's func
 		5.2.4.2 Readers shall be able to filter articles by date and by topic tags.
 		5.2.4.3 Readers shall be able to flag offensive or repetitive material.
 ## 5.3 Performance Requirements
+	The Performance Requirements of Pitkin describe the performance of the Pitkin web app. These are easiest to gather using third party analytics. I plan to use the Google PageSpeed Insight test to provide the best experience I can for the users. So while a user should be able to check that Functional requirements are met, the Performance Requirements cannot be assessed by the human eye. 
 	5.3.1 The web app with a Desktop shall score 90+/100 on Google's PageSpeed Insights test.
 			Google provides a service that hits URL and reports on the speed, structure, and readability of the URL.  I will run this against the public-facing URLs, and follow the suggestiosn of the tests to speed performance and enhance UX. 
 	5.3.2 Note for Requirement 5.3.1, if using app as a Tor Service, the load speed might suffer.
@@ -31,10 +33,11 @@ The remainder of this document is as follows. Section 5.2 contains Pitkin's func
 	5.3.3 However, the app shall either be a quick web service (Requirement 5.3.1) or an anonymous service (5.3.2).
 			An anonymous service does not document the IP addresses that make requests of the service. This will be tested with a suite that compares the IP addresses of clients. 
 ## 5.4 Environment Requirements
+	In the Age of the World Wide Web, the specs of the both the development and client machines should be not be that important. Instead, I focus on the set up I'll be developing on, as well as the browser specs necessary to use Pitkin.  
 	5.4.1 Development Environment Requirements
 		5.4.1.1 IDE -- Sublime Text and Vim
 		5.4.1.2 Hardware -- MBP running OS 10.10.1 and Acer C7 Chromebook running ChromeOS and Ubuntu
 		5.4.1.2 VCS -- Git, hosted in a private Github repo		
 	5.4.2 Execution Environment Requirements
 		5.4.2.1 For anonymous web app usage -- TorBrowser
-		5.4.2.2 For non-anonymous web app usage -- a modern web browser, including IE
+		5.4.2.2 For non-anonymous web app usage -- a modern web browser, including IE 11 and newer.
