@@ -66,10 +66,25 @@ For non-anonymous web app usage -- a modern web browser, including IE 11 and new
 ### Instructor Notes and Feedback Comments
 #### Introduction Section
 1. The diagram is a good overview of the system.  You show three blocks, though, and you address four in your requirements.  The chat server and the search service are handled as separate blocks in the requirements, but are shown as components of the "Research" block on the diagram.  This might cause some confusion.
+2. General comment -- WATCH YOUR SPELLING!  There are a couple of hasty mistakes, like "shall be a simple as ..." and "...to a remote filesystems."
 
 #### Functional Requirements Section
+1. 5.2.1.1 -- Need a bit better description of what unique room IDs will look like.  Also, specify what is meant by "shared", and make sure that it is clear that the IDs are being shared.
+2. 5.2.1.2 -- Describe what is a "handle"
+3. 5.2.1.3 -- Describe what you mean by "time in the room".
+4. 5.2.1.4 -- Describe what is meant by "archiveable".  Where will they be archived?  How often?  If manually archived, by what mechanism does the user make this happen - a button, a text box, something else?
+5. 5.2.1.5 -- Explain what is meant by GUI modal settings.  Provide at least one "will" statement that describes this, and another one that itemizes the chat box shortcuts that you will make available.
+6. 5.2.2.2 -- "as simple as Google" isn't a good thing to include in a requirement; instead, just say what you are including: the search text box and the submit button.
+7. 5.2.2.3 -- What information is returned from a search?  Assuming this is the search portion of the diagram, there needs to be at least half-a-dozen requirements just for this part.
+8. 5.2.3.1 -- In what form will files be saved, raw text, formatted text, Word doc, PDF, ODT, other?  Specify.
+9. 5.2.3.2 -- Describe the interface which users will be presented when opening files.
+10. 5.2.4.1 -- What is the mechanism for the user tagging facility?  Do they click a button that is provided?  If that is the case, does the tag become associated with that item for all users, or just for that user? At least 4-5 more requirements here.
+11. 5.2.4.2 -- What is the mechanism for filtering?  Will it be an advanced search, or will there be buttons and/or text boxes, etc.?  Specify more here.
+12. 5.2.4.3 -- What happens when material is flagged as "offensive" -- is it subjected to some scrutiny and then removed?  Is there a filter to keep it from being presented to a user who doesn't want to see that information?  If so, what mechanisms are you including to make this happen?
 
 #### Performance Requirements Section
+1. You should make these into specifications.  For example, in 5.3.1, you can leave the explanation paragraph as it is, extract the "shall" statement into a sub-section requirement 5.3.1.1, then add a sub-section 5.3.1.2 that has a requirement, like "The web app shall be tailorable to incorporate the recommendations obtained from the Google PageSpeed Insights test."  Then follow up with either another requirement 5.3.1.3 to specify how frequently that test will be run.  BTW, 5.3.1, 5.3.2, and 5.3.3 should have some text, not just the numbers...
+2. Sub-section 5.3.2 is really a "note", not a requirement; this is OK, but the text next to the 5.3.2 should let the user know.  In 5.3.3 you talk about a "quick" service vs. an "anonymous" service -- make sure to explain the distinction between these two things.
 
 #### Environment Requirements Section
 1. I'm not sure I entirely agree with the introduction -- there are frequently minimum specifications which need to be addressed.  Besides, aren't the "browser specs necessary" basically the environment anyhow?
