@@ -60,3 +60,18 @@ VCS -- Git, hosted in a private Github repo
 For anonymous web app usage -- TorBrowser
 #### 5.4.2.2
 For non-anonymous web app usage -- a modern web browser, including IE 11 and newer.
+
+
+-----
+### Instructor Notes and Feedback Comments
+#### Introduction Section
+1. The diagram is a good overview of the system.  You show three blocks, though, and you address four in your requirements.  The chat server and the search service are handled as separate blocks in the requirements, but are shown as components of the "Research" block on the diagram.  This might cause some confusion.
+
+#### Functional Requirements Section
+
+#### Performance Requirements Section
+
+#### Environment Requirements Section
+1. I'm not sure I entirely agree with the introduction -- there are frequently minimum specifications which need to be addressed.  Besides, aren't the "browser specs necessary" basically the environment anyhow?
+2. These requirements need to be re-written as "shall" statements, not sentence fragments...  :)
+3. Make sure you explain all acronyms on first use; e.g., say "Integrated Development Environment (IDE)"
