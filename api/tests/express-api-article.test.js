@@ -1,7 +1,7 @@
 var superagent = require('superagent'),
 	expect = require('expect.js');
 
-describe('express rest api server', function () {
+describe('express rest api server article', function () {
 	var id;
 
 	it('post article', function (done) {
@@ -19,7 +19,7 @@ describe('express rest api server', function () {
 				expect(res.body[0]._id.length).to.eql(24);
 				id = res.body[0]._id;
 				done();
-			})
+			});
 	});
 
 	it('retrieves an article', function (done) {
