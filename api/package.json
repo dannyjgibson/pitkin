@@ -16,7 +16,6 @@
     "mocha": "^2.1.0",
     "mongodb": "^1.4.30",
     "mongoose": "^3.8.22",
-    "mongoskin": "^1.4.12",
     "superagent": "^0.21.0"
   }
 }
