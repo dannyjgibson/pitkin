@@ -1,14 +1,15 @@
 ## 4.1 Plan Introduction
-  This Software DevelopmentPlan provides the deatails of the planned development for the Pitkin Encrypted Journalism WebApp, aka "Pitkin". Pitkin will allow endusers to research, write, publish, and read articles anonymously as a Tor service, so opinions and insight can be shared without fear of retribution.  Pitkin's development will be completed once an RESTful API service is exposed, once users can send text through chatrooms, pull down Instant Answers from DuckDuckGo, save raw text to Pitkin, and publish that raw text to an anonymous blogroll.     
-  The subtasks for Pitkin's completion are as follows:
-    * Jan 21 -- Project Proposal Document
-    * Feb 11 -- Initial Requirements Specification Document
-    * Mar 4 -- Initial Software Development Plan Document
-    * Mar 11 --  Project Design Review Presentation
-    * Mar 18 -- Completed Software Development Plan Document
-    * Apr 1 -- Completed Requirements Specification Document
-    * Apr 15 -- Preliminary Demonstration Presentation
-    * May 6 -- Final Presentation
+This Software DevelopmentPlan provides the details of the planned development for the Pitkin Encrypted Journalism WebApp, aka "Pitkin". Pitkin will allow endusers to research, write, publish, and read articles anonymously as a Tor service, so opinions and insight can be shared without fear of retribution.  Pitkin's development will be completed once an RESTful API service is exposed, once users can send text through chatrooms, pull down Instant Answers from DuckDuckGo, save raw text to Pitkin, and publish that raw text to an anonymous blogroll.  
+
+The subtasks for Pitkin's completion are as follows:
+* Jan 21 -- Project Proposal Document
+* Feb 11 -- Initial Requirements Specification Document
+* Mar 4 -- Initial Software Development Plan Document
+* Mar 11 --  Project Design Review Presentation
+* Mar 18 -- Completed Software Development Plan Document
+* Apr 1 -- Completed Requirements Specification Document
+* Apr 15 -- Preliminary Demonstration Presentation
+* May 6 -- Final Presentation
 ### 4.1.1 Project Deliverables
 * Jan 21 -- [Project Proposal Document](https://docs.google.com/presentation/d/1zv4tMT1xM6mJqjh8OxhfpYz_5tK8m1y3uY0_OpYZQi4/pub?start=false&loop=true&delayms=3000)
   * A descriptive presentation on the idea of Pitkin.  This included a description of the project and the justification behind it. 
@@ -90,6 +91,7 @@
 This section provides schedule information for the Pitkin project.
 
 ### 4.4.1 GANTT Chart
+![gantt-chart](https://raw.githubusercontent.com/dannyjgibson/pitkin/master/sdf/assets/GANTT.png)
 
 <div id="timesheet"></div>
 <link rel="stylesheet" type="text/css" href="https://raw.githubusercontent.com/sbstjn/timesheet.js/master/dist/timesheet.css">
