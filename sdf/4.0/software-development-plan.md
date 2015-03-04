@@ -9,30 +9,29 @@
     * Apr 1 -- Completed Requirements Specification Document
     * Apr 15 -- Preliminary Demonstration Presentation
     * May 6 -- Final Presentation
-
 ### 4.1.1 Project Deliverables
-    * Jan 21 -- [Project Proposal Document](https://docs.google.com/presentation/d/1zv4tMT1xM6mJqjh8OxhfpYz_5tK8m1y3uY0_OpYZQi4/pub?start=false&loop=true&delayms=3000)
-      * A descriptive presentation on the idea of Pitkin.  This included a description of the project and the justification behind it. 
-    * Feb 11 -- [Initial Requirements Specification Document](https://github.com/dannyjgibson/pitkin/blob/master/sdf/5.0/software-requirements-specification.md)
-      * This document is sort of contract between future end users of Pitkin and myself. 
-      * The functionaility that shall and will be provided by the app are outlined here.
-      * This document also specifies the requirements for the client -- what specs their machine must have to use the app.
-    * Mar 4 -- Initial Software Development Plan Document
-      * The document you are currently reading
-      * Outliens the steps to complete Pitkin. 
-    * Mar 11 --  Project Design Review 
-      *  A peer review time to analyze the design of Pitkin and other apps.
-    * Mar 18 -- Completed Software Development Plan Document
-      * Completed form of the deliverable due on Mar 4.
-    * Apr 1 -- Completed Requirements Specification Document
-      * Completed form of the [deliverable](https://github.com/dannyjgibson/pitkin/blob/master/sdf/5.0/software-requirements-specification.md) due on Feb 11.
-    * Apr 15 -- Preliminary Demonstration Presentation
-      * A time to demonstrate Pitkin's functionality to peers.
-      * A time to refine the presentation for the final day of the semester. 
-    * May 6 -- Final Presentation
-      * The final day of the senior project. 
-      * Demonstrate the complet functionality of the Pitkin App
-      * Demonstrate my full understanding of the process of Software Development.
+* Jan 21 -- [Project Proposal Document](https://docs.google.com/presentation/d/1zv4tMT1xM6mJqjh8OxhfpYz_5tK8m1y3uY0_OpYZQi4/pub?start=false&loop=true&delayms=3000)
+  * A descriptive presentation on the idea of Pitkin.  This included a description of the project and the justification behind it. 
+* Feb 11 -- [Initial Requirements Specification Document](https://github.com/dannyjgibson/pitkin/blob/master/sdf/5.0/software-requirements-specification.md)
+  * This document is sort of contract between future end users of Pitkin and myself. 
+  * The functionaility that shall and will be provided by the app are outlined here.
+  * This document also specifies the requirements for the client -- what specs their machine must have to use the app.
+* Mar 4 -- Initial Software Development Plan Document
+  * The document you are currently reading
+  * Outliens the steps to complete Pitkin. 
+* Mar 11 --  Project Design Review 
+  *  A peer review time to analyze the design of Pitkin and other apps.
+* Mar 18 -- Completed Software Development Plan Document
+  * Completed form of the deliverable due on Mar 4.
+* Apr 1 -- Completed Requirements Specification Document
+  * Completed form of the [deliverable](https://github.com/dannyjgibson/pitkin/blob/master/sdf/5.0/software-requirements-specification.md) due on Feb 11.
+* Apr 15 -- Preliminary Demonstration Presentation
+  * A time to demonstrate Pitkin's functionality to peers.
+  * A time to refine the presentation for the final day of the semester. 
+* May 6 -- Final Presentation
+  * The final day of the senior project. 
+  * Demonstrate the complet functionality of the Pitkin App
+  * Demonstrate my full understanding of the process of Software Development.
 ## 4.2 Project Resources
   * ["Mean Machine"](https://leanpub.com/mean-machine) by Chris Sevillaja and Holly Lloyd
   * ["Write Modern Web Apps with the MEAN Stack"](http://www.amazon.com/Write-Modern-Apps-MEAN-Stack/dp/0133930157) by Jeff Dickey 
