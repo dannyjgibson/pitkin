@@ -2,6 +2,7 @@ var express = require('express'),
   bodyParser = require('body-Parser'),
   mongoose = require('mongoose'),
   morgan = require('morgan'),
+  fs = require('fs'),
   port = process.env.PORT || 3000,
   app = express();
 
@@ -35,7 +36,7 @@ app.get('/', function (req, res) {
 });
 
 // routers are modularized
-var apiRouter = require('./routers/apiRouter');
+require('./routers/apiRouter');
 
 //registering routers
 app.use('/api', apiRouter);

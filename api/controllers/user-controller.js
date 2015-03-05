@@ -4,7 +4,8 @@ var express = require('express'),
   User = require('../models/user');
 
 module.exports = (function (apiRouter) {
-  apiRouter.route("users")
+  apiRouter = express.Router();
+  apiRouter.route('/users')
 
     .post(function (req, res) {
       var user = new User();
@@ -95,6 +96,4 @@ module.exports = (function (apiRouter) {
             res.json({ message: 'Successfully deleted user'});
         });
       });    
-
-  return apiRouter;
 })();

@@ -4,7 +4,8 @@ var express = require('express'),
   Chatroom = require('../models/chatroom');
 
   module.exports = (function (apiRouter) {
-    apiRouter.route('chatrooms')
+    apiRouter = express.Router();
+    apiRouter.route('/chatrooms')
       .post(function (req, res) {
         var chatroom = new Chatroom();
 

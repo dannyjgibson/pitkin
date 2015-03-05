@@ -1,5 +1,5 @@
 var mongoose = require('mongoose'),
-	validator = require('validator.js');
+	validator = require('validator');
 
 var userSchema = new mongoose.Schema({
   username: { type: String, required: true, unique: true },
@@ -12,7 +12,7 @@ var userSchema = new mongoose.Schema({
 });
 
 //abstract this out
-userSchema.methods.pre('save', function (next) {
+userSchema.pre('save', function (next) {
 	var currentDate = new Date();
 	this.updatedAt = currentDate;
 

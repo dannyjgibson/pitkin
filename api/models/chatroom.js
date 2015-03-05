@@ -1,4 +1,5 @@
-var mongoose = require('mongoose');
+var mongoose = require('mongoose'),
+    userSchema = require('./user.js');
 
 var chatroomSchema =  new mongoose.Schema({
 	text: String,
