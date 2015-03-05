@@ -1,7 +1,6 @@
 var mongoose = require('mongoose');
 
 var chatroomSchema =  new mongoose.Schema({
-	id: String,
 	text: String,
 	users: [userSchema]
 });

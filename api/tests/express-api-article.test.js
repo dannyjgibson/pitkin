@@ -1,11 +1,11 @@
 var superagent = require('superagent'),
-	expect = require('expect.js');
+		expect = require('expect.js');
 
 describe('express rest api server article', function () {
 	var id;
 
 	it('post article', function (done) {
-		superagent.post('http://localhost:3000/articles/')
+		superagent.post('http://localhost:3000/api/articles/')
 			.send({
 				topic: 'testing',
 				title: 'how to test',
@@ -23,7 +23,7 @@ describe('express rest api server article', function () {
 	});
 
 	it('retrieves an article', function (done) {
-		superagent.get('http://localhost:3000/articles/' + id)
+		superagent.get('http://localhost:3000/api/articles/' + id)
 			.end(function (err, res) {
 				expect(err).to.eql(null);
 				expect(typeof res.body).to.eql('object');
@@ -34,7 +34,7 @@ describe('express rest api server article', function () {
 	});
 
 	it('retrieves a collection of articles', function (done) {
-		superagent.get('http://localhost:3000/articles/')
+		superagent.get('http://localhost:3000/api/articles/')
 			.end(function (err, res) {
 				expect(err).to.eql(null);
 				expect(res.body.length).to.be.above(0);
@@ -46,7 +46,7 @@ describe('express rest api server article', function () {
 	});
 
 	it('updates an article', function (done) {
-		superagent.put('http://localhost:3000/articles/' + id)
+		superagent.put('http://localhost:3000/api/articles/' + id)
 			.send({
 				topic: 'still-testing',
 				title: 'how to test an update',
@@ -63,7 +63,7 @@ describe('express rest api server article', function () {
 	});
 
 	it('checks updated article', function (done) {
-		superagent.get('http://localhost:3000/articles/' + id)
+		superagent.get('http://localhost:3000/apis/articles/' + id)
 			.end(function (err, res) {
 				expect(err).to.eql(null);
 				expect(typeof res.body).to.eql('object');
@@ -75,7 +75,7 @@ describe('express rest api server article', function () {
 	});
 
 	it('removes an article', function (done) {
-		superagent.del('http://localhost:3000/articles/' + id)
+		superagent.del('http://localhost:3000/apis/articles/' + id)
 			.end(function (err, res) {
 				expect(err).to.eql(null);
 				expect(typeof res.body).to.eql('object');
