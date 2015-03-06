@@ -3,10 +3,8 @@ var express = require('express'),
 	mongoose = require('mongoose'),
 	Article = require('../models/article');
 
-module.exports = (function () {
-	apiRouter = express.Router();
+var articleController = function (apiRouter) {	
 	apiRouter.route('/articles')
-
 		.post(function (req, res) {
 			var article = new Article();
 
@@ -105,4 +103,6 @@ module.exports = (function () {
 					res.json({ message: 'Successfully deleted article' });
 			});
 		});
-})();
+};
+
+module.exports = articleController;

@@ -9,6 +9,8 @@ var express = require('express'),
 app.use(bodyParser.urlencoded({ extended:true }));
 app.use(bodyParser.json());
 
+
+// enable CORS
 app.use(function (req, res, next) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET', 'POST');
@@ -36,10 +38,12 @@ app.get('/', function (req, res) {
 });
 
 // routers are modularized
-require('./routers/apiRouter');
+var apiRouter = require('./routers/apiRouter');
 
 //registering routers
 app.use('/api', apiRouter);
 
 app.listen(port);
 console.log('listening on port ' + port);
+
+module.exports = app;

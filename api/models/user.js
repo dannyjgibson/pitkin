@@ -1,5 +1,6 @@
 var mongoose = require('mongoose'),
-	validator = require('validator');
+	validator = require('validator'),
+	bcrypt = require('bcrypt-nodejs');
 
 var userSchema = new mongoose.Schema({
   username: { type: String, required: true, unique: true },
@@ -30,4 +31,10 @@ userSchema.pre('save', function (next) {
 	next();
 });
 
-exports = mongoose.model('User', userSchema);
+// compare given password to the database hash
+userSchema.comparePassword = function(password) {
+	var user = this;
+	return bcrypt.compareSync(password, user.password);
+};
+
+module.exports = mongoose.model('User', userSchema);

@@ -23,4 +23,4 @@ articleSchema.pre('save', function (next) {
 	next();
 });
 
-exports = mongoose.model('Article', articleSchema);
+module.exports = mongoose.model('Article', articleSchema);

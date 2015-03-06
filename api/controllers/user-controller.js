@@ -2,11 +2,9 @@ var express = require('express'),
   bodyParser = require('body-parser'),
   mongoose = require('mongoose'),
   User = require('../models/user');
-
-module.exports = (function (apiRouter) {
-  apiRouter = express.Router();
+  
+var userController = function (apiRouter) {
   apiRouter.route('/users')
-
     .post(function (req, res) {
       var user = new User();
 
@@ -30,6 +28,7 @@ module.exports = (function (apiRouter) {
     })
 
     .get(function (req, res) {
+      console.log('getting a user');
       User.find(function (err, users) {
         if (err) {
           return res.send(err);
@@ -96,4 +95,6 @@ module.exports = (function (apiRouter) {
             res.json({ message: 'Successfully deleted user'});
         });
       });    
-})();
+};
+
+module.exports = userController;
