@@ -1,81 +1,35 @@
 var superagent = require('superagent'),
-	expect = require('expect.js');
+		expect = require('expect.js');
 
-describe('express rest api server user', function () {
+describe('test api/users:', function () {
 	var id;
-
-	it('post user', function (done) {
-		superagent.post('http://localhost:3000/api/users/')
+	it('should POST a user, return success', function (done) {
+		superagent
+			.post('http://localhost:3000/api/users')
 			.send({
-				userName: 'danny',
-				password: 'bad-password',
+				username: 'testUser',
+				password: 'testPass',
+				emailaddress: 'test@test.com',
 				articleCount: 42,
-				articles: null
+				createdAt: new Date()
 			})
-			.end(function (err, res) {
-				expect(err).to.eql(null);
-				expect(res.body.length).to.eql(1);
-				expect(res.body[0]._id.length).to.eql(24);
-				id = res.body[0]._id;
+			.end(function (res) {
+				expect(res.body.message).to.contain('success');
+				id = res.body.newUserId;
 				done();
 			});
 	});
 
-	it('retrieves a user', function (done) {
-		superagent.get('http://localhost:3000/api/users/' + id)
-			.end(function (err, res) {
-				expect(err).to.eql(null);
-				expect(typeof res.body).to.eql('object');
-				expect(res.body._id.length).to.eql(24);
-				expect(res.body._id.to.eql(id));
+	it('should GET users, return users', function (done) {
+		superagent
+			.get('http://localhost:3000/api/users/' + id)
+			.end(function(res) {
+				expect(res.body.length).to.not.equal(null);
 				done();
 			});
 	});
 
-	it('retrieves a collection of users', function (done) {
-		superagent.get('http://localhost:3000/api/users/')
-			.end(function (err, res) {
-				expect(err).to.eql(null);
-				expect(res.body.length).to.be.above(0);
-				expect(res.body.map(function (item) {
-					return item._id;
-				})).to.contain(id);
-				done();
-			});
-	});
+	it('should PUT update to a user', function (done) {
 
-	it('updates a user', function (done) {
-		superagent.put('http://localhost:3000/api/users/' + id)
-			.send({
-				userName: 'updated-danny',
-				password: 'update-bad-password',
-				articleCount: 101
-			})
-			.end(function (err, res) {
-				expect(err).to.eql(null);
-				expect(typeof res.body).to.eql('object');
-				expect(res.body.msg).to.eql('success');
-				done();
-			});
-	});
-
-	it('checks updated user', function (done) {
-		superagent.get('http://localhost:3000/api/users/' + id)
-		.end(function (err, res) {
-			expect(err).to.eql(null);
-			expect(typeof res.body).to.eql('object');
-			expect(res.body.msg).to.eql('success');
-			done();
-		});
-	});
-
-	it('removes a user', function (done) {
-		superagent.del('http://localhost:3000/api/users/' + id)
-			.end(function (err, res) {
-				expect(err).to.eql(null);
-				expect(typeof res.body).to.eql('object');
-				expect(res.body.msg.to.eql('success'));
-				done();
-			});
 	});
 });

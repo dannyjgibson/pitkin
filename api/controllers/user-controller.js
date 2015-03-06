@@ -5,9 +5,9 @@ var express = require('express'),
   
 var userController = function (apiRouter) {
   apiRouter.route('/users')
+
     .post(function (req, res) {
       var user = new User();
-
       user.username = req.body.username;
       user.password = req.body.password;
       user.emailAddress = req.body.emailAddress;
@@ -22,7 +22,8 @@ var userController = function (apiRouter) {
           return res.send(err);
         }
         res.json({
-          message: 'User created!'
+          message: 'success. user created!',
+          newUserId: user._id
         });
       });
     })
@@ -38,12 +39,13 @@ var userController = function (apiRouter) {
     });
 
     apiRouter.route('/users/:userId')
-      
+
       .get(function (req, res) {
         User.findById(req.params.userId, function (err, user) {
           if (err) {
             res.send(err);
           }
+          console.log(user);
           res.json(user);
         });
       })
