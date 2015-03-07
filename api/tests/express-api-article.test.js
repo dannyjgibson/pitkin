@@ -7,7 +7,7 @@ describe('/api/articles CRUD tests:', function () {
 					topic: 'testSample',
 					title: 'testTitle',
 					location: 'testLocation',
-					//publishDate: ,
+					//publishDate: 
 					//createdAt:
 					text: 'testText',
 					actions: 'testActions',

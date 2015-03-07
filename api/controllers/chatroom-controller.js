@@ -17,7 +17,8 @@ var chatroomController = function (apiRouter) {
           return res.send(err);
         }
         res.json({
-          message: 'Chatroom data created!'
+          message: 'success, chatroom data created!',
+          newChatroomId: chatroom._id
         });
       });
     })
@@ -58,7 +59,10 @@ var chatroomController = function (apiRouter) {
           if (err) {
             res.send(err);
           }
-          res.json({ message: 'Chatroom updated!'});
+          res.json({ 
+            message: 'success, chatroom updated!',
+            updatedChatroom: chatroom
+          });
         });
       });
     })
@@ -70,7 +74,7 @@ var chatroomController = function (apiRouter) {
         if (err) {
           return res.send(err);
         }
-        res.json({ message : 'Successfully deleted chatroom.'});
+        res.json({ message : 'success, chatroom deleted.'});
       });
     });   
 }; 
