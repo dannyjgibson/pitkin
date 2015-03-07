@@ -27,6 +27,7 @@ console.log('connected to mongodb at localhost:27017/test');
 
 app.param('collectionName', function (req, res, next, collectionName) {
   req.collection = db.collection(collectionName);
+  console.log("hit the collection: " + collectionName);
   return next();
 });
 

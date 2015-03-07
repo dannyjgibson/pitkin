@@ -82,7 +82,10 @@ var userController = function (apiRouter) {
             if (err) {
               res.send(err);
             }
-            res.json({ message: 'User Updated!' });
+            res.json({ 
+              message: 'success, user updated!',
+              updatedUser: user 
+            });
           });
         });
       })
@@ -94,7 +97,7 @@ var userController = function (apiRouter) {
             if (err) {
               return res.send(err);
             }
-            res.json({ message: 'Successfully deleted user'});
+            res.json({ message: 'success, user deleted!'});
         });
       });    
 };

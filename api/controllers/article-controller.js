@@ -14,7 +14,7 @@ var articleController = function (apiRouter) {
 			article.publishDate = req.body.publishDate;
 			article.createdAt = req.body.createdAt;
 			article.text = req.body.text;
-			article.actions = req.body.text;
+			article.actions = req.body.actions;
 			article.tags = req.body.tags;
 
 			// maybe handle errs with promises?
@@ -24,7 +24,8 @@ var articleController = function (apiRouter) {
 					return res.send(err);
 				}
 				res.json({
-					message: 'Article created!'
+					message: 'success, article created!',
+					newArticleId: article._id
 				});
 			});
 
@@ -88,7 +89,10 @@ var articleController = function (apiRouter) {
 					if (err) {
 						res.send(err);
 					}
-					res.json({ message: 'Article updated' });
+					res.json({ 
+						message: 'success, article updated',
+						updatedArticle: article
+						});
 				});
 			});
 		})	
@@ -100,7 +104,7 @@ var articleController = function (apiRouter) {
 					if (err) {
 						return res.send(err);
 					}
-					res.json({ message: 'Successfully deleted article' });
+					res.json({ message: 'success, deleted article' });
 			});
 		});
 };

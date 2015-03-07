@@ -1,18 +1,20 @@
 var superagent = require('superagent'),
 		expect = require('expect.js');
 
-describe('test api/users:', function () {
-	var id;
+describe('/api/users CRUD tests:', function () {
+	var id,
+			testUser = {
+				username: 'testUser',
+				password: 'testPass',
+				emailAddress: 'test@test.com',
+				articleCount: 42,
+				createdAt: new Date()
+			};
+
 	it('should POST a user, return success', function (done) {
 		superagent
 			.post('http://localhost:3000/api/users')
-			.send({
-				username: 'testUser',
-				password: 'testPass',
-				emailaddress: 'test@test.com',
-				articleCount: 42,
-				createdAt: new Date()
-			})
+			.send(testUser)
 			.end(function (res) {
 				expect(res.body.message).to.contain('success');
 				id = res.body.newUserId;
@@ -20,16 +22,53 @@ describe('test api/users:', function () {
 			});
 	});
 
-	it('should GET users, return users', function (done) {
+	it('should GET a collection of users', function (done) {
 		superagent
-			.get('http://localhost:3000/api/users/' + id)
-			.end(function(res) {
-				expect(res.body.length).to.not.equal(null);
+			.get('http://localhost:3000/api/users')
+			.end(function (res) {
+				expect(res.body.length).to.greaterThan(0); // make sure you run this test case after a POST
 				done();
 			});
 	});
 
-	it('should PUT update to a user', function (done) {
+	it('should GET a specific user', function (done) {
+		superagent
+			.get('http://localhost:3000/api/users/' + id)
+			.end(function (res) {
+				expect(res.body.username).to.equal('testUser');
+				done();
+			});
+	});
 
+	it('should PUT update to a specific user', function (done) {
+		testUser.username = 'updatedUserName';
+		testUser.password = 'updatedPassword';
+		superagent
+		.put('http://localhost:3000/api/users/' + id)
+		.send({
+			username: 'updatedUserName',
+			password: 'updatedPassword'
+		})
+		.end(function (res) {
+			expect(res.body.updatedUser.username).to.eql(testUser.username);
+			expect(res.body.updatedUser.password).to.eql(testUser.password);
+			expect(res.body.updatedUser.emailAddress).to.eql(testUser.emailAddress);
+			expect(res.body.updatedUser.articleCount).to.eql(testUser.articleCount);
+			
+			// figure out a good way to do dates
+			// Uncaught Error: expected '2015-03-06T22:06:11.224Z' to sort of equal Fri, 06 Mar 2015 22:06:11 GMT
+			// expect(res.body.updatedUser.createdAt).to.eql(testUser.createdAt);
+			done();
+		});
+	});
+
+	it('should DELETE a specific user', function (done) {
+		superagent
+			.del('http://localhost:3000/api/users/' + id)
+			.end(function (res) {
+				expect(typeof res.body).to.eql('object');
+				expect(res.body.message).to.contain('success');
+				done();
+			});
 	});
 });
