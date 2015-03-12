@@ -1,7 +1,22 @@
 var superagent = require('superagent'),
-    expect = require('expect.js');
+    expect = require('expect.js'),
+    mongoose = require('mongoose'),
+    dbName = process.env.DATABASE_URL || 'mongodb://@localhost:27017/test';
+
+mongoose.connect(dbName);
+var db = mongoose.createConnection(dbName);
+    collection = db.collection('users'); 
 
 describe('/api/chatrooms CRUD tests:', function () {
+
+  after( function () {
+    collection.remove( { '_id' : id}, function (res, err) {
+      if (err) {
+        console.log(err);        
+      }
+    });
+  });
+
   var id,
       testChatroom = {
           text: 'testText'

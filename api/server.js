@@ -23,6 +23,7 @@ app.use(morgan('dev'));
 
 // connecting to db with mongoose, gonna need it for validation
 mongoose.connect('mongodb://@localhost:27017/test');
+process.env.DATABASE_URL = 'mongodb://@localhost:27017/test';
 console.log('connected to mongodb at localhost:27017/test');
 
 app.param('collectionName', function (req, res, next, collectionName) {
