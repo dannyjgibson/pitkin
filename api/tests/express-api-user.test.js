@@ -1,8 +1,9 @@
 var superagent = require('superagent'),
 		expect = require('expect.js'),
     mongoose = require('mongoose'),		
-		dbName = process.env.DATABASE_URL || 'mongodb://@localhost:27017/test';
-
+    config = require('../config'),
+    dbName =  config.database.test;
+    
 var db = mongoose.createConnection(dbName);
 		collection = db.collection('users');
 
