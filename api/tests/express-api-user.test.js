@@ -50,7 +50,10 @@ describe('/api/users CRUD tests:', function () {
 		superagent
 			.get('http://localhost:3000/api/users/' + id)
 			.end(function (res) {
-				expect(res.body.username).to.equal('testUser');
+				expect(res.body.username).to.equal(testUser.username);
+				console.log('testUser.createdAt = ' + testUser.createdAt.toISOString());
+				console.log('res = ' + res.body.createdAt);
+				expect(res.body.createdAt).to.equal(testUser.createdAt.toISOString());
 				done();
 			});
 	});
