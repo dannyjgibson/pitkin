@@ -1,0 +1,23 @@
+{
+  "name": "pitkin-api",
+  "version": "0.0.1",
+  "description": "pitkin's simple api",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha tests/"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt-nodejs": "0.0.3",
+    "body-parser": "^1.11.0",
+    "crypto-js": "^3.1.2-5",
+    "expect.js": "^0.3.1",
+    "express": "^4.11.2",
+    "mocha": "^2.1.0",
+    "mongodb": "^1.4.30",
+    "mongoose": "^3.8.22",
+    "superagent": "^0.21.0",
+    "validator": "^3.33.0"
+  }
+}
