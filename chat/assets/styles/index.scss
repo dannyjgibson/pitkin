@@ -32,19 +32,34 @@ form {
 
 		background: rgb(130, 224, 255);
 	}
+
+	aside {
+		.sidebar {
+			display: flex;
+			flex-direction: row;
+			float: right;
+			height: 100%;
+		}
+	}
 }
 
-#messages {
-	padding: 0;
-	margin: 0;
+.message-wrap {
+	float: left;
 
-	list-style-type: none;
+	width: 80%;
 
-	li {
-		padding: 5px 10px;
-		
-		&:nth-child(odd) {
-			background: #eee;
+	.messages {
+		padding: 0;
+		margin: 0;
+
+		list-style-type: none;
+
+		li {
+			padding: 5px 10px;
+			
+			&:nth-child(odd) {
+				background: #eee;
+			}
 		}
 	}
 }

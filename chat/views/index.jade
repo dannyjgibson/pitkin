@@ -3,7 +3,7 @@ html(lang="en")
     head
         title
             | Pitkin Chat
-        link(rel="stylesheet" type="text/css" href="/styles/index.css" media="screen")
+        link(rel="stylesheet" type="text/css" href="../public/css/index.css" media="screen")
         link(rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css")
     body
         div(class="modal fade bs-example-modal-sm" id="settings-modal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true")
@@ -19,13 +19,16 @@ html(lang="en")
                     div(class="modal-footer")
                         div(type="button" class="btn btn-default" data-dismiss="modal")
                             | Save
-        ul#messages
+        div.message-wrap                            
+            ul.messages
         form(action="")
             input#m(autocomplete="off" autofocus)
             button 
                 | Send
+        aside.sidebar
+            div.users
         script(src="https://cdn.socket.io/socket.io-1.2.0.js")
         script(src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js")
         script(type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js")
-        script(type="text/javascript" src="/js/chat.js")
-        script(type="text/javascript" src="/js/page-manipulation.js")            
+        script(type="text/javascript" src="../public/js/chat.js")
+        script(type="text/javascript" src="../public/js/page-manipulation.js")            
