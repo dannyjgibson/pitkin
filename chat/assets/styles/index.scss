@@ -8,6 +8,27 @@ body {
     font: 13px Helvetica Arial;
 }
 
+
+aside {
+	float: right;
+
+	width: 20%;
+
+	&.sidebar {
+		display: flex;
+		flex-direction: row;
+		height: 100%;
+		text-align: center;
+		div {
+			width: 100%;	
+			ul {
+				text-align: center;
+				list-style-type: none;
+			}
+		}
+	}
+}
+
 form {
 	position: fixed;
 	bottom: 0;
@@ -31,15 +52,6 @@ form {
 		border: none;
 
 		background: rgb(130, 224, 255);
-	}
-
-	aside {
-		.sidebar {
-			display: flex;
-			flex-direction: row;
-			float: right;
-			height: 100%;
-		}
 	}
 }
 
