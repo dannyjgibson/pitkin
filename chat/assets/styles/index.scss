@@ -12,15 +12,35 @@ body {
 aside {
 	float: right;
 
-	width: 20%;
+	width: 19%;
 
 	&.sidebar {
 		display: flex;
-		flex-direction: row;
+		flex-direction: column;
+		align-content: stretch;
 		height: 100%;
 		text-align: center;
 		div {
-			width: 100%;	
+			display: flex;
+			flex-direction: row;
+			flex-wrap: wrap;
+			position: relative;
+			width: 90%;
+			background-color: #82e0ff;
+			border: 1px black solid;
+			border-radius: 5px;
+			padding: 1em;
+			margin: 0.25em;			 
+
+			&.menu {
+				background-color: #fff;
+			}	
+			&.list-title {
+				border: 0;
+				font-weight: 700;
+				padding: 0;
+			}
+
 			ul {
 				text-align: center;
 				list-style-type: none;
