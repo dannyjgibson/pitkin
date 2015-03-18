@@ -1,0 +1,13 @@
+{
+  "name": "pitkin-blog",
+  "version": "0.0.1",
+  "description": "pitkin's simple blogroll",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "knockout": "^3.3.0"
+  }
+}

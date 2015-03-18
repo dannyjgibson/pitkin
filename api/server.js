@@ -40,10 +40,12 @@ app.get('/', function (req, res) {
 });
 
 // routers are modularized
-var apiRouter = require('./routers/apiRouter');
+var apiRouter = require('./routers/apiRouter'),
+    loginRouter =require('./routers/loginRouter');
 
 //registering routers
 app.use('/api', apiRouter);
+app.use('/login', loginRouter);
 
 app.listen(port);
 console.log('listening on port ' + port);
