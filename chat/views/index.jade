@@ -5,6 +5,7 @@ html(lang="en")
             | Pitkin Chat
         link(rel="stylesheet" type="text/css" href="../public/css/index.css" media="screen")
         link(rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css")
+        link(rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css")
     body
         div(class="modal fade bs-example-modal-sm" id="settings-modal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true")
             div(class="modal-dialog modal-sm")
@@ -13,7 +14,7 @@ html(lang="en")
                     div(class="modal-header")
                         button(type="button" class="close" data-dismiss="modal" aria-label="Close")
                             span(aria-hidden="true")
-                                |&times;            
+                                i(class="fa fa-times fa-fw")            
                     div(class="modal-body")
                         input(type="text" id="username" name="username" placeholder="Username")
                     div(class="modal-footer")
@@ -32,9 +33,13 @@ html(lang="en")
             button 
                 | Send        
         aside.sidebar
-            div.menu
-                button
-                    | Settings
+            div.menu-list
+                a(class="list-group-item" href="#")
+                    i(class="fa fa-home fa-fw")
+                a(class="list-group-item" href="#")
+                    i(class="fa fa-pencil fa-fw")
+                a(class="list-group-item" href="#")
+                    i(class="fa fa-cog fa-fw")
             div.users
                 div.list-title
                     | Users
