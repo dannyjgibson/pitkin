@@ -14,27 +14,55 @@ var userSchema = new mongoose.Schema({
 
 //abstract this out
 userSchema.pre('save', function (next) {
-	var currentDate = new Date();
-	this.updatedAt = currentDate;
+	var currentDate = new Date(),
+			user = this;
+	user.updatedAt = currentDate;
 
 	if (!this.createdAt) {
-		this.createdAt = currentDate;
+		user.createdAt = currentDate;
 	}
 
 	// hash password here
+	if (!user.isModified('password')) {
+		return next();
+	}	
+
+	user.password = hashPassword(user.password);
 
 	// validate properties on save
-	if (!validator.isEmail(this.emailAddress)) {
+	if (!validator.isEmail(user.emailAddress)) {
 		// reject property
 	}
-
 	next();
 });
 
-// compare given password to the database hash
-userSchema.comparePassword = function(password) {
-	var user = this;
-	return bcrypt.compareSync(password, user.password);
+var hashPassword =  function (rawPassword) {
+	console.log("we're going to test " + rawPassword);
+	return bcrypt.genSalt(1, function (err, salt) {
+		if (err) {
+			throw err;
+		}
+		return bcrypt.hash(rawPassword, salt, null, function (err, encryptedPassword) {
+			if (err) {
+				throw err;
+			}
+			return encryptedPassword;
+		});
+	});
 };
+
+
+userSchema.statics.comparePassword = function (candidatePassword, knownPassword, next) {
+	console.log('candidatePassword is ' + candidatePassword);
+	console.log('knownPassword is ' + knownPassword);
+	bcrypt.compare(candidatePassword, knownPassword, function (err, isMatch) {
+		if (err) {
+			return next(err);
+		}
+		next(null, isMatch);
+	});
+};
+
+userSchema.statics.hashPassword = hashPassword;
 
 module.exports = mongoose.model('User', userSchema);

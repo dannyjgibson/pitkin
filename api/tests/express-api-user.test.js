@@ -1,11 +1,28 @@
 var superagent = require('superagent'),
 		expect = require('expect.js'),
-    mongoose = require('mongoose'),		
+    mongoose = require('mongoose'),
+    User = require('../models/user'),		
     config = require('../config'),
     dbName =  config.database.test;
     
 var db = mongoose.createConnection(dbName);
 		collection = db.collection('users');
+
+describe('authentication testing', function() {
+	after( function () {
+		collection.remove( { '_id' : id}, function (res, err) {
+      if (err) {
+        console.log(err);        
+      }
+		});
+	});
+
+	it('should hash a password', function (done) {
+		var testPassword = 'testPassword';
+		var hashedPassword = User.hashPassword();
+		expect(testPassword).to.not.equal(hashedPassword, null);
+	});
+});
 
 describe('/api/users CRUD tests:', function () {
   
@@ -33,7 +50,6 @@ describe('/api/users CRUD tests:', function () {
 			.end(function (res) {
 				expect(res.body.message).to.contain('success');
 				id = res.body.newUserId;
-				done();
 			});
 	});
 
@@ -51,8 +67,6 @@ describe('/api/users CRUD tests:', function () {
 			.get('http://localhost:3000/api/users/' + id)
 			.end(function (res) {
 				expect(res.body.username).to.equal(testUser.username);
-				console.log('testUser.createdAt = ' + testUser.createdAt.toISOString());
-				console.log('res = ' + res.body.createdAt);
 				expect(res.body.createdAt).to.equal(testUser.createdAt.toISOString());
 				done();
 			});
