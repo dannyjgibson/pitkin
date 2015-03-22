@@ -19,4 +19,5 @@ gulp.task('watch', function () {
   gulp.watch('/assets/styles/*.scss', ['sass']);
 });
 
-gulp.task('default', ['jade', 'sass']);
+gulp.task('default', ['jade', 'sass', 'watch']);
+
