@@ -13,3 +13,10 @@ gulp.task('sass', function () {
     .pipe(gulpSass({ sourceComments: 'map' }))
     .pipe(gulp.dest('builds/development/css')); 
 });
+
+gulp.task('watch', function () {
+  gulp.watch('/views/*.jade', ['jade']);
+  gulp.watch('/assets/styles/*.scss', ['sass']);
+});
+
+gulp.task('default', ['jade', 'sass']);

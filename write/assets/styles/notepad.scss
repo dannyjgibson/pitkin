@@ -1,8 +1,32 @@
 body {
-  font : 13px Helvetica Arial;
+  font: 13px Helvetica Arial;
+  
+  .row {
+    .col-md-8 {
+      border: 1px solid;
+      border-radius: 5px;
+    }
 
-  .article-info {
-    width: 100%;
-  }
+    .col-md-3 {
+      border: 1px solid;
+      border-radius: 5px;      
+      margin-left: 10px;
+    }
+
+    input {
+      margin-top: 20px;
+      width: 100%;
+
+      &.btn {
+        background-color: #82e0ff; 
+        margin-bottom: 20px;
+      }
+    }
+
+    textarea {
+      margin-top: 20px; 
+      width: 100%;
+    }
+  } 
   
 }
