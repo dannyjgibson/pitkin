@@ -1,0 +1,47 @@
+doctype html
+html(lang="en")
+  head
+    title
+      | Pitkin Notepad
+    link(rel="stylesheet" type="text/css" href="../public/css/notepad.css" media="screen")
+    link(rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css")
+    link(rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css")
+  body
+    h2 Path to this file
+    .article-info
+      form(name="save" action="/save" method="post" id="article-details")  
+        .article-info-title
+          input(
+            type="text"
+            class="article-info"
+            id="title"
+            name="title"
+            placeholder="Title"
+          )
+        .article-info-topic
+          input(
+            type="text"
+            class="article-topic"
+            id="topic"
+            name="topic"
+            placeholder="Topic"
+          )          
+        .article-info-body
+          textarea(
+              autofocus
+              form="article-details"
+              name="text"
+              placeholder="Write your article here!"
+          )
+        .article-info-tags
+          input(
+            type="text"
+            class="article-tags"
+            name="tags"
+            placeholder="tags"
+          )
+        .article-submit
+          input(
+            type="submit"
+            
+          )
