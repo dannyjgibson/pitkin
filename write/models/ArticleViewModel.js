@@ -1,5 +1,32 @@
+var config = require('../config');
 // model should be set with a get to the db
-var model = new Backbone.Model({});
+var ArticleModel = new Backbone.Model.extend({
+  urlRoot: '/articles',
+  defaults: {
+    topic: 'default-topic',
+    title: 'default-title',
+    text: 'default-text',
+    tags: []
+  },
+
+  intialize: function () {
+    // make the get in here
+  },
+
+  addTag: function (newTag) {
+    this.tags.push(newTag);
+  }
+
+});
+
+var article = new ArticleModel({});
+
+// maybe move this into a seperate config
+var articleCollection = Backbone.Collection.extend({
+  model : article,
+  url: config.database.test
+});
+
 
 // not every attribute on the model gets added to the Article View Model
 var ArticleViewModel = function (model) {
