@@ -9,13 +9,6 @@ var db = mongoose.createConnection(dbName);
 		collection = db.collection('users');
 
 describe('authentication testing', function() {
-	after( function () {
-		collection.remove( { '_id' : id}, function (res, err) {
-      if (err) {
-        console.log(err);        
-      }
-		});
-	});
 
 	it('should hash a password', function (done) {
 		var testPassword = 'testPassword';
@@ -85,7 +78,8 @@ describe('/api/users CRUD tests:', function () {
 		})
 		.end(function (res) {
 			expect(res.body.updatedUser.username).to.eql(testUser.username);
-			expect(res.body.updatedUser.password).to.eql(testUser.password);
+			var passwordMatch = User.comparePassword(testUser.password, res.body.updatedUser.password);
+			expect(passwordMatch).to.be.ok();
 			expect(res.body.updatedUser.emailAddress).to.eql(testUser.emailAddress);
 			expect(res.body.updatedUser.articleCount).to.eql(testUser.articleCount);
 			done();
