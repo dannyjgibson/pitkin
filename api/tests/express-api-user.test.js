@@ -21,6 +21,7 @@ describe('authentication testing', function() {
 		var testPassword = 'testPassword';
 		var hashedPassword = User.hashPassword();
 		expect(testPassword).to.not.equal(hashedPassword, null);
+		done();
 	});
 });
 
@@ -50,6 +51,7 @@ describe('/api/users CRUD tests:', function () {
 			.end(function (res) {
 				expect(res.body.message).to.contain('success');
 				id = res.body.newUserId;
+				done();
 			});
 	});
 
