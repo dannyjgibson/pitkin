@@ -86,10 +86,6 @@ describe('/api/users CRUD tests:', function () {
 			expect(res.body.updatedUser.password).to.eql(testUser.password);
 			expect(res.body.updatedUser.emailAddress).to.eql(testUser.emailAddress);
 			expect(res.body.updatedUser.articleCount).to.eql(testUser.articleCount);
-			
-			// figure out a good way to do dates
-			// Uncaught Error: expected '2015-03-06T22:06:11.224Z' to sort of equal Fri, 06 Mar 2015 22:06:11 GMT
-			// expect(res.body.updatedUser.createdAt).to.eql(testUser.createdAt);
 			done();
 		});
 	});
