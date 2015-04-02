@@ -2,7 +2,8 @@ var mongoose = require('mongoose'),
     userSchema = require('./user.js');
 
 var chatroomSchema = new mongoose.Schema({
-	text: String,
+	namespaceId: String,
+  text: String,
 	users: [userSchema]
 });
 

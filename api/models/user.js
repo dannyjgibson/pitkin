@@ -39,7 +39,6 @@ var hashPassword = function (rawPassword) {
 };
 
 var comparePassword = function (candidate, hashed) {
-	console.log('candidate is ' + candidate + ', hashed is' + hashed);
 	return bcrypt.compareSync(candidate, hashed);
 };
 

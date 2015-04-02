@@ -10,7 +10,8 @@ var chatroomController = function (apiRouter) {
 
       chatroom.text = req.body.text;
       chatroom.user = req.body.users;
-
+      chatroom.namespaceId = req.body.namespaceId;
+      
       chatroom.save(function (err) {
         if (err) {
           console.log('error: ' + err.message);
