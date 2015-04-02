@@ -1,3 +1,4 @@
+
 var express = require('express'),
     app = express(),
     http = require('http').Server(app),
@@ -21,13 +22,19 @@ io.on('connection', function (socket) {
     });
 });
 
-function generateRoomId(IdLength) {
-    var text = [],
-        possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+var setupNamespace = function () {
+  var namespaceId = generateNamespaceId(),
+      namespace = socket.of(namespaceId);
+      namespace.on('connection', function (socket) {
+        console.log('someone connected to ' + namespaceId);
+      });
+};
 
-    for (var i = 0; i < IdLength; i++) {
-        text[i] = possible.charAt(Math.floor(Math.random() * possible.length));
-    }
-
-    return text.join([separator='']);
-}
+var generateNamespaceId = function () {
+  var id = '',
+      possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  for (var i = 0; i < 16; i++) {
+    text += possible.charAt(Math.floor(Math.random() * possible.length));
+  }
+  return id;
+};
