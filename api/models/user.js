@@ -14,27 +14,35 @@ var userSchema = new mongoose.Schema({
 
 //abstract this out
 userSchema.pre('save', function (next) {
-	var currentDate = new Date();
-	this.updatedAt = currentDate;
+	var currentDate = new Date(),
+			user = this;
+	user.updatedAt = currentDate;
 
 	if (!this.createdAt) {
-		this.createdAt = currentDate;
+		user.createdAt = currentDate;
 	}
 
 	// hash password here
-
+	if (!user.isModified('password')) {
+		return next();
+	}	
+	user.password = hashPassword(user.password);
 	// validate properties on save
-	if (!validator.isEmail(this.emailAddress)) {
+	if (!validator.isEmail(user.emailAddress)) {
 		// reject property
 	}
-
 	next();
 });
 
-// compare given password to the database hash
-userSchema.comparePassword = function(password) {
-	var user = this;
-	return bcrypt.compareSync(password, user.password);
+var hashPassword = function (rawPassword) {
+	return bcrypt.hashSync(rawPassword);
 };
+
+var comparePassword = function (candidate, hashed) {
+	return bcrypt.compareSync(candidate, hashed);
+};
+
+userSchema.statics.comparePassword = comparePassword;
+userSchema.statics.hashPassword = hashPassword;
 
 module.exports = mongoose.model('User', userSchema);

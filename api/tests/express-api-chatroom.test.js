@@ -20,6 +20,7 @@ describe('/api/chatrooms CRUD tests:', function () {
 
   var id,
       testChatroom = {
+          namespaceId: '0123456789abcedf',
           text: 'testText'
           // users:  
       };
@@ -49,6 +50,7 @@ describe('/api/chatrooms CRUD tests:', function () {
       .get('http://localhost:3000/api/chatrooms/' + id)
       .end(function (res) {
         expect(res.body.text).to.equal('testText');
+        expect(res.body.namespaceId).to.equal('0123456789abcedf');
         done();
       });
   });
@@ -58,10 +60,12 @@ describe('/api/chatrooms CRUD tests:', function () {
     superagent
     .put('http://localhost:3000/api/chatrooms/' + id)
     .send({
-      text: 'updatedText'
+      text: 'updatedText',
+      namespaceId: 'updatedchatroomid'
     })
     .end(function (res) {
       expect(res.body.updatedChatroom.text).to.eql(testChatroom.text);
+      expect(res.body.updatedChatroom.namespaceId).to.eql(testChatroom.namespaceId);
       // figure out a good way to do dates
       // Uncaught Error: expected '2015-03-06T22:06:11.224Z' to sort of equal Fri, 06 Mar 2015 22:06:11 GMT
       // expect(res.body.updatedUser.createdAt).to.eql(testUser.createdAt);

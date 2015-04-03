@@ -1,11 +1,22 @@
 var superagent = require('superagent'),
 		expect = require('expect.js'),
-    mongoose = require('mongoose'),		
+    mongoose = require('mongoose'),
+    User = require('../models/user'),		
     config = require('../config'),
     dbName =  config.database.test;
     
 var db = mongoose.createConnection(dbName);
 		collection = db.collection('users');
+
+describe('authentication testing', function() {
+
+	it('should hash a password', function (done) {
+		var testPassword = 'testPassword';
+		var hashedPassword = User.hashPassword();
+		expect(testPassword).to.not.equal(hashedPassword, null);
+		done();
+	});
+});
 
 describe('/api/users CRUD tests:', function () {
   
@@ -51,8 +62,6 @@ describe('/api/users CRUD tests:', function () {
 			.get('http://localhost:3000/api/users/' + id)
 			.end(function (res) {
 				expect(res.body.username).to.equal(testUser.username);
-				console.log('testUser.createdAt = ' + testUser.createdAt.toISOString());
-				console.log('res = ' + res.body.createdAt);
 				expect(res.body.createdAt).to.equal(testUser.createdAt.toISOString());
 				done();
 			});
@@ -69,13 +78,10 @@ describe('/api/users CRUD tests:', function () {
 		})
 		.end(function (res) {
 			expect(res.body.updatedUser.username).to.eql(testUser.username);
-			expect(res.body.updatedUser.password).to.eql(testUser.password);
+			var passwordMatch = User.comparePassword(testUser.password, res.body.updatedUser.password);
+			expect(passwordMatch).to.be.ok();
 			expect(res.body.updatedUser.emailAddress).to.eql(testUser.emailAddress);
 			expect(res.body.updatedUser.articleCount).to.eql(testUser.articleCount);
-			
-			// figure out a good way to do dates
-			// Uncaught Error: expected '2015-03-06T22:06:11.224Z' to sort of equal Fri, 06 Mar 2015 22:06:11 GMT
-			// expect(res.body.updatedUser.createdAt).to.eql(testUser.createdAt);
 			done();
 		});
 	});
