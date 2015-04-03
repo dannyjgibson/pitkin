@@ -4,6 +4,7 @@ var express = require('express'),
     path = require('path'),
     config = require('./config'),
     superagent = require('superagent'),
+    mongoose = require('mongoose'),
     io = require('socket.io')(http);
 
 // read/write chatroom data to db
@@ -37,8 +38,8 @@ var setupNamespace = function () {
     .send({
       namespaceId: namespace
     })
-    .end(function(res) {
-      // chatroom added to db. Maybe store mongodb id? 
+    .end(function (res) {
+      var mongoId = res.body.newChatroomId; 
     });
 };
 
