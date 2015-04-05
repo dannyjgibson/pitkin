@@ -7,14 +7,22 @@ var superagent = require('superagent'),
     User = require('../models/user');
 
 var db = mongoose.createConnection(dbName);
-    collection = db.collection('messages');
+    messageCollection = db.collection('messages');
+    userCollection = db.collection('users');
+
+
 
 describe('/api/messages CRUD tests:', function () {
   
   after( function () {
-    collection.remove( { '_id' : id}, function (res, err) {
+    messageCollection.remove( { '_id' : id}, function (res, err) {
       if (err) {
         console.log(err);        
+      }
+    });
+    userCollection.remove( {'_id': id}, function (res, err) {
+      if (err) {
+        console.log(err);
       }
     });
   });
