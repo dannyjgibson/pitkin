@@ -2,7 +2,9 @@ var superagent = require('superagent'),
     expect = require('expect.js'),
     mongoose = require('mongoose'),
     config = require('../config'),
-    dbName =  config.database.test;
+    dbName =  config.database.test,
+    Message = require('../models/message'),
+    User = require('../models/user');
 
 var db = mongoose.createConnection(dbName);
     collection = db.collection('messages');
@@ -17,28 +19,40 @@ describe('/api/messages CRUD tests:', function () {
     });
   });
 
-  var id,
-      testMessage = {
-          text: 'testText',
-          timestamp: new Date() 
-      };
+  var testFromUser = {
+    username: 'testUser',
+    password: 'testPass'
+  },
+    postedUserId,
+    id,
+    testMessage = {
+      text: 'testText',
+      timestamp: new Date()
+    };
 
   it('should POST an message, return success', function (done) {
-    superagent
-      .post('http://localhost:3000/api/messages')
-      .send(testMessage)
-      .end(function (res) {
-        expect(res.body.message).to.contain('success');
-        id = res.body.newMessageId;
-        done();
+
+  superagent
+    .post('http://localhost:3000/api/users')
+    .send(testFromUser)
+    .end(function (res) {
+      testMessage.from = res.body.newUserId;
+        superagent
+          .post('http://localhost:3000/api/messages')
+          .send(testMessage)
+          .end(function (res) {
+            expect(res.body.message).to.contain('success');
+            id = res.body.newMessageId;
+            done();
+          });
       });
-  });
+    });
 
   it('should GET a collection of messages', function (done) {
     superagent
       .get('http://localhost:3000/api/messages')
       .end(function (res) {
-        expect(res.body.length).to.greaterThan(0); // make sure you run this test case after a POST
+        expect(res.body.length).to.greaterThan(0); 
         done();
       });
   });
