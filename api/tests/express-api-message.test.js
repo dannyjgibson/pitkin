@@ -20,7 +20,7 @@ describe('/api/messages CRUD tests:', function () {
         console.log(err);        
       }
     });
-    userCollection.remove( {'_id': id}, function (res, err) {
+    userCollection.remove( {'_id': postedUserId}, function (res, err) {
       if (err) {
         console.log(err);
       }
@@ -28,8 +28,8 @@ describe('/api/messages CRUD tests:', function () {
   });
 
   var testFromUser = {
-    username: 'testUser',
-    password: 'testPass'
+    username: 'testMessageUser',
+    password: 'testMessagePass'
   },
     postedUserId,
     id,
@@ -44,7 +44,8 @@ describe('/api/messages CRUD tests:', function () {
     .post('http://localhost:3000/api/users')
     .send(testFromUser)
     .end(function (res) {
-      testMessage.from = res.body.newUserId;
+      postedUserId = res.body.newUserId;
+      testMessage.from = postedUserId;
         superagent
           .post('http://localhost:3000/api/messages')
           .send(testMessage)

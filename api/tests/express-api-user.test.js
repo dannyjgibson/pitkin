@@ -1,12 +1,14 @@
 var superagent = require('superagent'),
 		expect = require('expect.js'),
     mongoose = require('mongoose'),
-    User = require('../models/user'),		
     config = require('../config'),
-    dbName =  config.database.test;
+    dbName =  config.database.test,
+    User = require('../models/user'),
+    Article = require('../models/article');
     
 var db = mongoose.createConnection(dbName);
-		collection = db.collection('users');
+		userCollection = db.collection('users');
+		articleCollection = db.collection('articles');
 
 describe('authentication testing', function() {
 
@@ -21,14 +23,24 @@ describe('authentication testing', function() {
 describe('/api/users CRUD tests:', function () {
   
 	after( function () {
-		collection.remove( { '_id' : id}, function (res, err) {
+		userCollection.remove( { '_id' : id}, function (res, err) {
       if (err) {
         console.log(err);        
       }
 		});
+		articleCollection.remove( {'_id' : id}, function (res, err) {
+			if (err) {
+				console.log(err);
+			}
+		});
 	});
 
-	var id,
+	var testArticle = {
+		topic:'testUserTopic',
+		title: 'testUserTitle'
+	},
+			postedArticleId,
+			id,
 			testUser = {
 				username: 'testUser',
 				password: 'testPass',
@@ -39,12 +51,18 @@ describe('/api/users CRUD tests:', function () {
 
 	it('should POST a user, return success', function (done) {
 		superagent
-			.post('http://localhost:3000/api/users')
-			.send(testUser)
-			.end(function (res) {
-				expect(res.body.message).to.contain('success');
-				id = res.body.newUserId;
-				done();
+		.post('http://localhost:3000/api/articles')
+		.send(testArticle)
+		.end(function (res) {
+			testUser.articles = [res.body.newArticleId];
+			superagent
+				.post('http://localhost:3000/api/users')
+				.send(testUser)
+				.end(function (res) {
+					expect(res.body.message).to.contain('success');
+					id = res.body.newUserId;
+					done();
+				});			
 			});
 	});
 
