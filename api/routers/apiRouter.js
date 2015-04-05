@@ -18,9 +18,11 @@ apiRouter.get('/', function (req, res) {
 // hard coding in controllers
 var UserController = require('../controllers/user-controller.js'),
     ArticleController = require('../controllers/article-controller.js'),
-    ChatroomController = require('../controllers/chatroom-controller.js');
+    ChatroomController = require('../controllers/chatroom-controller.js'),
+    MessageController = require('../controllers/message-controller.js');
 
 var chatroomController = new ChatroomController(apiRouter),
     articleController = new ArticleController(apiRouter),
-    userController = new UserController(apiRouter);
+    userController = new UserController(apiRouter),
+    messageController = new MessageController(apiRouter);
 module.exports = apiRouter;   

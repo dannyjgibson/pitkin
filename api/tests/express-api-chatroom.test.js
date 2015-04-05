@@ -6,7 +6,7 @@ var superagent = require('superagent'),
 
 mongoose.connect(dbName);
 var db = mongoose.createConnection(dbName);
-    collection = db.collection('users'); 
+    collection = db.collection('chatroom'); 
 
 describe('/api/chatrooms CRUD tests:', function () {
 
@@ -66,9 +66,6 @@ describe('/api/chatrooms CRUD tests:', function () {
     .end(function (res) {
       expect(res.body.updatedChatroom.text).to.eql(testChatroom.text);
       expect(res.body.updatedChatroom.namespaceId).to.eql(testChatroom.namespaceId);
-      // figure out a good way to do dates
-      // Uncaught Error: expected '2015-03-06T22:06:11.224Z' to sort of equal Fri, 06 Mar 2015 22:06:11 GMT
-      // expect(res.body.updatedUser.createdAt).to.eql(testUser.createdAt);
       done();
     });
   });

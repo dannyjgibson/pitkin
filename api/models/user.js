@@ -42,6 +42,18 @@ var comparePassword = function (candidate, hashed) {
 	return bcrypt.compareSync(candidate, hashed);
 };
 
+var changePassword = function (accountId, newPassword) {
+	var newHashedPassword = hashPassword(newPassword);
+	userSchema.update({_id:accountId}, {$set: {password: newHashedPassword}}, {upsert: false});
+	console.log('change password for ' + accountId);
+};
+
+var login = function (email, password, next) {
+	userSchema.findOne({email: email, password: hashPassword(password)}, function(err, doc) {
+		next(doc !== null);
+	});
+};
+
 userSchema.statics.comparePassword = comparePassword;
 userSchema.statics.hashPassword = hashPassword;
 

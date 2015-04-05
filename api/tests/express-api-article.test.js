@@ -5,7 +5,7 @@ var superagent = require('superagent'),
     dbName =  config.database.test;
 
 var db = mongoose.createConnection(dbName);
-		collection = db.collection('users');
+		collection = db.collection('articles');
 
 describe('/api/articles CRUD tests:', function () {
 	
@@ -22,8 +22,8 @@ describe('/api/articles CRUD tests:', function () {
 					topic: 'testSample',
 					title: 'testTitle',
 					location: 'testLocation',
-					//publishDate: 
-					//createdAt:
+					publishDate: new Date(), 
+					createdAt: new Date(),
 					text: 'testText',
 					actions: 'testActions',
 					tags: ['test0', 'test1', 'test2'] 
@@ -74,9 +74,8 @@ describe('/api/articles CRUD tests:', function () {
 			expect(res.body.updatedArticle.text).to.eql(testArticle.text);
 			expect(res.body.updatedArticle.actions).to.eql(testArticle.actions);
 			expect(res.body.updatedArticle.tags).to.eql(testArticle.tags);
-			// figure out a good way to do dates
-			// Uncaught Error: expected '2015-03-06T22:06:11.224Z' to sort of equal Fri, 06 Mar 2015 22:06:11 GMT
-			// expect(res.body.updatedUser.createdAt).to.eql(testUser.createdAt);
+			expect(res.body.updatedArticle.createdAt).to.eql(testArticle.createdAt.toISOString());
+			expect(res.body.updatedArticle.publishDate).to.eql(testArticle.publishDate.toISOString());
 			done();
 		});
 	});

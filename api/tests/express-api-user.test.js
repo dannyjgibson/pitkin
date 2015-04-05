@@ -52,7 +52,7 @@ describe('/api/users CRUD tests:', function () {
 		superagent
 			.get('http://localhost:3000/api/users')
 			.end(function (res) {
-				expect(res.body.length).to.greaterThan(0); // make sure you run this test case after a POST
+				expect(res.body.length).to.greaterThan(0); 
 				done();
 			});
 	});
