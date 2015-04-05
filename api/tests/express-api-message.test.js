@@ -20,7 +20,6 @@ describe('/api/messages CRUD tests:', function () {
   var id,
       testMessage = {
           text: 'testText',
-          from: 'testFrom',
           timestamp: new Date() 
       };
 

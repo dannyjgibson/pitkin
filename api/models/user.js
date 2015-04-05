@@ -7,7 +7,10 @@ var userSchema = new mongoose.Schema({
 	password: { type: String, required: true },
 	emailAddress: String,
 	articleCount: Number,
-	articles: [userSchema],
+	articles: 
+						[
+							{type: mongoose.Schema.Types.ObjectId, ref:'Article'},
+						],
 	createdAt: Date,
 	updatedAt: Date,
 });

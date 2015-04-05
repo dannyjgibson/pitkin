@@ -5,7 +5,10 @@ var mongoose = require('mongoose'),
 var chatroomSchema = new mongoose.Schema({
 	namespaceId: String,
   text: String,
-	users: [userSchema]
+	users:
+        [
+          {type: mongoose.Schema.Types.ObjectId, ref:'User'}
+        ]
 });
 
 chatroomSchema.pre('save', function (next) {
