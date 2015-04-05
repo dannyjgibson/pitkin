@@ -41,11 +41,12 @@ app.get('/', function (req, res) {
 
 // routers are modularized
 var apiRouter = require('./routers/apiRouter');
+var loginRouter = require('./router/loginRouter');
 
 //registering routers
 app.use('/api', apiRouter);
-
+app.use('/login', loginRouter);
 app.listen(port);
-console.log('listening on port ' + port);
+console.log('listening on port ' + port + 'for server');
 
 module.exports = app;

@@ -1,12 +1,10 @@
-var express = require('express'),
-    fs = require('fs');
+var express = require('express');
    
 var apiRouter = express.Router();
 // need to set up a little middlware on the router before passing 
 
 apiRouter.use(function (req, res, next) {
   console.log('someone hit our api!');
-
   next();
 });
 
