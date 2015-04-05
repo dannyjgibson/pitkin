@@ -10,6 +10,7 @@ var articleController = function (apiRouter) {
 
 			article.topic = req.body.topic;
 			article.title = req.body.title;
+			article.author = req.body.author;
 			article.location = req.body.location;
 			article.publishDate = req.body.publishDate;
 			article.createdAt = req.body.createdAt;
@@ -62,6 +63,9 @@ var articleController = function (apiRouter) {
 				}
 				if (req.body.title) {
 					article.title = req.body.title;
+				}
+				if (req.body.author) {
+					article.author = req.body.author;
 				}
 				if (req.body.location) {
 					article.location = req.body.location;
