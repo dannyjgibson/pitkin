@@ -5,19 +5,30 @@ var superagent = require('superagent'),
     dbName =  config.database.test;
 
 var db = mongoose.createConnection(dbName);
-		collection = db.collection('articles');
+		articleCollection = db.collection('articles');
+		userCollection = db.collection('users');
 
 describe('/api/articles CRUD tests:', function () {
 	
 	after( function () {
-		collection.remove( { '_id' : id}, function (res, err) {
+		articleCollection.remove( { '_id' : id}, function (res, err) {
       if (err) {
         console.log(err);        
       }
 		});
+		userCollection.remove( {'_id' : postedUserId}, function (res, err) {
+			if (err) {
+				console.log(err);
+			}
+		});
 	});
 
-	var id,
+	var testAuthorUser = {
+			username: 'testArticleUser',
+			password: 'testArticlePass'
+	},
+			postedUserId,
+			id,
 			testArticle = {
 					topic: 'testSample',
 					title: 'testTitle',
@@ -31,13 +42,20 @@ describe('/api/articles CRUD tests:', function () {
 
 	it('should POST an article, return success', function (done) {
 		superagent
-			.post('http://localhost:3000/api/articles')
-			.send(testArticle)
-			.end(function (res) {
-				expect(res.body.message).to.contain('success');
-				id = res.body.newArticleId;
-				done();
-			});
+		.post('http://localhost:3000/api/users')
+		.send(testAuthorUser)
+		.end(function (res) {
+			postedUserId = res.body.newUserId;
+			testArticle.author = postedUserId;
+			superagent
+				.post('http://localhost:3000/api/articles')
+				.send(testArticle)
+				.end(function (res) {
+					expect(res.body.message).to.contain('success');
+					id = res.body.newArticleId;
+					done();
+				});
+		});
 	});
 
 	it('should GET a collection of articles', function (done) {

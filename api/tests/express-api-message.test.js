@@ -2,15 +2,11 @@ var superagent = require('superagent'),
     expect = require('expect.js'),
     mongoose = require('mongoose'),
     config = require('../config'),
-    dbName =  config.database.test,
-    Message = require('../models/message'),
-    User = require('../models/user');
+    dbName =  config.database.test;
 
 var db = mongoose.createConnection(dbName);
     messageCollection = db.collection('messages');
     userCollection = db.collection('users');
-
-
 
 describe('/api/messages CRUD tests:', function () {
   
@@ -46,14 +42,14 @@ describe('/api/messages CRUD tests:', function () {
     .end(function (res) {
       postedUserId = res.body.newUserId;
       testMessage.from = postedUserId;
-        superagent
-          .post('http://localhost:3000/api/messages')
-          .send(testMessage)
-          .end(function (res) {
-            expect(res.body.message).to.contain('success');
-            id = res.body.newMessageId;
-            done();
-          });
+      superagent
+        .post('http://localhost:3000/api/messages')
+        .send(testMessage)
+        .end(function (res) {
+          expect(res.body.message).to.contain('success');
+          id = res.body.newMessageId;
+          done();
+        });
       });
     });
 

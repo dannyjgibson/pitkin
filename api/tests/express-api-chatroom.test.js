@@ -6,34 +6,51 @@ var superagent = require('superagent'),
 
 mongoose.connect(dbName);
 var db = mongoose.createConnection(dbName);
-    collection = db.collection('chatroom'); 
+    chatroomCollection = db.collection('chatrooms');
+    userCollection = db.collection('users');
 
 describe('/api/chatrooms CRUD tests:', function () {
 
   after( function () {
-    collection.remove( { '_id' : id}, function (res, err) {
+    chatroomCollection.remove( { '_id' : id}, function (res, err) {
+      if (err) {
+        console.log(err);        
+      }
+    });
+    userCollection.remove( { '_id' : postedUserId}, function (res, err) {
       if (err) {
         console.log(err);        
       }
     });
   });
 
-  var id,
-      testChatroom = {
-          namespaceId: '0123456789abcedf',
-          text: 'testText'
-          // users:  
-      };
+  var testUser = {
+    username: 'testChatroomUser',
+    password: 'testChatroomPass'
+    },
+    postedUserId,
+    id,
+    testChatroom = {
+        namespaceId: '0123456789abcedf',
+        text: 'testText'  
+    };
 
   it('should POST a chatroom, return success', function (done) {
     superagent
-      .post('http://localhost:3000/api/chatrooms')
-      .send(testChatroom)
+      .post('http://localhost:3000/api/users')
+      .send(testUser)
       .end(function (res) {
-        expect(res.body.message).to.contain('success');
-        id = res.body.newChatroomId;
-        done();
-      });
+        postedUserId = res.body.newUserId;
+        testChatroom.users = [postedUserId];
+      superagent
+        .post('http://localhost:3000/api/chatrooms')
+        .send(testChatroom)
+        .end(function (res) {
+          expect(res.body.message).to.contain('success');
+          id = res.body.newChatroomId;
+          done();
+        });
+    });
   });
 
   it('should GET a collection of chatrooms', function (done) {

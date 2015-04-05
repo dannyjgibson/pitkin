@@ -3,8 +3,7 @@ var superagent = require('superagent'),
     mongoose = require('mongoose'),
     config = require('../config'),
     dbName =  config.database.test,
-    User = require('../models/user'),
-    Article = require('../models/article');
+    User = require('../models/user');;
     
 var db = mongoose.createConnection(dbName);
 		userCollection = db.collection('users');
