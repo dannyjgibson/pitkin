@@ -41,7 +41,7 @@ app.get('/', function (req, res) {
 
 // routers are modularized
 var apiRouter = require('./routers/apiRouter');
-var loginRouter = require('./router/loginRouter');
+var loginRouter = require('./routers/loginRouter');
 
 //registering routers
 app.use('/api', apiRouter);
