@@ -1,9 +1,10 @@
-var express = require('express'),
+var flash = require('connect-flash'),
+    express = require('express'),
     passport = require('passport'),
     path = require('path'),
     LocalStrategy = require('passport-local').Strategy,
     config = require('../config'),
-    User = require('../controllers/user-controller'),
+    User = require('../models/user'),
     loginRouter = express.Router();
 
 loginRouter.use(function (req, res, next) {
@@ -17,12 +18,14 @@ passport.use(new LocalStrategy(
         return next(err); 
       }
       if (!user) {
-        return done(null, false, {message: 'Incorrect username.'});
+        console.log('wrong username');
+        return next(null, false, {message: 'Incorrect username.'});
       }
       if (!user.validPassword(password)) {
-        return done(null, false, { message: 'Incorrect password.' });
+        console.log('wrong password!');
+        return next(null, false, { message: 'Incorrect password.' });
       }
-      return done(null, user);
+      return next(null, user);
     });
   }
 ));
