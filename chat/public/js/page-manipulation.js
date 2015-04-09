@@ -1,16 +1,10 @@
-var config = require('./config'),
-		mongoose = require('mongoose'),
-		superagent = require('superagent');
+// use XMLHTTPrequest, not the nodemodules
 
 var options = {
 	backdrop: 'true',
 	keyboard: 'true',
 	show: 'true'
 };
-
-// read/write chatroom data to db
-mongoose.connect(config.database.test);
-console.log('connected to mongodb at ' + config.database.test);
 
 var settingsModal = $('#settings-modal');
 
@@ -23,6 +17,16 @@ $(document).ready(function () {
 	});
 });
 
-$('#settings').click( function () {
+$('#settings').click(function () {
   settingsModal.modal('toggle');
+});
+
+$('#save-button').click(function () {
+  var username = $('#username').value(),
+      namespace = $('#namespace').value;
+  
+  $.post(config, {
+    namespaceId: namespace,
+    users: username
+  });
 });
