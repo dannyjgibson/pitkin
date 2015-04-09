@@ -91,12 +91,14 @@ describe('/api/users CRUD tests:', function () {
 		.put('http://localhost:3000/api/users/' + id)
 		.send({
 			username: 'updatedUserName',
-			password: 'updatedPassword'
+			password: 'updatedPassword',
+			emailAddress: 'test@test.com'
 		})
 		.end(function (res) {
 			expect(res.body.updatedUser.username).to.eql(testUser.username);
 			var passwordMatch = User.comparePassword(testUser.password, res.body.updatedUser.password);
 			expect(passwordMatch).to.be.ok();
+			console.log('res is ' + res.body.updatedUser.emailAddress + ' the testUser email is ' + testUser.emailAddress);
 			expect(res.body.updatedUser.emailAddress).to.eql(testUser.emailAddress);
 			expect(res.body.updatedUser.articleCount).to.eql(testUser.articleCount);
 			done();

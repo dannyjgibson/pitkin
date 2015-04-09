@@ -1,6 +1,7 @@
 var express = require('express'),
   bodyParser = require('body-parser'),
   mongoose = require('mongoose'),
+  validator = require('validator'),
   User = require('../models/user');
   
 var userController = function (apiRouter) {
@@ -8,9 +9,12 @@ var userController = function (apiRouter) {
 
     .post(function (req, res) {
       var user = new User();
-      user.username = req.body.username;
-      user.password = req.body.password;
-      user.emailAddress = req.body.emailAddress;
+      user.username = validator.trim(req.body.username);
+      user.password = validator.trim(req.body.password);
+      if (validator.isEmail(user.emailAddress)) {
+        user.emailAddress = validator.normalizeEqual(validator.trim(req.body.emailAddress));
+        console.log('we are fucking with ' + validator.normalizeEqual(validator.trim(req.body.emailAddress)));  
+      }
       user.articleCount = req.body.articleCount;
       user.articles = req.body.articles;
       user.createdAt = req.body.createdAt;

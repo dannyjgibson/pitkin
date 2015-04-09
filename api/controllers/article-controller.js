@@ -1,6 +1,7 @@
 var express = require('express'),
 	bodyParser = require('body-parser'),
 	mongoose = require('mongoose'),
+	validator = require('validator'),
 	Article = require('../models/article');
 
 var articleController = function (apiRouter) {	
