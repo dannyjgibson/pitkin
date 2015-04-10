@@ -1,8 +1,5 @@
-var flash = require('connect-flash'),
-    express = require('express'),
+var express = require('express'),
     passport = require('passport'),
-    path = require('path'),
-    LocalStrategy = require('passport-local').Strategy,
     config = require('../config'),
     User = require('../models/user'),
     loginRouter = express.Router();
@@ -11,41 +8,36 @@ loginRouter.use(function (req, res, next) {
   console.log('someone tried to login');
   next();
 });
-passport.use(new LocalStrategy(
-  function(username, password, next) {
-    User.findOne({username: username}, function (err, user) {
-      if (err) {
-        return next(err); 
-      }
-      if (!user) {
-        console.log('wrong username');
-        return next(null, false, {message: 'Incorrect username.'});
-      }
-      if (!user.validPassword(password)) {
-        console.log('wrong password!');
-        return next(null, false, { message: 'Incorrect password.' });
-      }
-      return next(null, user);
-    });
-  }
-));
 
-
-loginRouter.use(express.static(__dirname, '/public'));
-
-// displays the login page
 loginRouter.get('/', function (req, res) {
-  // want to render login page, but with user passed in
-  res.sendFile(path.join(__dirname + '/../views/login.html'));
+   res.render('login', { user: req.user });
 });
 
-//posting to login
+loginRouter.get('/register', function (req, res) {
+  res.render('register', {});
+});
+
+loginRouter.post('/register', function (req, res, next) {
+  User.register(new User({ username: req.body.username}), req.body.password, function (err) {
+    if (err) {
+      return res.render('register', {info: err.message});
+    }
+    res.redirect('/');
+  });
+});
+
 loginRouter.post('/',
-  passport.authenticate('local', {
-    successRedirect: '/home',
+  passport.authenticate('local',
+   {
+    successRedirect: '/',
     failureRedirect: '/',
     failureFlash: true
   })
 );
+
+loginRouter.get('/logout', function (req, res) {
+  req.logout();
+  res.redirect('/');
+});
 
 module.exports = loginRouter;
