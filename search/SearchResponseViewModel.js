@@ -27,12 +27,14 @@ function SearchResponseViewModel() {
   self.query = ko.observable('fear-and-loathing'); // undefined in the query string returns a 403, ergo...
   self.responses = ko.observableArray();
   self.heading = ko.observable();
+  self.abstractUrl = ko.observable();
+  self.results = ko.observable(false);
 
   self.searchDuckDuckGo = function() {
     $.ajax({
       type: 'GET',
       url: 'https://api.duckduckgo.com/',
-      data: { q: self.query(), format: 'json'},
+      data: { q: self.query(), format: 'json', t: 'pitkin'},
       jsonpCallback: 'jsonp',
       dataType: 'jsonp'
     }).then(function (ddgData) {
@@ -41,7 +43,10 @@ function SearchResponseViewModel() {
   };
 
   self.mapSearchResults = function (ddgData) {
+    self.results(true);
+    self.abstractUrl(ddgData.AbstractURL);
     self.heading(ddgData.Heading);
+    console.log(ddgData.AbstractURL);
     self.abstractText(ddgData.AbstractText);
     var topics = ddgData.RelatedTopics,
         searchResults = [];

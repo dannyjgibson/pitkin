@@ -5,15 +5,16 @@ html(lang="en")
     script(type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.3.0/knockout-min.js")
     script(type="text/javascript" src="https://code.jquery.com/jquery-2.1.3.min.js")
   body
-    h1 Pitkin Answer Search, powered by 
-    a(href='https://duckduckgo.com/api') DuckDuckGo Instant Answers API
+    h1 Pitkin Answer Search <a target="_newtab" data-bind="attr: {href: results() ? ('https://duckduckgo.com/?q='+query()) : 'https://duckduckgo.com/api'} "> Results from DuckDuckGo</a>
     img(src='https://duckduckgo.com/assets/logo_homepage.normal.v107.svg')
     input.searchbar(type='text' placeholder='search for an answer' data-bind='value: query, executeOnEnter: searchDuckDuckGo')
     button.search-button(data-bind='click: searchDuckDuckGo')
       | Search
     .search-answer
-      .search-heading(data-bind="text: heading")
+      a.search-heading(target="_newtab" data-bind="text: heading, attr: {href: abstractUrl}")
       .search-abstract(data-bind="text: abstractText")
+    h2(data-bind="if: results")
+      | Related Topics
     .search-results(data-bind="foreach: responses")
       .search-result
         .result-text(data-bind="text: $data.text")
