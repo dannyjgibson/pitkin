@@ -11,6 +11,9 @@ html(lang="en")
     input.searchbar(type='text' placeholder='search for an answer' data-bind='value: query, executeOnEnter: searchDuckDuckGo')
     button.search-button(data-bind='click: searchDuckDuckGo')
       | Search
+    .search-answer
+      .search-heading(data-bind="text: heading")
+      .search-abstract(data-bind="text: abstractText")
     .search-results(data-bind="foreach: responses")
       .search-result
         .result-text(data-bind="text: $data.text")

@@ -23,6 +23,7 @@ var SearchItem = function (text, result, url, image) {
 
 function SearchResponseViewModel() {
   var self = this;
+  self.abstractText = ko.observable();
   self.query = ko.observable('fear-and-loathing'); // undefined in the query string returns a 403, ergo...
   self.responses = ko.observableArray();
   self.heading = ko.observable();
@@ -41,6 +42,7 @@ function SearchResponseViewModel() {
 
   self.mapSearchResults = function (ddgData) {
     self.heading(ddgData.Heading);
+    self.abstractText(ddgData.AbstractText);
     var topics = ddgData.RelatedTopics,
         searchResults = [];
     for (var i = 0; i < topics.length; i++) {
