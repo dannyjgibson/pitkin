@@ -17,8 +17,7 @@ html(lang="en")
       | Related Topics
     .search-results(data-bind="foreach: responses")
       .search-result
-        .result-text(data-bind="text: $data.text")
         .result-image
           img(data-bind="attr: {src: $data.image.URL}")
-        .result-result(data-bind="texT: $data.result")
+        .result-text(data-bind="html: $data.text")
     script(type="text/javascript" src="../SearchResponseViewModel.js")

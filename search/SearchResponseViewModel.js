@@ -12,25 +12,25 @@ ko.bindingHandlers.executeOnEnter = {
   }
 };
 
-var SearchItem = function (text, result, url, image) {
+var SearchItem = function (text, url, image) {
   var self = this;
   self.url = url || '';
   self.image = image || '';
   self.text = text || '';
-  self.result = result || '';   
   return self;
 };
 
 function SearchResponseViewModel() {
   var self = this;
   self.abstractText = ko.observable();
-  self.query = ko.observable('fear-and-loathing'); // undefined in the query string returns a 403, ergo...
+  self.query = ko.observable('Pitkin County'); // undefined in the query string returns a 403, ergo...
   self.responses = ko.observableArray();
   self.heading = ko.observable();
   self.abstractUrl = ko.observable();
   self.results = ko.observable(false);
 
   self.searchDuckDuckGo = function() {
+    console.log('getting duckduckgo ' + self.query());
     $.ajax({
       type: 'GET',
       url: 'https://api.duckduckgo.com/',
@@ -52,19 +52,27 @@ function SearchResponseViewModel() {
         searchResults = [];
     for (var i = 0; i < topics.length; i++) {
       var topic = topics[i],
-          resultItem = new SearchItem(topic.Text, topic.Result, topic.FirstURL,topic.Icon);
+          resultItem = new SearchItem(addNewTabTarget(topic.Result), topic.FirstURL,topic.Icon);
       searchResults.push(resultItem);
     }
     self.responses(searchResults);
   };
+
+  self.updateSearch = function (item, event) {
+    var val = $(event.target).text();
+    self.query(val);
+    self.searchDuckDuckGo();
+  };
 }
 
-var formatQueryForSearch = function (query) {
-
-};
-
-var formatQueryForFrontEnd = function (query) {
-
+var addNewTabTarget = function(html) {
+  console.log('html'+  html);
+  var toAdd = ' target="_newtab"',
+      splitHtml= html.split(" ");
+  console.log('first index: ' + splitHtml[0]);
+  splitHtml[0] = splitHtml[0].concat(toAdd);
+  console.log('first index: ' + splitHtml[0]);
+  return splitHtml.join(' ');
 };
 
 ko.applyBindings(new SearchResponseViewModel());
