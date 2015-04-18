@@ -19,6 +19,7 @@ html(lang="en")
                 id="title"
                 name="title"
                 placeholder="Title"
+                data-bind="value: title"
               )
             .article-info-topic
               input(
@@ -27,6 +28,7 @@ html(lang="en")
                 id="topic"
                 name="topic"
                 placeholder="Topic"
+                data-bind="value: topic"
               )          
             .article-info-body
               textarea(
@@ -34,13 +36,17 @@ html(lang="en")
                   form="article-details"
                   name="text"
                   placeholder="Write your article here!"
+                  data-bind="value: text"
               )
             .article-info-tags
+              .already-tagged(data-bind="foreach: tags")
+                .div(data-bind="text: $data")
               input(
                 type="text"
                 class="article-tags"
                 name="tags"
-                placeholder="tags"
+                placeholder="Tag this article"
+                data-bind="event: {keypress: addTags}"
               )
             .article-submit
               input(
@@ -51,7 +57,6 @@ html(lang="en")
         .file-system-info
           .file-system-name
             | Your Files
-          ul
-            li
-              | ./
+          ul.files(data-bind="foreach: files")
+            li(data-bind="text: $data.title")
     script(type='text/javascript' src='../models/ArticleViewModel.js')
