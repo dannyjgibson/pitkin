@@ -12,12 +12,15 @@ html(lang="en")
       | Search
     .search-answer
       a.search-heading(target="_newtab" data-bind="text: heading, attr: {href: abstractUrl}")
+      .search-image
+        img(data-bind="attr: {src: abstractImage}")
       .search-abstract(data-bind="text: abstractText")
     h2(data-bind="if: results")
       | Related Topics
-    .search-results(data-bind="foreach: responses")
-      .search-result
+    ul.search-results(data-bind="foreach: responses")
+      li.search-result
         .result-image
           img(data-bind="attr: {src: $data.image.URL}")
         .result-text(data-bind="html: $data.text")
+        img(src="http://www.agentwp.com/wp-content/uploads/link-wordpress-post-title-to-external-url.png", data-bind="click: $parent.updateSearch")
     script(type="text/javascript" src="../SearchResponseViewModel.js")

@@ -22,11 +22,12 @@ var SearchItem = function (text, url, image) {
 
 function SearchResponseViewModel() {
   var self = this;
-  self.abstractText = ko.observable();
   self.query = ko.observable('Pitkin County'); // undefined in the query string returns a 403, ergo...
   self.responses = ko.observableArray();
   self.heading = ko.observable();
   self.abstractUrl = ko.observable();
+  self.abstractText = ko.observable();
+  self.abstractImage = ko.observable();
   self.results = ko.observable(false);
 
   self.searchDuckDuckGo = function() {
@@ -46,8 +47,8 @@ function SearchResponseViewModel() {
     self.results(true);
     self.abstractUrl(ddgData.AbstractURL);
     self.heading(ddgData.Heading);
-    console.log(ddgData.AbstractURL);
     self.abstractText(ddgData.AbstractText);
+    self.abstractImage(ddgData.Image);
     var topics = ddgData.RelatedTopics,
         searchResults = [];
     for (var i = 0; i < topics.length; i++) {
@@ -59,20 +60,25 @@ function SearchResponseViewModel() {
   };
 
   self.updateSearch = function (item, event) {
-    var val = $(event.target).text();
-    self.query(val);
-    self.searchDuckDuckGo();
+    console.log('clicked!');
+    if (event.type === 'click') {
+      var clickedLinkedTopic = stripUrlToEndpoint(item.url).replace(/_/g, ' ');
+      console.log('clicked on: ' + clickedLinkedTopic);
+      self.query(clickedLinkedTopic);
+      self.searchDuckDuckGo();  
+    }
   };
 }
 
 var addNewTabTarget = function(html) {
-  console.log('html'+  html);
   var toAdd = ' target="_newtab"',
       splitHtml= html.split(" ");
-  console.log('first index: ' + splitHtml[0]);
   splitHtml[0] = splitHtml[0].concat(toAdd);
-  console.log('first index: ' + splitHtml[0]);
   return splitHtml.join(' ');
+};
+
+var stripUrlToEndpoint = function(url) {
+  return url.substr(url.lastIndexOf('/') + 1);
 };
 
 ko.applyBindings(new SearchResponseViewModel());
