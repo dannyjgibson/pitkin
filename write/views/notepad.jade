@@ -6,7 +6,11 @@ html(lang="en")
     link(rel="stylesheet" type="text/css" href="../css/notepad.css" media="screen")
     link(rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css")
     link(rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css")
+    script(type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.3.0/knockout-min.js")
+    script(type="text/javascript" src="https://code.jquery.com/jquery-2.1.3.min.js")
+
   body
+    h1(data-bind="value: user")
     h2 Path to this file
     .row
       .col-md-8
@@ -59,4 +63,4 @@ html(lang="en")
             | Your Files
           ul.files(data-bind="foreach: files")
             li(data-bind="text: $data.title")
-    script(type='text/javascript' src='../models/ArticleViewModel.js')
+    script(type='text/javascript' src='../../../models/WriteViewModel.js')
