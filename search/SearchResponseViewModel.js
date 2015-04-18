@@ -30,7 +30,12 @@ function SearchResponseViewModel() {
   self.abstractImage = ko.observable();
   self.results = ko.observable(false);
 
-  self.searchDuckDuckGo = function() {
+  self.searchDuckDuckGo = function(item, event) {
+    var keyCode = event.which || event.keyCode;
+    // keypress in the search, not enter or click
+    if (keyCode !== 13 && keyCode !== 1) {
+      return true;
+    }
     console.log('getting duckduckgo ' + self.query());
     $.ajax({
       type: 'GET',
@@ -41,6 +46,7 @@ function SearchResponseViewModel() {
     }).then(function (ddgData) {
       self.mapSearchResults(ddgData);
     });
+    return true;
   };
 
   self.mapSearchResults = function (ddgData) {
@@ -52,9 +58,11 @@ function SearchResponseViewModel() {
     var topics = ddgData.RelatedTopics,
         searchResults = [];
     for (var i = 0; i < topics.length; i++) {
-      var topic = topics[i],
-          resultItem = new SearchItem(addNewTabTarget(topic.Result), topic.FirstURL,topic.Icon);
-      searchResults.push(resultItem);
+      var topic = topics[i];
+      if (topic.Result !== undefined) {
+        var resultItem = new SearchItem(addNewTabTarget(topic.Result), topic.FirstURL,topic.Icon);
+        searchResults.push(resultItem);
+      }
     }
     self.responses(searchResults);
   };

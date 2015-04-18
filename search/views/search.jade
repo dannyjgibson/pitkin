@@ -7,7 +7,7 @@ html(lang="en")
   body
     h1 Pitkin Answer Search <a target="_newtab" data-bind="attr: {href: results() ? ('https://duckduckgo.com/?q='+query()) : 'https://duckduckgo.com/api'} "> Results from DuckDuckGo</a>
     img(src='https://duckduckgo.com/assets/logo_homepage.normal.v107.svg')
-    input.searchbar(type='text' placeholder='search for an answer' data-bind='value: query, executeOnEnter: searchDuckDuckGo')
+    input.searchbar(type='text' placeholder='search for an answer' data-bind='value: query, event: {keypress: searchDuckDuckGo}')
     button.search-button(data-bind='click: searchDuckDuckGo')
       | Search
     .search-answer
