@@ -1,0 +1,62 @@
+doctype html
+html(lang="en")
+  head
+    title
+      | Pitkin Notepad
+    link(rel="stylesheet" type="text/css" href="../css/notepad.css" media="screen")
+    link(rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css")
+    link(rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css")
+  body
+    h2 Path to this file
+    .row
+      .col-md-8
+        .article-info
+          form(name="save" action="/save" method="post" id="article-details")  
+            .con
+              input(
+                type="text"
+                class="article-info"
+                id="title"
+                name="title"
+                placeholder="Title"
+                data-bind="value: title"
+              )
+            .article-info-topic
+              input(
+                type="text"
+                class="article-topic"
+                id="topic"
+                name="topic"
+                placeholder="Topic"
+                data-bind="value: topic"
+              )          
+            .article-info-body
+              textarea(
+                  autofocus
+                  form="article-details"
+                  name="text"
+                  placeholder="Write your article here!"
+                  data-bind="value: text"
+              )
+            .article-info-tags
+              .already-tagged(data-bind="foreach: tags")
+                .div(data-bind="text: $data")
+              input(
+                type="text"
+                class="article-tags"
+                name="tags"
+                placeholder="Tag this article"
+                data-bind="event: {keypress: addTags}"
+              )
+            .article-submit
+              input(
+                class="btn btn-default"
+                type="submit"
+              )
+      .col-md-3
+        .file-system-info
+          .file-system-name
+            | Your Files
+          ul.files(data-bind="foreach: files")
+            li(data-bind="text: $data.title")
+    script(type='text/javascript' src='../models/ArticleViewModel.js')
