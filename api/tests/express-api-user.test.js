@@ -3,21 +3,11 @@ var superagent = require('superagent'),
     mongoose = require('mongoose'),
     config = require('../config'),
     dbName =  config.database.test,
-    User = require('../models/user');;
+    User = require('../models/user');
     
 var db = mongoose.createConnection(dbName);
 		userCollection = db.collection('users');
 		articleCollection = db.collection('articles');
-
-describe('authentication testing', function() {
-
-	it('should hash a password', function (done) {
-		var testPassword = 'testPassword';
-		var hashedPassword = User.hashPassword();
-		expect(testPassword).to.not.equal(hashedPassword, null);
-		done();
-	});
-});
 
 describe('/api/users CRUD tests:', function () {
   
@@ -86,19 +76,15 @@ describe('/api/users CRUD tests:', function () {
 
 	it('should PUT update to a specific user', function (done) {
 		testUser.username = 'updatedUserName';
-		testUser.password = 'updatedPassword';
+		testUser.hash = 'updatedPassword';
 		superagent
 		.put('http://localhost:3000/api/users/' + id)
 		.send({
 			username: 'updatedUserName',
-			password: 'updatedPassword',
-			emailAddress: 'test@test.com'
+			hash: 'updatedPassword'
 		})
 		.end(function (res) {
 			expect(res.body.updatedUser.username).to.eql(testUser.username);
-			var passwordMatch = User.comparePassword(testUser.password, res.body.updatedUser.password);
-			expect(passwordMatch).to.be.ok();
-			console.log('res is ' + res.body.updatedUser.emailAddress + ' the testUser email is ' + testUser.emailAddress);
 			expect(res.body.updatedUser.emailAddress).to.eql(testUser.emailAddress);
 			expect(res.body.updatedUser.articleCount).to.eql(testUser.articleCount);
 			done();

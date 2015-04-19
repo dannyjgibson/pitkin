@@ -1,0 +1,10 @@
+extends layout
+
+block content
+  if(!user)
+    a(href="/login/") login
+    br
+    a(href="/login/register") register
+  if(user)
+    p You are currently logged in #{user.username}!
+    a(href="/logout") logout

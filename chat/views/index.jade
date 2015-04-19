@@ -3,7 +3,7 @@ html(lang="en")
     head
         title
             | Pitkin Chat
-        link(rel="stylesheet" type="text/css" href="../public/css/index.css" media="screen")
+        link(rel="stylesheet" type="text/css" href="../public/styles/index.css" media="screen")
         link(rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css")
         link(rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css")
     body
@@ -19,7 +19,7 @@ html(lang="en")
                         input(type="text" id="namespace" name="namespace" placeholder="Enter chatroom code (optional)")
                         input(type="text" id="username" name="username" placeholder="Username")
                     div(class="modal-footer")
-                        div(type="button" class="btn btn-default" data-dismiss="modal")
+                        div(type="button" class="btn btn-default" data-dismiss="modal" id="save-button")
                             | Save
         div.message-wrap                            
             ul.messages
