@@ -11,6 +11,7 @@ var userSchema = new mongoose.Schema({
             ],
   createdAt: Date,
   updatedAt: Date,
+  username: String,
   password: String
 });
 

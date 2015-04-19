@@ -32,11 +32,6 @@ app.use(expressSession({ secret: config.secret}));
 app.use(passport.initialize());
 app.use(passport.session());
 
-
-// LOGIC below is moving into a custom strategy
-// passport.use(new LocalStrategy(User.authenticate()));
-// passport.serializeUser(User.serializeUser());
-// passport.deserializeUser(User.deserializeUser());
 var initializePassport = require('../passport-strategies/init');
 initializePassport(passport);
 
@@ -76,7 +71,7 @@ var loginRouter = require('./routers/loginRouter')(passport);
 
 // registering routers
 app.use('/api', apiRouter);
-app.use('/login', loginRouter);
+app.use('/', loginRouter);
 
 // // error handlers
 // if (app.get('env') === 'development') {

@@ -5,7 +5,7 @@ var isAuthenticated = function (req, res, next) {
   if (req.isAuthenticated()){
     return next();
   }
-  res.redirect('/');
+  res.redirect('/login');
 };
 
 loginRouter.use(function (req, res, next) {
@@ -15,14 +15,14 @@ loginRouter.use(function (req, res, next) {
 
 module.exports = function (passport) {
 
-  loginRouter.get('/', function (req, res) {
+  loginRouter.get('/login', function (req, res) {
     console.log(req.body);
     res.render('login');
   });
   
-  loginRouter.post('/', passport.authenticate('login', {
+  loginRouter.post('/login', passport.authenticate('login', {
     successRedirect: '/home',
-    failureRedirect: '/',
+    failureRedirect: '/login',
     failureFlash: true
   }));
 
@@ -30,23 +30,24 @@ module.exports = function (passport) {
     res.render('register', {});
   });
 
-  loginRouter.post('/register', passport.authenticate('register', {
+  //not sure why I have to POST to /login/register
+  loginRouter.post('/login/register', passport.authenticate('register', {
     successRedirect: '/home',
-    failureRedirect: '/login/register',
+    failureRedirect: '/register',
     failureFlash: true
   }));
 
   loginRouter.get('/sample',
     isAuthenticated,
     function (req, res) {
-      console.log('logged in' + req.user.username);
+      console.log('logged in ' + req.user.username);
     }
   );
 
   loginRouter.get('/logout', function (req, res) {
     console.log('someone logged out!');
     req.logout();
-    res.redirect('/');
+    res.redirect('/login');
   });
 
   return loginRouter;
