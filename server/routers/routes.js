@@ -1,5 +1,5 @@
 var express = require('express'),
-    loginRouter = express.Router();
+    routes = express.Router();
 
 var isAuthenticated = function (req, res, next) {
   if (req.isAuthenticated()){
@@ -8,47 +8,54 @@ var isAuthenticated = function (req, res, next) {
   res.redirect('/login');
 };
 
-loginRouter.use(function (req, res, next) {
-  console.log('someone tried to login');
+routes.use(function (req, res, next) {
+  console.log('someone tried to hit the app');
   next();
 });
 
 module.exports = function (passport) {
 
-  loginRouter.get('/login', function (req, res) {
+  routes.get('/login', function (req, res) {
     console.log(req.body);
     res.render('login');
   });
   
-  loginRouter.post('/login', passport.authenticate('login', {
+  routes.post('/login', passport.authenticate('login', {
     successRedirect: '/home',
     failureRedirect: '/login',
     failureFlash: true
   }));
 
-  loginRouter.get('/register', function (req, res) {
+  routes.get('/register', function (req, res) {
     res.render('register', {});
   });
 
   //not sure why I have to POST to /login/register
-  loginRouter.post('/register', passport.authenticate('register', {
+  routes.post('/register', passport.authenticate('register', {
     successRedirect: '/home',
     failureRedirect: '/register',
     failureFlash: true
   }));
 
-  loginRouter.get('/sample',
+  routes.get('/sample',
     isAuthenticated,
     function (req, res) {
       console.log('logged in ' + req.user.username);
     }
   );
 
-  loginRouter.get('/logout', function (req, res) {
+  routes.get('/write', 
+    isAuthenticated,
+    function (req, res) {
+      res.render('write', req.user);
+    }
+  );
+
+  routes.get('/logout', function (req, res) {
     console.log('someone logged out!');
     req.logout();
     res.redirect('/login');
   });
 
-  return loginRouter;
+  return routes;
 };
