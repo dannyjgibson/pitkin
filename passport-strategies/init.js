@@ -1,6 +1,6 @@
 var login = require('./login'),
     register = require('./register'),
-    User = require('../api/models/user');
+    User = require('../server/models/user');
 
 module.exports = function (passport) {
   
