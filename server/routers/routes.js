@@ -31,7 +31,7 @@ module.exports = function (passport) {
   });
 
   //not sure why I have to POST to /login/register
-  loginRouter.post('/login/register', passport.authenticate('register', {
+  loginRouter.post('/register', passport.authenticate('register', {
     successRedirect: '/home',
     failureRedirect: '/register',
     failureFlash: true
