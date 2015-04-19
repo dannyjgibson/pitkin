@@ -2,7 +2,7 @@ var express = require('express'),
     routes = express.Router();
 
 var isAuthenticated = function (req, res, next) {
-  if (req.isAuthenticated()){
+  if (req.isAuthenticated()) {
     return next();
   }
   res.redirect('/login');
@@ -30,7 +30,6 @@ module.exports = function (passport) {
     res.render('register', {});
   });
 
-  //not sure why I have to POST to /login/register
   routes.post('/register', passport.authenticate('register', {
     successRedirect: '/home',
     failureRedirect: '/register',
@@ -47,7 +46,7 @@ module.exports = function (passport) {
   routes.get('/write', 
     isAuthenticated,
     function (req, res) {
-      res.render('write', req.user);
+      res.render('notepad', {user: req.user});
     }
   );
 
