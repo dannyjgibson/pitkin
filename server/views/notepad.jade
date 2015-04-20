@@ -59,6 +59,7 @@ html(lang="en")
               input(
                 class="btn btn-default"
                 type="submit"
+                data-bind="click: saveArticleData"
               )
       .col-md-3
         .file-system-info
@@ -68,4 +69,5 @@ html(lang="en")
             each file in user.articles
               li(data-bind="text: $data.title, click: loadArticleData")
                 | #{file.title}
+            li New Article
     script(type="text/javascript" src="../ko-viewModels/WriteViewModel.js")
