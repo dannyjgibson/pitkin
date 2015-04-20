@@ -21,7 +21,7 @@ module.exports = function (passport) {
   });
   
   routes.post('/login', passport.authenticate('login', {
-    successRedirect: '/home',
+    successRedirect: '/write',
     failureRedirect: '/login',
     failureFlash: true
   }));
@@ -31,7 +31,7 @@ module.exports = function (passport) {
   });
 
   routes.post('/register', passport.authenticate('register', {
-    successRedirect: '/home',
+    successRedirect: '/write',
     failureRedirect: '/register',
     failureFlash: true
   }));
