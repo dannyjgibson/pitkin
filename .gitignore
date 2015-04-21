@@ -4,3 +4,4 @@
 */config.js
 *.css
 npm-debug.log
+**/*.html

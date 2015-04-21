@@ -1,0 +1,26 @@
+doctype html
+html(lang="en")
+  head
+    title= 'Pitkin Search'
+    script(type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.3.0/knockout-min.js")
+    script(type="text/javascript" src="https://code.jquery.com/jquery-2.1.3.min.js")
+  body
+    h1 Pitkin Answer Search <a target="_newtab" data-bind="attr: {href: results() ? ('https://duckduckgo.com/?q='+query()) : 'https://duckduckgo.com/api'} "> Results from DuckDuckGo</a>
+    img(src='https://duckduckgo.com/assets/logo_homepage.normal.v107.svg')
+    input.searchbar(type='text' placeholder='search for an answer' data-bind="value: query, valueUpdate:'afterkeydown', event: {keypress: searchDuckDuckGo}")
+    button.search-button(data-bind='click: searchDuckDuckGo')
+      | Search
+    .search-answer
+      a.search-heading(target="_newtab" data-bind="text: heading, attr: {href: abstractUrl}")
+      .search-image
+        img(data-bind="attr: {src: abstractImage}")
+      .search-abstract(data-bind="text: abstractText")
+    h2(data-bind="if: results")
+      | Related Topics
+    ul.search-results(data-bind="foreach: responses")
+      li.search-result
+        .result-image
+          img(data-bind="attr: {src: $data.image.URL}")
+        .result-text(data-bind="html: $data.text")
+        img(src="http://www.agentwp.com/wp-content/uploads/link-wordpress-post-title-to-external-url.png", data-bind="click: $parent.updateSearch")
+    script(type="text/javascript" src="../SearchResponseViewModel.js")
