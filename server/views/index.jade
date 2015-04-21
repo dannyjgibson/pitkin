@@ -1,10 +1,11 @@
 extends layout
 
 block content
-  if(!user)
-    a(href="/login") login
-    br
-    a(href="/register") register
-  if(user)
-    p You are currently logged in #{user.username}!
-    a(href="/logout") logout
+  body
+    if(!user)
+      a(href="/login") login
+      br
+      a(href="/register") register
+    if(user)
+      p You are currently logged in #{user.username}!
+      a(href="/logout") logout

@@ -1,13 +1,5 @@
-doctype html
-html(lang="en")
-  head
-    title
-      | Pitkin Notepad
-    link(rel="stylesheet" type="text/css" href="../css/notepad.css" media="screen")
-    link(rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css")
-    link(rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css")
-    script(type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.3.0/knockout-min.js")
-    script(type="text/javascript" src="https://code.jquery.com/jquery-2.1.3.min.js")
+block content
+  link(rel="stylesheet" type="text/css" href="../css/notepad.css" media="screen")
   body
     .hidden-article-id(style="display: none", data-bind="value: articleId")
     .hidden-user-id(style="display:none", data-bind="value: userId")

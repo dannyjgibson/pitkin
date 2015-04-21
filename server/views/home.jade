@@ -1,0 +1,15 @@
+extends layout
+
+block content
+  body
+    .container-fluid
+      h1 Pitkin
+      h2 Research, Write, and Read 
+      .articles(data-bind="foreach: articles")
+        .article(id="text: $data.id")
+          h3(class="title" data-bind="text: $data.title")
+          h3(class="topic" data-bind="text: $data.topic")
+          .article-text(data-bind="text: $data.text")
+          .tags(data-bind="foreach: $data.tags")
+            .tag(data-bind="text: $data")
+  script(type="text/javascript" src="../ko-viewModels/WriteViewModel.js")
