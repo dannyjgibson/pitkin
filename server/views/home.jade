@@ -14,9 +14,12 @@ block content
       if(user)
         p welcome to Pitkin, #{user. username}!
         .activities
-          a(href="/search") search
-          a(href="/write") write
-          a(href="/logout") logout
+          .search
+            a(href="/search") search
+          .write
+            a(href="/write") write
+          .logout
+            a(href="/logout") logout
       .button()
       .articles(data-bind="foreach: articles")
         .article(id="text: $data.id")
