@@ -4,7 +4,17 @@ block content
   body
     .container-fluid
       h1 Pitkin
-      h2 Research, Write, and Read 
+      h2 Research, Write, and Read
+      if (!user)
+        .login-register
+          .login
+            a(href="/login") login
+          .register
+            a(href="/register") register
+      if(user)
+        p welcome to Pitkin, #{user. username}!
+        a(href="/logout") logout
+      .button()
       .articles(data-bind="foreach: articles")
         .article(id="text: $data.id")
           h3(class="title" data-bind="text: $data.title")
@@ -12,4 +22,4 @@ block content
           .article-text(data-bind="text: $data.text")
           .tags(data-bind="foreach: $data.tags")
             .tag(data-bind="text: $data")
-  script(type="text/javascript" src="../ko-viewModels/WriteViewModel.js")
+  script(type="text/javascript" src="../ko-viewModels/HomePageViewModel.js")

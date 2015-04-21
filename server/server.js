@@ -56,14 +56,6 @@ app.param('collectionName', function (req, res, next, collectionName) {
   return next();
 });
 
-//general routing
-//router specific routing is handled in /routers
-app.get('/', function (req, res) {
-  console.log('from get /');
-  console.log(req.user);
-  // gonna want to serve something real here
-  res.send('Welcome to the pitkin app');
-});
 
 // routers are modularized
 var apiRouter = require('./routers/apiRouter');
@@ -72,25 +64,6 @@ var routes = require('./routers/routes')(passport);
 // registering routers
 app.use('/api', apiRouter);
 app.use('/', routes);
-
-// error handlers
-if (app.get('env') === 'development') {
-  app.use(function (err, req, res, next) {
-    res.status(err.status || 500);
-    res.render('error', { // need to build an error view
-      message: err.message,
-      error: err
-    });
-  });
-}
-
-app.use(function (err, req, res, next) {
-  res.status(err.status || 500);
-  res.render('error', { // need to build an error view
-    message: err.message,
-    error: {}
-  });
-});
 
 app.listen(port);
 console.log('listening on port ' + port + ' for server');

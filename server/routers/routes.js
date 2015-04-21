@@ -15,19 +15,23 @@ routes.use(function (req, res, next) {
 
 module.exports = function (passport) {
 
+  routes.get('/', function (req, res) {
+    res.render('home', {title: 'Pitkin Home', user: req.user});
+  });
+
   routes.get('/login', function (req, res) {
     console.log(req.body);
-    res.render('login');
+    res.render('login', {title: 'Pitkin login'});
   });
   
   routes.post('/login', passport.authenticate('login', {
-    successRedirect: '/write',
+    successRedirect: '/',
     failureRedirect: '/login',
     failureFlash: true
   }));
 
   routes.get('/register', function (req, res) {
-    res.render('register', {});
+    res.render('register', {title: 'Pitkin register'});
   });
 
   routes.post('/register', passport.authenticate('register', {
@@ -36,17 +40,10 @@ module.exports = function (passport) {
     failureFlash: true
   }));
 
-  routes.get('/sample',
-    isAuthenticated,
-    function (req, res) {
-      console.log('logged in ' + req.user.username);
-    }
-  );
-
   routes.get('/write', 
     isAuthenticated,
     function (req, res) {
-      res.render('notepad', {user: req.user});
+      res.render('notepad', {user: req.user, title: 'Pitkin Notepad'});
     }
   );
 
