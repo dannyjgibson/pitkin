@@ -47,6 +47,13 @@ module.exports = function (passport) {
     }
   );
 
+  routes.get('/search', 
+    isAuthenticated,
+    function(req, res) {
+      res.render('search', {title: 'Pitkin search'});
+    }
+  );
+
   routes.get('/logout', function (req, res) {
     console.log('someone logged out!');
     req.logout();

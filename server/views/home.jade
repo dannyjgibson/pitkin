@@ -13,7 +13,10 @@ block content
             a(href="/register") register
       if(user)
         p welcome to Pitkin, #{user. username}!
-        a(href="/logout") logout
+        .activities
+          a(href="/search") search
+          a(href="/write") write
+          a(href="/logout") logout
       .button()
       .articles(data-bind="foreach: articles")
         .article(id="text: $data.id")
