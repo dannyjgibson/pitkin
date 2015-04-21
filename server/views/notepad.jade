@@ -10,52 +10,66 @@ block content
       h1(data-bind="value: authorName")
         | #{user.username}
       h2 #{user.username}'s Notepad
-      .row
-        .col-md-8
-          .article-info
-            form(name="save" action="/save" method="post" id="article-details")  
-              .con
-                input(
-                  type="text"
-                  class="article-info"
-                  id="title"
-                  name="title"
-                  placeholder="Title"
-                  data-bind="value: title"
-                )
-              .article-info-topic
-                input(
-                  type="text"
-                  class="article-topic"
-                  id="topic"
-                  name="topic"
-                  placeholder="Topic"
-                  data-bind="value: topic"
-                )          
-              .article-info-body
-                textarea(
-                    autofocus
-                    form="article-details"
-                    name="text"
-                    placeholder="Write your article here!"
-                    data-bind="value: text"
-                )
-              .article-info-tags
-                .already-tagged(data-bind="foreach: tags")
-                  .div(data-bind="text: $data")
-                input(
-                  type="text"
-                  class="article-tags"
-                  name="tags"
-                  placeholder="Tag this article"
-                  data-bind="event: {keypress: addTags}"
-                )
-              .article-submit
-                input(
-                  class="btn btn-default"
-                  type="submit"
-                  data-bind="click: saveArticleData"
-                )
+      .article-info
+        form.form-horizontal(name="save" action="/save" method="post" id="article-details")  
+          .form-group
+            label(for="title" class="col-sm-2 control-label")
+              | Title
+            .col-sm-10
+              input(
+                type="text"
+                class="form-control article-info"
+                id="title"
+                name="title"
+                placeholder="Title"
+                data-bind="value: title"
+              )
+          .form-group
+            label(for="topic" class="col-sm-2 control-label")
+              | Topic
+            .col-sm-10
+              input(
+                type="text"
+                class="article-topic form-control"
+                id="topic"
+                name="topic"
+                placeholder="Topic"
+                data-bind="value: topic"
+              )
+          .article-info-body
+            label(for="article-body" class="col-sm-2 control-label")
+              | Article
+            textarea(
+                autofocus
+                id="article-body"
+                class="col-sm-10"
+                form="article-details"
+                name="text"
+                placeholder="Write your article here!"
+                data-bind="value: text"
+                rows="10"
+            )
+          .form-group
+            label(for="tags" class="col-sm-2 control-label")
+              | Tags  
+            .col-sm-10
+              input(
+                type="text"
+                class="article-tags form-control"
+                id="tags"
+                name="tags"
+                placeholder="Tag this article"
+                data-bind="event: {keypress: addTags}"
+              )
+          .existing-tags(class="col-sm-10")
+            ul.tags(data-bind="foreach: tags")
+              li.tag(data-bind="attr: {id: $index}, text: $data")      
+          .article-submit
+            input(
+              class="btn btn-default"
+              type="submit"
+              data-bind="click: saveArticleData"
+            )
         .col-md-3
           .file-system-info
             .file-system-name

@@ -10,7 +10,8 @@ var articleSchema = new mongoose.Schema({
   updatedAt: Date,
   text: String,
   actions: String,
-  tags: [String]
+  tags: [String],
+  offensiveToSomeone: Boolean
 });
 
 articleSchema.pre('save', function (next) {
