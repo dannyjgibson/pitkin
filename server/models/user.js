@@ -10,7 +10,9 @@ var userSchema = new mongoose.Schema({
               {type: mongoose.Schema.Types.ObjectId, ref:'Article'},
             ],
   createdAt: Date,
-  updatedAt: Date
+  updatedAt: Date,
+  username: String,
+  password: String
 });
 
 userSchema.plugin(passportLocalMongoose);

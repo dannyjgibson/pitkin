@@ -1,10 +1,12 @@
 extends layout
+
 block content
+  body
     .container
       h1 Register Page
       p.lead yoooo
       br
-      form(role='form', action='/login/register', method='post', style='max-width: 300px;')
+      form(role='form', action='/register', method='post', style='max-width: 300px;')
         .form-group
           input.form-control(type='text', name='username', placeholder='enter a username')
         .form-group
