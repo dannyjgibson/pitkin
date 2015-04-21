@@ -1,65 +1,68 @@
+extends layout
+
 block content
-  link(rel="stylesheet" type="text/css" href="../css/notepad.css" media="screen")
+  //link(rel="stylesheet" type="text/css" href="../css/notepad.css" media="screen")
   body
-    .hidden-article-id(style="display: none", data-bind="value: articleId")
-    .hidden-user-id(style="display:none", data-bind="value: userId")
-      |#{user.id}
-    h1(data-bind="value: authorName")
-      | #{user.username}
-    h2 #{user.username}'s Notepad
-    .row
-      .col-md-8
-        .article-info
-          form(name="save" action="/save" method="post" id="article-details")  
-            .con
-              input(
-                type="text"
-                class="article-info"
-                id="title"
-                name="title"
-                placeholder="Title"
-                data-bind="value: title"
-              )
-            .article-info-topic
-              input(
-                type="text"
-                class="article-topic"
-                id="topic"
-                name="topic"
-                placeholder="Topic"
-                data-bind="value: topic"
-              )          
-            .article-info-body
-              textarea(
-                  autofocus
-                  form="article-details"
-                  name="text"
-                  placeholder="Write your article here!"
-                  data-bind="value: text"
-              )
-            .article-info-tags
-              .already-tagged(data-bind="foreach: tags")
-                .div(data-bind="text: $data")
-              input(
-                type="text"
-                class="article-tags"
-                name="tags"
-                placeholder="Tag this article"
-                data-bind="event: {keypress: addTags}"
-              )
-            .article-submit
-              input(
-                class="btn btn-default"
-                type="submit"
-                data-bind="click: saveArticleData"
-              )
-      .col-md-3
-        .file-system-info
-          .file-system-name
-            | Your Files
-          ul.files(data-bind="foreach: files")
-            each file in user.articles
-              li(data-bind="text: $data.title, click: loadArticleData")
-                | #{file.title}
-            li New Article
-    script(type="text/javascript" src="../ko-viewModels/WriteViewModel.js")
+    .container-fluid
+      .hidden-article-id(style="display: none", data-bind="value: articleId")
+      .hidden-user-id(style="display:none", data-bind="value: userId")
+        |#{user.id}
+      h1(data-bind="value: authorName")
+        | #{user.username}
+      h2 #{user.username}'s Notepad
+      .row
+        .col-md-8
+          .article-info
+            form(name="save" action="/save" method="post" id="article-details")  
+              .con
+                input(
+                  type="text"
+                  class="article-info"
+                  id="title"
+                  name="title"
+                  placeholder="Title"
+                  data-bind="value: title"
+                )
+              .article-info-topic
+                input(
+                  type="text"
+                  class="article-topic"
+                  id="topic"
+                  name="topic"
+                  placeholder="Topic"
+                  data-bind="value: topic"
+                )          
+              .article-info-body
+                textarea(
+                    autofocus
+                    form="article-details"
+                    name="text"
+                    placeholder="Write your article here!"
+                    data-bind="value: text"
+                )
+              .article-info-tags
+                .already-tagged(data-bind="foreach: tags")
+                  .div(data-bind="text: $data")
+                input(
+                  type="text"
+                  class="article-tags"
+                  name="tags"
+                  placeholder="Tag this article"
+                  data-bind="event: {keypress: addTags}"
+                )
+              .article-submit
+                input(
+                  class="btn btn-default"
+                  type="submit"
+                  data-bind="click: saveArticleData"
+                )
+        .col-md-3
+          .file-system-info
+            .file-system-name
+              | Your Files
+            ul.files(data-bind="foreach: files")
+              each file in user.articles
+                li(data-bind="text: $data.title, click: loadArticleData")
+                  | #{file.title}
+              li New Article
+      script(type="text/javascript" src="../ko-viewModels/WriteViewModel.js")
