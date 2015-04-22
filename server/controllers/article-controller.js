@@ -89,6 +89,9 @@ var articleController = function (apiRouter) {
 				if (req.body.tags) {
 					article.tags = req.body.tags;
 				}
+				if (req.body.offensiveToSomeone) {
+					article.offensiveToSomeone = req.body.offensiveToSomeone;
+				}
 
 				article.save(function (err) {
 					if (err) {

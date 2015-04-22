@@ -22,10 +22,14 @@ block content
             a(href="/logout") logout
       .button()
       .articles(data-bind="foreach: articles")
-        .article(id="text: $data.id")
-          h3(class="title" data-bind="text: $data.title")
-          h3(class="topic" data-bind="text: $data.topic")
-          .article-text(data-bind="text: $data.text")
-          .tags(data-bind="foreach: $data.tags")
-            .tag(data-bind="text: $data")
+        .article(class="panel panel-default" id="text: $data.id, style: { display: $data.offensiveToSomeone() ? 'none' : '' }")
+          .panel-heading
+            span(class="glyphicon glyphicon-flag" data-bind="click: $root.flagAsOffensive")
+            h3(class="title" data-bind="text: $data.title")
+            h4(class="topic" data-bind="text: $data.topic")
+          .panel-body
+            .article-text(data-bind="text: $data.text")
+          .panel-footer
+            .tags(data-bind="foreach: $data.tags")
+              .tag(data-bind="text: $data")
   script(type="text/javascript" src="../ko-viewModels/HomePageViewModel.js")
