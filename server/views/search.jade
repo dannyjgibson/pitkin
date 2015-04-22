@@ -2,30 +2,37 @@ extends layout
 
 block content
   .container-fluid
-    .col-lg-6  
-      h1 Pitkin Answer Search 
-      br
-      h1 <a target="_newtab" data-bind="attr: {href: results() ? ('https://duckduckgo.com/?q='+query()) : 'https://duckduckgo.com/'}"> Results from</a>
-      a(target="_newtab" data-bind="attr: {href: results() ? ('https://duckduckgo.com/?q='+query()) : 'https://duckduckgo.com/'} ")
-        img(src='https://duckduckgo.com/assets/logo_homepage.normal.v107.svg')
-    .col-lg-6
-      .input-group
-        input.form-control(type='text' placeholder='search for an answer' data-bind="value: query, valueUpdate:'afterkeydown', event: {keypress: searchDuckDuckGo}")
-        span.input-group-btn
-          button(type="button" class="btn btn-default" data-bind='click: searchDuckDuckGo')
-            | Search
-    .col-lg-6
-      .search-answer
-        a.search-heading(target="_newtab" data-bind="text: heading, attr: {href: abstractUrl}")
-        .search-image
-          img(data-bind="attr: {src: abstractImage}")
-        .search-abstract(data-bind="text: abstractText")
+    .row
+      .col-lg-6  
+        .ko-test(data-bind="text: abstractUrl")
+        h1 Pitkin Answer Search 
+        br
+        h1 <a target="_newtab" data-bind="attr: {href: results() ? ('https://duckduckgo.com/?q='+query()) : 'https://duckduckgo.com/'}"> Results from</a>
+        a(target="_newtab" data-bind="attr: {href: results() ? ('https://duckduckgo.com/?q='+query()) : 'https://duckduckgo.com/'} ")
+          img(src='https://duckduckgo.com/assets/logo_homepage.normal.v107.svg')
+    .row
+      .col-lg-6
+        .input-group
+          input.form-control(type='text' placeholder='search for an answer' data-bind="value: query, valueUpdate:'afterkeydown', event: {keypress: searchDuckDuckGo}")
+          span.input-group-btn
+            button(type="button" class="btn btn-default" data-bind='click: searchDuckDuckGo')
+              | Search
+    .row
+      .col-lg-6
+        .search-answer
+          a.search-heading(target="_newtab" data-bind="text: heading, attr: {href: abstractUrl}")
+          .search-image
+            img(data-bind="attr: {src: abstractImage}")
+          .search-abstract(data-bind="text: abstractText")
+    .row  
+      .col-lg-6
       h2(data-bind="if: results")
         | Related Topics
       ul.search-results(data-bind="foreach: responses")
         li.search-result
-          .result-image
-            img(data-bind="attr: {src: $data.image.URL}")
-          .result-text(data-bind="html: $data.text")
-          img(src="http://www.agentwp.com/wp-content/uploads/link-wordpress-post-title-to-external-url.png", data-bind="click: $parent.updateSearch")
+          //.result-image
+          //  img(data-bind="attr: {src: $data.image.URL}")
+          .result-search
+            span.result-text(data-bind="html: $data.text")
+            span(class="glyphicon glyphicon-search text-right" aria-label="search this" data-bind="click: $parent.updateSearch")
   script(type="text/javascript" src="../ko-viewModels/SearchResponseViewModel.js")

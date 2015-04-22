@@ -1,17 +1,3 @@
-ko.bindingHandlers.executeOnEnter = {
-  init: function (element, valueAccessor, allBindingsAccessor, viewModel) {
-    var allBindings = allBindingsAccessor();
-    $(element).keypress(function (event) {
-      var keyCode = (event.which ? event.which : event.keyCode);
-      if (keyCode === 13) {
-        allBindings.executeOnEnter.call(viewModel);
-        return false;
-      }
-      return true;
-    });
-  }
-};
-
 var SearchItem = function (text, url, image) {
   var self = this;
   self.url = url || '';
@@ -68,12 +54,11 @@ function SearchResponseViewModel() {
   };
 
   self.updateSearch = function (item, event) {
-    console.log('clicked!');
     if (event.type === 'click') {
       var clickedLinkedTopic = stripUrlToEndpoint(item.url).replace(/_/g, ' ');
       console.log('clicked on: ' + clickedLinkedTopic);
       self.query(clickedLinkedTopic);
-      self.searchDuckDuckGo();  
+      self.searchDuckDuckGo(item, event);  
     }
   };
 }
