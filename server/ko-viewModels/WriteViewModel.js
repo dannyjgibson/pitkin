@@ -34,10 +34,18 @@ function WriteViewModel (model) {
 
   // wrapper method to check if an article already exists
   self.saveArticleData = function (data, event) {
-    if (data in articleIdSet) {
-      putArticleInformation(data);
+    var articleData = {
+      articleId: self.articleId(),
+      title: self.title(),
+      topic: self.topic(),
+      text: self.text()
+    };
+    console.log('saving article');
+    console.log(articleData);
+    if (articleData.articleId in self.articleIdSet()) {
+      self.putArticleInformation();
     } else {
-      postArticleInformation(data);
+      self.postArticleInformation(articleData);
     }
   };
 
