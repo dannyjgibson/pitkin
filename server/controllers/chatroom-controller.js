@@ -5,7 +5,9 @@ var express = require('express'),
 
 var chatroomController = function (apiRouter) {
   apiRouter.route('/chatrooms')
-    .post(function (req, res) {
+    .post(
+      apiRouter.isAuthenticated,
+      function (req, res) {
       var chatroom = new Chatroom();
 
       chatroom.text = req.body.text;
@@ -44,7 +46,9 @@ var chatroomController = function (apiRouter) {
       });
     })
 
-    .put(function (req, res) {
+    .put(
+      apiRouter.isAuthenticated,
+      function (req, res) {
       Chatroom.findById(req.params.chatroomId, function (err, chatroom) {
         if (err) {
           res.send(err);
@@ -68,7 +72,9 @@ var chatroomController = function (apiRouter) {
       });
     })
 
-    .delete(function (req, res) {
+    .delete(
+      apiRouter.isAuthenticated,
+      function (req, res) {
       Chatroom.remove({
         _id: req.params.chatroomId
       }, function (err, chatroom) {

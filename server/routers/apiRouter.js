@@ -1,7 +1,13 @@
-var express = require('express');
-   
-var apiRouter = express.Router();
+var express = require('express'),
+    apiRouter = express.Router();
 // need to set up a little middlware on the router before passing 
+
+apiRouter.isAuthenticated = function (req, res, next) {
+  if (req. isAuthenticated()) {
+    return next();
+  }
+  res.json({"message" : "must be authenticated to hit this endpoint"});
+};
 
 apiRouter.use(function (req, res, next) {
   console.log('someone hit our api!');

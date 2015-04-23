@@ -7,7 +7,9 @@ var express = require('express'),
 var userController = function (apiRouter) {
   apiRouter.route('/users')
 
-    .post(function (req, res) {
+    .post(
+      apiRouter.isAuthenticated,
+      function (req, res) {
       var user = new User();
       user.username = validator.trim(req.body.username);
       user.password = validator.trim(req.body.password);
@@ -54,7 +56,9 @@ var userController = function (apiRouter) {
         });
       })
 
-      .put(function (req, res) {
+      .put(
+        apiRouter.isAuthenticated,
+        function (req, res) {
         User.findById(req.params.userId, function (err, user) {
           if (err) {
             res.send(err);
@@ -94,16 +98,20 @@ var userController = function (apiRouter) {
         });
       })
 
-      .delete(function (req, res) {
-        User.remove({
-          _id: req.params.userId
-        },function (err, user) {
+      .delete(
+        apiRouter.isAuthenticated,
+        function (req, res) {
+          User.remove({
+            _id: req.params.userId
+          },
+          function (err, user) {
             if (err) {
               return res.send(err);
             }
             res.json({ message: 'success, user deleted!'});
-        });
-      });    
+          });
+        }
+      );    
 };
 
 module.exports = userController;

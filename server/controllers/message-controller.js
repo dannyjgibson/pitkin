@@ -5,7 +5,9 @@ var express = require('express'),
 
 var messageController = function (apiRouter) {  
   apiRouter.route('/messages')
-    .post(function (req, res) {
+    .post(
+      apiRouter.isAuthenticated,
+      function (req, res) {
       var message = new Message();
 
       message.text = req.body.text;
@@ -46,7 +48,9 @@ var messageController = function (apiRouter) {
       });
     })
 
-    .put(function (req, res) {
+    .put(
+      apiRouter.isAuthenticated,
+      function (req, res) {
       Message.findById(req.params.messageId, function (err, message) {
         if (err) {
           res.send(err);
@@ -75,7 +79,9 @@ var messageController = function (apiRouter) {
       });
     })  
 
-    .delete(function (req, res) {
+    .delete(
+      apiRouter.isAuthenticated,
+      function (req, res) {
       Message.remove({
         _id: req.params.messageId 
       }, function (err, message) {

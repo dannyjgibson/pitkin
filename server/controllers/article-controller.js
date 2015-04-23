@@ -6,7 +6,9 @@ var express = require('express'),
 
 var articleController = function (apiRouter) {	
 	apiRouter.route('/articles')
-		.post(function (req, res) {
+		.post(
+			apiRouter.isAuthenticated,
+			function (req, res) {
 			var article = new Article();
 
 			article.topic = req.body.topic;
@@ -33,7 +35,8 @@ var articleController = function (apiRouter) {
 
 		})
 
-		.get(function (req, res) {
+		.get(
+			function (req, res) {
 			Article.find(function (err, articles) {
 				if (err) {
 					return res.send(err);
@@ -53,7 +56,9 @@ var articleController = function (apiRouter) {
 			});
 		})
 
-		.put(function (req, res) {
+		.put(
+			apiRouter.isAuthenticated,
+			function (req, res) {
 			Article.findById(req.params.articleId, function (err, article) {
 				if (err) {
 					res.send(err);
@@ -105,7 +110,9 @@ var articleController = function (apiRouter) {
 			});
 		})	
 
-		.delete(function (req, res) {
+		.delete(
+			apiRouter.isAuthenticated,
+			function (req, res) {
 			Article.remove({
 				_id: req.params.articleId 
 			}, function (err, article) {
