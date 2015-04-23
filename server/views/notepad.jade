@@ -41,16 +41,17 @@ block content
             .article-info-body
               label(for="article-body" class="col-md-2 control-label")
                 | Article
-              textarea(
-                  autofocus
-                  id="article-body"
-                  class="form-control col-md-10"
-                  form="article-details"
-                  name="text"
-                  placeholder="Write your article here!"
-                  data-bind="value: text"
-                  rows="10"
-              )
+              .col-md-10  
+                textarea(
+                    autofocus
+                    id="article-body"
+                    class="form-control col-md-10"
+                    form="article-details"
+                    name="text"
+                    placeholder="Write your article here!"
+                    data-bind="value: text"
+                    rows="10"
+                )
             .form-group
               label(for="tags" class="col-md-2 control-label")
                 | Tags  

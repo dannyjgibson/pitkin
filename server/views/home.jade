@@ -24,12 +24,16 @@ block content
       .articles(data-bind="foreach: articles")
         .article(class="panel panel-default" id="text: $data.id, style: { display: $data.offensiveToSomeone() ? 'none' : '' }")
           .panel-heading
-            span(class="glyphicon glyphicon-flag" data-bind="click: $root.flagAsOffensive")
+            if (user)
+              span(class="glyphicon glyphicon-flag" data-bind="click: $root.flagAsOffensive")
             h3(class="title" data-bind="text: $data.title")
             h4(class="topic" data-bind="text: $data.topic")
           .panel-body
             .article-text(data-bind="text: $data.text")
           .panel-footer
-            .tags(data-bind="foreach: $data.tags")
-              .tag(data-bind="text: $data")
+            span(class="tags" data-bind="foreach: $data.tags")
+              span(class="well well-sm" data-bind="text: $data")
+            if (user)
+              span(class="input-group")
+                input(type="text" class="form-control" placeholder="Add Tag...")                
   script(type="text/javascript" src="../ko-viewModels/HomePageViewModel.js")
