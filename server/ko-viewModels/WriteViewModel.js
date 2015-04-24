@@ -15,6 +15,7 @@ function WriteViewModel (model) {
   self.tags = ko.observableArray();
   self.authorName = ko.observable();
   self.files = ko.observableArray();
+  self.newFile = ko.observable(true);
   self.articleIdSet = ko.observable(); // maybe it should just check titles?
 
   self.getUserInformation = function (userId) {
@@ -40,13 +41,21 @@ function WriteViewModel (model) {
       topic: self.topic(),
       text: self.text()
     };
-    console.log('saving article');
-    console.log(articleData);
     if (articleData.articleId in self.articleIdSet()) {
       self.putArticleInformation();
     } else {
       self.postArticleInformation(articleData);
     }
+  };
+
+  self.publishArticleData = function(data, event) {
+    var articleData = {
+      articleId: self.articleId(),
+      title: self.title(),
+      topic: self.topic(),
+      text: self.text()
+    };
+    self.postArticleInformation(articleData);
   };
 
   // saving a new article

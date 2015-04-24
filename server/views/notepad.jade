@@ -13,7 +13,8 @@ block content
           h2 #{user.username}'s Notepad
       .row
         .article-info(class="col-md-10")
-          form.form-horizontal(name="save" action="/save" method="post" id="article-details")  
+          h1(data-bind="text: newFile")
+          form.form-horizontal(name="save" action="/save" id="article-details" data-bind="attr: {'method': newFile ? 'post' : 'put'}")  
             .form-group
               label(for="title" class="col-md-2 control-label")
                 | Title
@@ -69,9 +70,16 @@ block content
                 li.tag(data-bind="attr: {id: $index}, text: $data")      
             .article-submit
               input(
-                class="btn btn-default"
-                type="submit"
+                class="btn btn-primary"
+                type="button"
                 data-bind="click: saveArticleData"
+                value="Save"
+              )
+              input(
+                class="btn btn-success"
+                type="button"
+                data-bind="click: publishArticleData"
+                value="Publish"
               )
         .file-system-info(class="col-md-2")
           .file-system-name
