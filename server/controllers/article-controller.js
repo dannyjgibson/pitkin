@@ -27,7 +27,7 @@ var articleController = function (apiRouter) {
 					console.log('error: ' + err.message);
 					return res.send(err);
 				}
-				res.json({
+				res.status(201).json({
 					message: 'success, article created!',
 					newArticleId: article._id
 				});
@@ -39,7 +39,7 @@ var articleController = function (apiRouter) {
 			function (req, res) {
 			Article.find(function (err, articles) {
 				if (err) {
-					return res.send(err);
+					return res.status(200).send(err);
 				}
 				res.json(articles);
 			});
@@ -52,7 +52,7 @@ var articleController = function (apiRouter) {
 				if (err) {
 					res.send(err);
 				}
-				res.json(article);
+				res.status(200).json(article);
 			});
 		})
 
@@ -102,7 +102,7 @@ var articleController = function (apiRouter) {
 					if (err) {
 						res.send(err);
 					}
-					res.json({ 
+					res.status(200).json({ 
 						message: 'success, article updated',
 						updatedArticle: article
 						});
@@ -119,7 +119,7 @@ var articleController = function (apiRouter) {
 					if (err) {
 						return res.send(err);
 					}
-					res.json({ message: 'success, deleted article' });
+					res.status(204).json({ message: 'success, deleted article' });
 			});
 		});
 };

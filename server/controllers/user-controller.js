@@ -27,7 +27,7 @@ var userController = function (apiRouter) {
           console.log('error: ' + err.message);
           return res.send(err);
         }
-        res.json({
+        res.status(201).json({
           message: 'success. user created!',
           newUserId: user._id
         });
@@ -40,7 +40,7 @@ var userController = function (apiRouter) {
         if (err) {
           return res.send(err);
         }
-        res.json(users);
+        res.status(200).json(users);
       });
     });
 
@@ -52,51 +52,58 @@ var userController = function (apiRouter) {
             res.send(err);
           }
           console.log(user);
-          res.json(user);
+          res.status(200).json(user);
         });
       })
 
       .put(
         apiRouter.isAuthenticated,
         function (req, res) {
-        User.findById(req.params.userId, function (err, user) {
-          if (err) {
-            res.send(err);
-          }
-          // propbably better to cache req.body for depth property search
-          if (req.body.username) {
-            user.username = req.body.username;
-          }
-          if (req.body.password) {
-            user.password = req.body.password;
-          }
-          if (req.body.emailAddress) {
-            user.emailAddress = req.body.emailAddress;
-          }
-          if (req.body.articleCount) {
-            user.articleCount = req.body.articleCount;
-          }
-          if (req.body.articles) {
-            user.articles = req.body.articles;
-          }
-          if (req.body.createdAt) {
-            user.createdAt = req.body.createdAt;
-          }
-          if (req.body.updatedAt) {
-            user.updatedAt = req.body.updatedAt;
-          }
-
-          user.save(function (err) {
+          console.log(req.body);
+          User.findById(req.body._id, function (err, user) {
+            console.log(user);
             if (err) {
               res.send(err);
             }
-            res.json({ 
-              message: 'success, user updated!',
-              updatedUser: user 
+            // propbably better to cache req.body for depth property search
+            if (req.body.username) {
+              user.username = req.body.username;
+            }
+            if (req.body.password) {
+              user.password = req.body.password;
+            }
+            if (req.body.emailAddress) {
+              user.emailAddress = req.body.emailAddress;
+            }
+            if (req.body.articleCount) {
+              user.articleCount = req.body.articleCount;
+            }
+            if (req.body.articles) {
+              console.log('put some articles');
+              user.articles = req.body.articles;
+            }
+            if (req.body.createdAt) {
+              user.createdAt = req.body.createdAt;
+            }
+            if (req.body.updatedAt) {
+              user.updatedAt = req.body.updatedAt;
+            }
+
+            user.save(function (err) {
+              if (err) {
+                console.log('err: ' + err.message);
+                res.send(err);
+              } else {
+                console.log('success');
+                res.status(200).json({ 
+                  message: 'success, user updated!',
+                  updatedUser: user 
+                });
+              }
             });
           });
-        });
-      })
+        }
+      )
 
       .delete(
         apiRouter.isAuthenticated,
@@ -105,13 +112,12 @@ var userController = function (apiRouter) {
             _id: req.params.userId
           },
           function (err, user) {
-            if (err) {
-              return res.send(err);
-            }
-            res.json({ message: 'success, user deleted!'});
+              if (err) {
+                return res.send(err);
+              }
+              res.status(204).json({ message: 'success, user deleted!'});
           });
-        }
-      );    
+      });    
 };
 
 module.exports = userController;

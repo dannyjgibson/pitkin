@@ -8,24 +8,23 @@ var messageController = function (apiRouter) {
     .post(
       apiRouter.isAuthenticated,
       function (req, res) {
-      var message = new Message();
+        var message = new Message();
 
-      message.text = req.body.text;
-      message.from = req.body.from;
-      message.timestamp = req.body.timestamp;
+        message.text = req.body.text;
+        message.from = req.body.from;
+        message.timestamp = req.body.timestamp;
 
-      // maybe handle errs with promises?
-      message.save(function (err) {
-        if (err) {
-          console.log('error: ' + err.message);
-          return res.send(err);
-        }
-        res.json({
-          message: 'success, message created!',
-          newMessageId: message._id
-        });
+        // maybe handle errs with promises?
+        message.save(function (err) {
+          if (err) {
+            console.log('error: ' + err.message);
+            return res.send(err);
+          }
+          res.status(201).json({
+            message: 'success, message created!',
+            newMessageId: message._id
+          });
       });
-
     })
 
     .get(function (req, res) {
@@ -33,7 +32,7 @@ var messageController = function (apiRouter) {
         if (err) {
           return res.send(err);
         }
-        res.json(messages);
+        res.status(200).json(messages);
       });
     });
 
@@ -44,40 +43,41 @@ var messageController = function (apiRouter) {
         if (err) {
           res.send(err);
         }
-        res.json(message);
+        res.status(200).json(message);
       });
     })
 
     .put(
       apiRouter.isAuthenticated,
       function (req, res) {
-      Message.findById(req.params.messageId, function (err, message) {
-        if (err) {
-          res.send(err);
-        }
-        // propbably better to cache req.body for depth property search
-        var reqBody = req.body;
-        if (reqBody.text) {
-          message.text = reqBody.text;
-        }
-        if (reqBody.from) {
-          message.from = reqBody.from;
-        }
-        if (reqBody.timestamp) {
-          message.timestamp = reqBody.timestamp;
-        }
-
-        message.save(function (err) {
+        Message.findById(req.params.messageId, function (err, message) {
           if (err) {
             res.send(err);
           }
-          res.json({ 
-            message: 'success, message updated',
-            updatedMessage: message
-            });
+          // propbably better to cache req.body for depth property search
+          var reqBody = req.body;
+          if (reqBody.text) {
+            message.text = reqBody.text;
+          }
+          if (reqBody.from) {
+            message.from = reqBody.from;
+          }
+          if (reqBody.timestamp) {
+            message.timestamp = reqBody.timestamp;
+          }
+
+          message.save(function (err) {
+            if (err) {
+              res.send(err);
+            }
+            res.json({ 
+              message: 'success, message updated',
+              updatedMessage: message
+              });
+          });
         });
-      });
-    })  
+      }
+    )  
 
     .delete(
       apiRouter.isAuthenticated,
@@ -88,7 +88,7 @@ var messageController = function (apiRouter) {
           if (err) {
             return res.send(err);
           }
-          res.json({ message: 'success, deleted message' });
+          res.status(204).json({ message: 'success, deleted message' });
       });
     });
 };

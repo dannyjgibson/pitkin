@@ -14,52 +14,104 @@ function WriteViewModel (model) {
   self.text = ko.observable();
   self.tags = ko.observableArray();
   self.authorName = ko.observable();
-  self.files = ko.observableArray();
+  self.userArticles = ko.observableArray();
   self.newFile = ko.observable(true);
-  self.articleIdSet = ko.observable(); // maybe it should just check titles?
+  self.userArticleIdSet = ko.observable();
+  self.userArticleTitleSet = ko.observable();
+  self.allPublishedArticleIds = ko.observable();
 
+  // method to get user info and the user's articles
   self.getUserInformation = function (userId) {
     var userInfoUrl = configDatabaseTest + 'api/users/' + userId;
     console.log('get to:  ' + userInfoUrl);
     $.getJSON(userInfoUrl, function (data) {
       self.userId(userId);
       self.authorName(data.username);
-      self.files(data.Articles);
-      var articleIdsFromData = {};
-      for (var file in self.files()) {
+      var articlesFromGET = data.Articles || [];
+      self.userArticles(articlesFromGET);
+      var articleIdsFromData = {},
+          articleTitlesFromData = {};
+      for (var file in self.userArticles()) {
         articleIdsFromData[file.id] = true;
+        articleTitlesFromData[file.title] = true;
       }
-      self.articleIdSet(articleIdsFromData);
+      self.userArticleIdSet(articleIdsFromData);
+      self.userArticleTitleSet(articleTitlesFromData);
     });
   };
 
   // wrapper method to check if an article already exists
   self.saveArticleData = function (data, event) {
+    console.log('save data');
     var articleData = {
       articleId: self.articleId(),
       title: self.title(),
       topic: self.topic(),
       text: self.text()
     };
-    if (articleData.articleId in self.articleIdSet()) {
-      self.putArticleInformation();
+    if (articleData.title in self.userArticleTitleSet()) {
+      self.putExistingArticleInformationToUser(articleData);
     } else {
-      self.postArticleInformation(articleData);
+      self.putNewArticleInformationToUser(articleData);
     }
   };
 
+  self.putNewArticleInformationToUser = function (articleInfo) {
+    delete articleInfo.articleId;
+    var userInfoUrl = configDatabaseTest + 'api/users/' + self.userId(),
+        updatedArticles = self.userArticles();
+    var toPOSTarticles = updatedArticles.push(articleInfo); // I don't know why, but articles don't work without another var...
+    $.getJSON(userInfoUrl, function (data) {
+        data.articles = updatedArticles;
+        console.log('data, articles first: ');
+        console.log(data.articles);
+        console.log(data);
+      $.ajax({
+        type: 'PUT',
+        url: userInfoUrl,
+        contentType: 'application/json',
+        data: JSON.stringify(data)
+      }).done(function () {
+        console.log('successful PUT to ' + userInfoUrl);
+      }).fail(function () {
+        console.log('failed to PUT to ' + userInfoUrl);
+      });
+    });
+    
+  };
+
+  self.putExistingArticleInformationToUser = function (articleInfo) {
+    var userInfoUrl = configDatabaseTest + 'api/users/' + self.userId();
+    console.log(self.authorName + ' already has an article titled ' + articleInfo.title);
+    $.ajax({
+      type: 'PUT',
+      url: userInfoUrl,
+      contentType: 'application/json',
+      data: JSON.stringify(articleInfo)
+    }).done(function () {
+      console.log('successful PUT to ' + userInfoUrl);
+    }).fail(function () {
+      console.log('failed to PUT to ' + userInfoUrl);
+    });
+  };
+
   self.publishArticleData = function(data, event) {
+    self.getAllPublishedArticles();
     var articleData = {
       articleId: self.articleId(),
       title: self.title(),
       topic: self.topic(),
       text: self.text()
     };
-    self.postArticleInformation(articleData);
+    if (self.allPublishedArticleIds()[articleData.articleId]) {
+      self.putArticleInformationToPublished(articleData);
+    } else {
+      self.postArticleInformationToPublished(articleData);
+    }
   };
 
-  // saving a new article
-  self.postArticleInformation = function (articleInfo) {
+  // publish a new article
+  self.postArticleInformationToPublished = function (articleInfo) {
     var articlePOSTUrl = configDatabaseTest + 'api/articles/';
     $.post(articlePOSTUrl, articleInfo, function (res) {
       if (res.message.indexOf('success') === -1) {
@@ -70,8 +122,8 @@ function WriteViewModel (model) {
     });
   };
 
-  // saving an article that already exists
-  self.putArticleInformation = function (articleInfo) {
+  // publishing an article that already exists
+  self.putArticleInformationToPublished = function (articleInfo) {
     var articlePUTUrl = configDatabaseTest + 'api/articles/' + articleInfo.id;
     $.ajax({
       type: 'PUT',
@@ -93,6 +145,17 @@ function WriteViewModel (model) {
       self.title(data.title);
       self.text(data.text);
       self.tags(data.tags);
+    });
+  };
+
+  self.getAllPublishedArticles = function() {
+    var articleInfoUrl = configDatabaseTest + 'api/articles/',
+        articleIdsFromData = {};
+    $.getJSON(articleInfoUrl, function (data) {
+      for (var datum in data) {
+        articleIdsFromData[datum.id] = true;
+      }
+      self.allPublishedArticleIds(articleIdsFromData);
     });
   };
 

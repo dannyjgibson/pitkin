@@ -5,14 +5,13 @@ block content
     .row
       .col-md-12
         .hidden-article-id(style="display: none", data-bind="value: articleId")
-        .hidden-user-id(style="display:none", data-bind="value: userId")
+        .hidden-user-id(style="display:none" data-bind="value: userId")
           |#{user.id}
         h1(data-bind="value: authorName")
           | #{user.username}
         h2 #{user.username}'s Notepad
     .row
       .article-info(class="col-md-10")
-        h1(data-bind="text: newFile")
         form.form-horizontal(name="save" action="/save" id="article-details" data-bind="attr: {'method': newFile ? 'post' : 'put'}")  
           .form-group
             label(for="title" class="col-md-2 control-label")
@@ -83,7 +82,7 @@ block content
       .file-system-info(class="col-md-2")
         .file-system-name
           | Your Files
-        ul.files(data-bind="foreach: files")
+        ul.files(data-bind="foreach: userArticles")
           each file in user.articles
             li(data-bind="text: $data.title, click: loadArticleData")
               | #{file.title}

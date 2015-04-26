@@ -7,7 +7,7 @@ var userSchema = new mongoose.Schema({
   articleCount: Number,
   articles: 
             [
-              {type: mongoose.Schema.Types.ObjectId, ref:'Article'},
+              {type: mongoose.Schema.Types.Mixed, ref:'Article'}, // Maybe I keep this as objectId and store articles elsewhere
             ],
   createdAt: Date,
   updatedAt: Date,

@@ -19,7 +19,7 @@ var chatroomController = function (apiRouter) {
           console.log('error: ' + err.message);
           return res.send(err);
         }
-        res.json({
+        res.status(201).json({
           message: 'success, chatroom data created!',
           newChatroomId: chatroom._id
         });
@@ -32,7 +32,7 @@ var chatroomController = function (apiRouter) {
         if (err) {
           return res.send(err);
         }
-        res.json(chatrooms);
+        res.status(200).json(chatrooms);
       });
     });
 
@@ -42,34 +42,34 @@ var chatroomController = function (apiRouter) {
         if (err) {
           res.send(err);
         }
-        res.json(chatroom);
+        res.status(200).json(chatroom);
       });
     })
 
     .put(
       apiRouter.isAuthenticated,
       function (req, res) {
-      Chatroom.findById(req.params.chatroomId, function (err, chatroom) {
-        if (err) {
-          res.send(err);
-        }
-        if (req.body.text) {
-          chatroom.text = req.body.text;
-        }
-        if (req.body.users) {
-          chatroom.users = req.body.users;
-        }
-
-        chatroom.save(function (err) {
+        Chatroom.findById(req.params.chatroomId, function (err, chatroom) {
           if (err) {
             res.send(err);
           }
-          res.json({ 
-            message: 'success, chatroom updated!',
-            updatedChatroom: chatroom
+          if (req.body.text) {
+            chatroom.text = req.body.text;
+          }
+          if (req.body.users) {
+            chatroom.users = req.body.users;
+          }
+
+          chatroom.save(function (err) {
+            if (err) {
+              res.send(err);
+            }
+            res.status(200).json({ 
+              message: 'success, chatroom updated!',
+              updatedChatroom: chatroom
+            });
           });
         });
-      });
     })
 
     .delete(
@@ -81,7 +81,7 @@ var chatroomController = function (apiRouter) {
         if (err) {
           return res.send(err);
         }
-        res.json({ message : 'success, chatroom deleted.'});
+        res.status(204).json({ message : 'success, chatroom deleted.'});
       });
     });   
 }; 
