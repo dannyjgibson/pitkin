@@ -5,22 +5,6 @@ block content
     .container-fluid
       h1 Pitkin
       h2 Research, Write, and Read
-      if (!user)
-        .login-register
-          .login
-            a(href="/login") login
-          .register
-            a(href="/register") register
-      if(user)
-        p welcome to Pitkin, #{user. username}!
-        .activities
-          .search
-            a(href="/search") search
-          .write
-            a(href="/write") write
-          .logout
-            a(href="/logout") logout
-      .button()
       .articles(data-bind="foreach: articles")
         .article(data-bind="if: $data.text, style: { display: ($data.offensiveToSomeone || !$data.text) ? 'none' : '' }, attr: { id : $data.id } " class="panel panel-default")
           .panel-heading
