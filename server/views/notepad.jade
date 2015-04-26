@@ -1,92 +1,91 @@
 extends layout
 
 block content
-  body
-    .container-fluid
-      .row
-        .col-md-12
-          .hidden-article-id(style="display: none", data-bind="value: articleId")
-          .hidden-user-id(style="display:none", data-bind="value: userId")
-            |#{user.id}
-          h1(data-bind="value: authorName")
-            | #{user.username}
-          h2 #{user.username}'s Notepad
-      .row
-        .article-info(class="col-md-10")
-          h1(data-bind="text: newFile")
-          form.form-horizontal(name="save" action="/save" id="article-details" data-bind="attr: {'method': newFile ? 'post' : 'put'}")  
-            .form-group
-              label(for="title" class="col-md-2 control-label")
-                | Title
-              .col-md-10
-                input(
-                  type="text"
-                  class="form-control article-info"
-                  id="title"
-                  name="title"
-                  placeholder="Title"
-                  data-bind="value: title"
-                )
-            .form-group
-              label(for="topic" class="col-md-2 control-label")
-                | Topic
-              .col-md-10
-                input(
-                  type="text"
-                  class="article-topic form-control"
-                  id="topic"
-                  name="topic"
-                  placeholder="Topic"
-                  data-bind="value: topic"
-                )
-            .article-info-body
-              label(for="article-body" class="col-md-2 control-label")
-                | Article
-              .col-md-10  
-                textarea(
-                    autofocus
-                    id="article-body"
-                    class="form-control col-md-10"
-                    form="article-details"
-                    name="text"
-                    placeholder="Write your article here!"
-                    data-bind="value: text"
-                    rows="10"
-                )
-            .form-group
-              label(for="tags" class="col-md-2 control-label")
-                | Tags  
-              .col-md-10
-                input(
-                  type="text"
-                  class="article-tags form-control"
-                  id="tags"
-                  name="tags"
-                  placeholder="Tag this article"
-                  data-bind="event: {keypress: addTags}"
-                )
-            .existing-tags(class="col-md-10")
-              ul.tags(data-bind="foreach: tags")
-                li.tag(data-bind="attr: {id: $index}, text: $data")      
-            .article-submit
+  .container-fluid
+    .row
+      .col-md-12
+        .hidden-article-id(style="display: none", data-bind="value: articleId")
+        .hidden-user-id(style="display:none", data-bind="value: userId")
+          |#{user.id}
+        h1(data-bind="value: authorName")
+          | #{user.username}
+        h2 #{user.username}'s Notepad
+    .row
+      .article-info(class="col-md-10")
+        h1(data-bind="text: newFile")
+        form.form-horizontal(name="save" action="/save" id="article-details" data-bind="attr: {'method': newFile ? 'post' : 'put'}")  
+          .form-group
+            label(for="title" class="col-md-2 control-label")
+              | Title
+            .col-md-10
               input(
-                class="btn btn-primary"
-                type="button"
-                data-bind="click: saveArticleData"
-                value="Save"
+                type="text"
+                class="form-control article-info"
+                id="title"
+                name="title"
+                placeholder="Title"
+                data-bind="value: title"
               )
+          .form-group
+            label(for="topic" class="col-md-2 control-label")
+              | Topic
+            .col-md-10
               input(
-                class="btn btn-success"
-                type="button"
-                data-bind="click: publishArticleData"
-                value="Publish"
+                type="text"
+                class="article-topic form-control"
+                id="topic"
+                name="topic"
+                placeholder="Topic"
+                data-bind="value: topic"
               )
-        .file-system-info(class="col-md-2")
-          .file-system-name
-            | Your Files
-          ul.files(data-bind="foreach: files")
-            each file in user.articles
-              li(data-bind="text: $data.title, click: loadArticleData")
-                | #{file.title}
-            li New Article
-      script(type="text/javascript" src="../ko-viewModels/WriteViewModel.js")
+          .article-info-body
+            label(for="article-body" class="col-md-2 control-label")
+              | Article
+            .col-md-10  
+              textarea(
+                  autofocus
+                  id="article-body"
+                  class="form-control col-md-10"
+                  form="article-details"
+                  name="text"
+                  placeholder="Write your article here!"
+                  data-bind="value: text"
+                  rows="10"
+              )
+          .form-group
+            label(for="tags" class="col-md-2 control-label")
+              | Tags  
+            .col-md-10
+              input(
+                type="text"
+                class="article-tags form-control"
+                id="tags"
+                name="tags"
+                placeholder="Tag this article"
+                data-bind="event: {keypress: addTags}"
+              )
+          .existing-tags(class="col-md-10")
+            ul.tags(data-bind="foreach: tags")
+              li.tag(data-bind="attr: {id: $index}, text: $data")      
+          .article-submit
+            input(
+              class="btn btn-primary"
+              type="button"
+              data-bind="click: saveArticleData"
+              value="Save"
+            )
+            input(
+              class="btn btn-success"
+              type="button"
+              data-bind="click: publishArticleData"
+              value="Publish"
+            )
+      .file-system-info(class="col-md-2")
+        .file-system-name
+          | Your Files
+        ul.files(data-bind="foreach: files")
+          each file in user.articles
+            li(data-bind="text: $data.title, click: loadArticleData")
+              | #{file.title}
+          li New Article
+    script(type="text/javascript" src="../ko-viewModels/WriteViewModel.js")
