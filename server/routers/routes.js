@@ -5,7 +5,7 @@ var isAuthenticated = function (req, res, next) {
   if (req.isAuthenticated()) {
     return next();
   }
-  res.redirect('/login');
+  res.status(401).redirect('/login');
 };
 
 routes.use(function (req, res, next) {
@@ -16,12 +16,12 @@ routes.use(function (req, res, next) {
 module.exports = function (passport) {
 
   routes.get('/', function (req, res) {
-    res.render('home', {title: 'Pitkin Home', user: req.user});
+    res.status(200).render('home', {title: 'Pitkin Home', user: req.user});
   });
 
   routes.get('/login', function (req, res) {
     console.log(req.body);
-    res.render('login', {title: 'Pitkin login'});
+    res.status(200).render('login', {title: 'Pitkin Login'});
   });
   
   routes.post('/login', passport.authenticate('login', {
@@ -31,7 +31,7 @@ module.exports = function (passport) {
   }));
 
   routes.get('/register', function (req, res) {
-    res.render('register', {title: 'Pitkin register'});
+    res.status(200).render('register', {title: 'Pitkin Register'});
   });
 
   routes.post('/register', passport.authenticate('register', {
@@ -43,21 +43,21 @@ module.exports = function (passport) {
   routes.get('/write', 
     isAuthenticated,
     function (req, res) {
-      res.render('notepad', {user: req.user, title: 'Pitkin Notepad'});
+      res.status(200).render('notepad', {user: req.user, title: 'Pitkin Notepad'});
     }
   );
 
   routes.get('/search', 
     isAuthenticated,
     function(req, res) {
-      res.render('search', {title: 'Pitkin search'});
+      res.status(200).render('search', {user: req.user, title: 'Pitkin Search'});
     }
   );
 
   routes.get('/logout', function (req, res) {
     console.log('someone logged out!');
     req.logout();
-    res.redirect('/login');
+    res.status(200).redirect('/login');
   });
 
   return routes;
