@@ -37,7 +37,6 @@ function WriteViewModel (model) {
       }
       self.userArticleIdSet(articleIdsFromData);
       self.userArticleTitleSet(articleTitlesFromData);
-
     });
   };
 
@@ -71,6 +70,7 @@ function WriteViewModel (model) {
         data: JSON.stringify(data)
       }).done(function () {
         console.log('successful PUT to ' + userInfoUrl);
+        self.userArticles(data.articles);
       }).fail(function () {
         console.log('failed to PUT to ' + userInfoUrl);
       });
