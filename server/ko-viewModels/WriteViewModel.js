@@ -27,7 +27,7 @@ function WriteViewModel (model) {
     $.getJSON(userInfoUrl, function (data) {
       self.userId(userId);
       self.authorName(data.username);
-      var articlesFromGET = data.Articles || [];
+      var articlesFromGET = data.articles || [];
       self.userArticles(articlesFromGET);
       var articleIdsFromData = {},
           articleTitlesFromData = {};
@@ -37,6 +37,7 @@ function WriteViewModel (model) {
       }
       self.userArticleIdSet(articleIdsFromData);
       self.userArticleTitleSet(articleTitlesFromData);
+
     });
   };
 
@@ -49,7 +50,7 @@ function WriteViewModel (model) {
       topic: self.topic(),
       text: self.text()
     };
-    if (articleData.title in self.userArticleTitleSet()) {
+    if (self.userArticleTitleSet()[articleData.title]) {
       self.putExistingArticleInformationToUser(articleData);
     } else {
       self.putNewArticleInformationToUser(articleData);
@@ -63,9 +64,6 @@ function WriteViewModel (model) {
     var toPOSTarticles = updatedArticles.push(articleInfo); // I don't know why, but articles don't work without another var...
     $.getJSON(userInfoUrl, function (data) {
         data.articles = updatedArticles;
-        console.log('data, articles first: ');
-        console.log(data.articles);
-        console.log(data);
       $.ajax({
         type: 'PUT',
         url: userInfoUrl,
