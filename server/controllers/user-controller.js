@@ -15,7 +15,6 @@ var userController = function (apiRouter) {
       user.password = validator.trim(req.body.password);
       if (validator.isEmail(user.emailAddress)) {
         user.emailAddress = validator.normalizeEqual(validator.trim(req.body.emailAddress));
-        console.log('we are fucking with ' + validator.normalizeEqual(validator.trim(req.body.emailAddress)));  
       }
       user.articleCount = req.body.articleCount;
       user.articles = req.body.articles;
@@ -35,7 +34,6 @@ var userController = function (apiRouter) {
     })
 
     .get(function (req, res) {
-      console.log('getting a user');
       User.find(function (err, users) {
         if (err) {
           return res.send(err);
@@ -51,7 +49,6 @@ var userController = function (apiRouter) {
           if (err) {
             res.send(err);
           }
-          console.log(user);
           res.status(200).json(user);
         });
       })
@@ -59,9 +56,7 @@ var userController = function (apiRouter) {
       .put(
         apiRouter.isAuthenticated,
         function (req, res) {
-          console.log(req.body);
-          User.findById(req.body._id, function (err, user) {
-            console.log(user);
+          User.findById(req.params.userId, function (err, user) {
             if (err) {
               res.send(err);
             }
@@ -79,7 +74,6 @@ var userController = function (apiRouter) {
               user.articleCount = req.body.articleCount;
             }
             if (req.body.articles) {
-              console.log('put some articles');
               user.articles = req.body.articles;
             }
             if (req.body.createdAt) {
@@ -94,7 +88,6 @@ var userController = function (apiRouter) {
                 console.log('err: ' + err.message);
                 res.send(err);
               } else {
-                console.log('success');
                 res.status(200).json({ 
                   message: 'success, user updated!',
                   updatedUser: user 

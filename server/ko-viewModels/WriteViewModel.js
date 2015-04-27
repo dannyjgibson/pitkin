@@ -23,7 +23,6 @@ function WriteViewModel (model) {
   // method to get user info and the user's articles
   self.getUserInformation = function (userId) {
     var userInfoUrl = configDatabaseTest + 'api/users/' + userId;
-    console.log('get to:  ' + userInfoUrl);
     $.getJSON(userInfoUrl, function (data) {
       self.userId(userId);
       self.authorName(data.username);
@@ -31,9 +30,10 @@ function WriteViewModel (model) {
       self.userArticles(articlesFromGET);
       var articleIdsFromData = {},
           articleTitlesFromData = {};
-      for (var file in self.userArticles()) {
-        articleIdsFromData[file.id] = true;
-        articleTitlesFromData[file.title] = true;
+      for (var file in articlesFromGET) {
+        var article = articlesFromGET[file];
+        articleIdsFromData[article.id] = true; // unpublished articles ids are undefined ATM, need a mongo collection for ids...
+        articleTitlesFromData[article.title] = true;
       }
       self.userArticleIdSet(articleIdsFromData);
       self.userArticleTitleSet(articleTitlesFromData);
@@ -75,22 +75,38 @@ function WriteViewModel (model) {
         console.log('failed to PUT to ' + userInfoUrl);
       });
     });
-    
   };
 
   self.putExistingArticleInformationToUser = function (articleInfo) {
-    var userInfoUrl = configDatabaseTest + 'api/users/' + self.userId();
-    console.log(self.authorName + ' already has an article titled ' + articleInfo.title);
-    $.ajax({
-      type: 'PUT',
-      url: userInfoUrl,
-      contentType: 'application/json',
-      data: JSON.stringify(articleInfo)
-    }).done(function () {
-      console.log('successful PUT to ' + userInfoUrl);
-    }).fail(function () {
-      console.log('failed to PUT to ' + userInfoUrl);
-    });
+    console.log(self.authorName() + ' already has an article titled ' + articleInfo.title);
+    
+    var userInfoUrl = configDatabaseTest + 'api/users/' + self.userId(),
+        updatedArticles = self.userArticles(),
+        updatedUser = {};
+
+    for (var i = 0; i < updatedArticles.length; i++) {
+      if (updatedArticles[i].title === articleInfo.title) {
+        break;
+      }
+    }
+
+    updatedArticles[i] = articleInfo;
+    $.getJSON(userInfoUrl, function (data) {
+        data.articles = updatedArticles;
+        updatedUser = data;
+      $.ajax({
+        type: 'PUT',
+        url: userInfoUrl,
+        contentType: 'application/json',
+        data: JSON.stringify(updatedUser)
+      }).done(function () {
+        console.log('successful PUT to ' + userInfoUrl);
+        self.userArticles(updatedUser);
+      }).fail(function () {
+        console.log('failed to PUT to ' + userInfoUrl);
+      });
+    }); 
+    
   };
 
   self.publishArticleData = function(data, event) {

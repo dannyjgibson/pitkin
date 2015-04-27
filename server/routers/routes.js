@@ -35,7 +35,7 @@ module.exports = function (passport) {
   });
 
   routes.post('/register', passport.authenticate('register', {
-    successRedirect: '/write',
+    successRedirect: '/',
     failureRedirect: '/register',
     failureFlash: true
   }));
