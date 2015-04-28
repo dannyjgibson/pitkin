@@ -1,3 +1,7 @@
 .bordered-user-items {
   border-left: #e7e7e7 1px solid;
 }
+
+.navbar-brand {
+  border-right: #e7e7e7 1px solid;
+}
