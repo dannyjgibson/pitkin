@@ -3,7 +3,8 @@ var express = require('express'),
 // need to set up a little middlware on the router before passing 
 
 apiRouter.isAuthenticated = function (req, res, next) {
-  if (req. isAuthenticated()) {
+  if (req.isAuthenticated()) {
+    apiRouter.userInASession = req.user._id; // caching this is important, because then we can check it against params later
     return next();
   }
   res.json({"message" : "must be authenticated to hit this endpoint"});
@@ -16,7 +17,7 @@ apiRouter.use(function (req, res, next) {
 
 apiRouter.get('/', function (req, res) {
   // list verbs and routes on html page to serve
-  res.send('Welcome to the pitkin API. Please pass a route...');
+  res.status(200).send('Welcome to the pitkin API. Please pass a route...');
 });
    
 // hard coding in controllers
