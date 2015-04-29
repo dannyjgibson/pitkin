@@ -2,7 +2,8 @@ var express = require('express'),
     bodyParser = require('body-parser'),
     mongoose = require('mongoose'),
     validator = require('validator'),
-    User = require('../models/user');
+    User = require('../models/user'),
+    Article = require('../models/article');
 
 
 var userController = function (apiRouter) {
@@ -45,7 +46,7 @@ var userController = function (apiRouter) {
                     res.status(200).json(users);
                 });
             } else {
-                console.log("You can only GET user info that belongs to you.");
+                res.status(403).json({message: 'You can only GET user info that belongs to you.'});
             }
         }
     );
@@ -61,7 +62,7 @@ var userController = function (apiRouter) {
                 res.status(200).json(user);
             });
         } else {
-            console.log("You can only GET user info that belongs to you");
+            res.status(403).json({message: 'You can only GET user info that belongs to you'});
         }
     })
 
@@ -111,7 +112,7 @@ var userController = function (apiRouter) {
                     });
                 });
             } else {
-                console.log("You can only PUT user info that belongs to you");
+                res.status(403).json({message: 'You can only PUT user info that belongs to you'});
             }
         }
     )
@@ -132,9 +133,117 @@ var userController = function (apiRouter) {
                         });
                     });
             } else {
-                console.log("You can only DELETE user info that belongs to you.");
+                res.status(403).json({message: 'You can only DELETE user info that belongs to you.'});
             }
         });
+    apiRouter.route('/users/:userId/articles')
+    .get(
+      apiRouter.isAuthenticated,
+      function (req, res) {
+        if (req.user.id === req.params.userId) {
+          User.findById(req.params.userId, function (err, user) {
+            if (err) {
+                res.send(err);
+            }
+            res.status(200).json(user.articles);
+          });  
+        } else {
+          res.status(403).json({message:'you can only GET articles that belong to you'});
+        }
+      }
+    )
+
+    .post(
+      apiRouter.isAuthenticated,
+      function (req, res) {
+        if (req.user.id === req.params.userId) {
+          var article = new Article();
+          article.text = validator.trim(req.body.text);
+          article.topic = validator.trim(req.body.topic);
+          article.title = validator.trim(req.body.title);
+          article.tags = validator.tags(req.body.tags);
+
+          User.findById(req.params.userId, function (err, user) {
+            if (err) {
+              res.send(err);
+            }
+            user.articles = user.articles.push(article);
+
+            user.save(function (err) {
+              if (err) {
+                res.send(err);
+              } else {
+                res.status(200).json({
+                  message: 'success, user articles updated',
+                  updatedUserArticles: user.articles
+                });
+              }
+            });
+          }); 
+        } else {
+          res.status(403).json({message:'you can only POST articles that belong to you'});
+        }
+      }
+    )
+
+    .put(
+      apiRouter.isAuthenticated,
+      function (req, res) {
+        if (req.user.id === req.params.userId) {
+          User.findById(req.params.userId, function (err, user) {
+            if (err) {
+              res.send(err);
+            }
+            var articleIndex = user.articles.indexOf(req.body);
+            user.articles[articleIndex] = req.body;
+
+            user.save(function (err) {
+              if (err) {
+                res.send(err);
+              } else {
+                res.status(200).json({
+                  message: 'success, user article updated',
+                  updatedUserArticle: user.articles[articleIndex]
+                });
+              }
+            });
+          });
+        } else {
+          res.status(403).json({message:'you can only GET articles that belong to you'});
+        }
+      }
+    )
+
+    .delete(
+      apiRouter.isAuthenticated,
+      function (req, res) {
+        if (req.user.id === req.params.userId) {
+          // this is a shim until I add unique article endpoints
+          User.findById(req.params.user, function (err, user) {
+            if (err) {
+              res.send(err);
+            }
+            var articleIndex = user.articles.indexOf(req.body);
+            user.articles[articleIndex] = user.articles.splice(articleIndex, 1);
+            
+            user.save(function (err) {
+              if (err) {
+                res.send(err);
+              } else {
+                res.status(200).json({
+                  message: 'success, user article deleted',
+                  updatedUserArticles: user.articles
+                });
+              }
+            });
+          });
+        } else {
+          res.status(403).json({ message: 'you can only DELETE articles that belong to you' });
+        }
+      }
+    )
+
+
 };
 
 module.exports = userController;
