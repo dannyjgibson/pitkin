@@ -11,7 +11,6 @@ var userController = function (apiRouter) {
     .post(
         apiRouter.isAuthenticated,
         function (req, res) {
-          if (apiRouter.userInASession === req.params.userId) {
             var user = new User();
             user.username = validator.trim(req.body.username);
             user.password = validator.trim(req.body.password);
@@ -33,14 +32,13 @@ var userController = function (apiRouter) {
                     newUserId: user._id
                 });
             });
-          }
         })
 
     .get(
         apiRouter.isAuthenticated,
         function (req, res) {
-            if (apiRouter.userInASession === req.params.userId) {
-                User.find(function(err, users) {
+            if (req.user.id === req.params.userId) {
+                User.find(function (err, users) {
                     if (err) {
                         return res.send(err);
                     }
@@ -55,7 +53,7 @@ var userController = function (apiRouter) {
     apiRouter.route('/users/:userId')
 
     .get(function (req, res) {
-        if (apiRouter.userInASession == req.params.userId) {
+        if (req.user.id == req.params.userId) {
             User.findById(req.params.userId, function (err, user) {
                 if (err) {
                     res.send(err);
@@ -70,7 +68,8 @@ var userController = function (apiRouter) {
     .put(
         apiRouter.isAuthenticated,
         function (req, res) {
-            if (apiRouter.userInASession === req.params.userId) {
+            console.log('req.user.id: ' + req.user.id);
+            if (req.user.id === req.params.userId) {
 
                 User.findById(req.params.userId, function (err, user) {
                     if (err) {
@@ -120,7 +119,7 @@ var userController = function (apiRouter) {
     .delete(
         apiRouter.isAuthenticated,
         function (req, res) {
-            if (apiRouter.userInASession === req.params.userId) {
+            if (req.user.id === req.params.userId) {
                 User.remove({
                         _id: req.params.userId
                     },

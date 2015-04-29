@@ -4,7 +4,6 @@ var express = require('express'),
 
 apiRouter.isAuthenticated = function (req, res, next) {
   if (req.isAuthenticated()) {
-    apiRouter.userInASession = req.user._id; // caching this is important, because then we can check it against params later
     return next();
   }
   res.json({"message" : "must be authenticated to hit this endpoint"});
