@@ -7,8 +7,6 @@ block content
         .hidden-article-id(style="display: none", data-bind="value: articleId")
         .hidden-user-id(style="display:none" data-bind="value: userId")
           |#{user.id}
-        h1(data-bind="value: authorName")
-          | #{user.username}
         h2 #{user.username}'s Notepad
     .row
       .article-info(class="col-md-10")
@@ -83,7 +81,8 @@ block content
         .file-system-name
           | Your Files
         ul.files(data-bind="foreach: $root.userArticles")
-          li(data-bind="text: $data.title, click: $root.loadArticleData")
+          li(data-bind="text: $data.title")
+            //- click: $root.loadArticleData"
         .new-article
           | New Article
     script(type="text/javascript" src="../ko-viewModels/WriteViewModel.js")

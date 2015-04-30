@@ -13,7 +13,6 @@ var WriteViewModel = function (model) {
   self.title = ko.observable();
   self.text = ko.observable();
   self.tags = ko.observableArray();
-  self.authorName = ko.observable();
   self.userArticles = ko.observableArray();
   self.newFile = ko.observable(true);
   self.userArticleTitleSet = ko.observable();
@@ -28,13 +27,18 @@ var WriteViewModel = function (model) {
     $.getJSON(userInfoUrl, function (data) {
       var articlesFromGET = data || [];
       self.userArticles(articlesFromGET);
-      var articleTitlesFromData = {};
-      for (var file in articlesFromGET) {
-        var article = articlesFromGET[file];
-        articleTitlesFromData[article.title] = true;
-      }
-      self.userArticleTitleSet(articleTitlesFromData);
+      self.updateUserArticles(articlesFromGET);
     });
+  };
+
+  self.updateUserArticles = function (articles) {
+    self.userArticles(articles);
+    var articleTitlesFromData = {};
+    for (var file in self.userArticles()) {
+      var article = self.userArticles()[file];
+      articleTitlesFromData[article.title] = true;
+    }
+    self.userArticleTitleSet(articleTitlesFromData);
   };
 
   // wrapper method to check if an article already exists
@@ -55,56 +59,44 @@ var WriteViewModel = function (model) {
 
   self.putNewArticleDataToUser = function (articleData) {
     delete articleData.articleId;
-    var userInfoUrl = configDatabaseTest +
+    var userArticlesUrl = configDatabaseTest +
                      'api/users/' +
                       self.userId() +
-                      '/articles',
-        updatedArticles = self.userArticles();
+                      '/articles';
     $.ajax({
       type: 'POST',
-      url: userInfoUrl,
+      url: userArticlesUrl,
       contentType: 'application/json',
       data: JSON.stringify(articleData)
-    }).done(function () {
-      console.log('successful POST to ' + userInfoUrl);
-      self.userArticles(data.articles);
+    }).done(function (data) {
+      console.log('successful POST to ' + userArticlesUrl);
+      console.log(data.updatedUserArticles);
+      self.updateUserArticles(data.updatedUserArticles);
     }).fail(function () {
-      console.log('failed to POST to ' + userInfoUrl);
+      console.log('failed to POST to ' + userArticlesUrl);
     });
   };
 
   self.putExistingArticleDataToUser = function (articleData) {
-    console.log(self.authorName() +
-                ' already has an article titled ' +
+    console.log(' already an article titled ' +
                 articleData.title);
     
-    var userInfoUrl = configDatabaseTest + 'api/users/' + self.userId(),
-        updatedArticles = self.userArticles(),
-        updatedUser = {};
+    var userArticlesUrl = configDatabaseTest + 
+                      'api/users/' +
+                      self.userId() + 
+                      '/articles';
 
-    for (var i = 0; i < updatedArticles.length; i++) {
-      if (updatedArticles[i].title === articleData.title) {
-        break;
-      }
-    }
-
-    updatedArticles[i] = articleData;
-    $.getJSON(userInfoUrl, function (data) {
-        data.articles = updatedArticles;
-        updatedUser = data;
-      $.ajax({
-        type: 'PUT',
-        url: userInfoUrl,
-        contentType: 'application/json',
-        data: JSON.stringify(updatedUser)
-      }).done(function () {
-        console.log('successful PUT to ' + userInfoUrl);
-        self.userArticles(updatedUser);
-      }).fail(function () {
-        console.log('failed to PUT to ' + userInfoUrl);
-      });
-    }); 
-    
+    $.ajax({
+      type: 'PUT',
+      url: userArticlesUrl,
+      contentType: 'application/json',
+      data: JSON.stringify(articleData)
+    }).done(function () {
+      console.log('successful PUT to ' + userArticlesUrl);
+      // I guess update the UserArticles property in the VM
+    }).fail(function () {
+      console.log('failed to PUT to ' + userArticlesUrl);
+    });
   };
 
   self.publishArticleData = function (data, event) {

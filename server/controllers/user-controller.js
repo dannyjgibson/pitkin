@@ -54,7 +54,8 @@ var userController = function(apiRouter) {
 
     apiRouter.route('/users/:userId')
 
-    .get(function(req, res) {
+    .get(
+      function(req, res) {
         if (req.user.id == req.params.userId) {
             User.findById(req.params.userId, function(err, user) {
                 if (err) {
@@ -144,6 +145,7 @@ var userController = function(apiRouter) {
             }
         });
     apiRouter.route('/users/:userId/articles')
+    
         .get(
             apiRouter.isAuthenticated,
             function(req, res) {
@@ -167,16 +169,25 @@ var userController = function(apiRouter) {
         function(req, res) {
             if (req.user.id === req.params.userId) {
                 var article = new Article();
-                article.text = validator.trim(req.body.text);
-                article.topic = validator.trim(req.body.topic);
-                article.title = validator.trim(req.body.title);
-                article.tags = validator.tags(req.body.tags);
+                if (req.body.text) {
+                  article.text = validator.trim(req.body.text);
+                }
+                if (req.body.topic) {
+                  article.topic = validator.trim(req.body.topic);
+                }
+                if (req.body.title) {
+                  article.title = validator.trim(req.body.title);
+                }
+                if (req.body.tags) {
+                  article.tags = validator.trim(req.body.tags);
+                }
 
                 User.findById(req.params.userId, function(err, user) {
                     if (err) {
                         res.send(err);
                     }
-                    user.articles = user.articles.push(article);
+
+                    user.articles.push(article);
 
                     user.save(function(err) {
                         if (err) {
@@ -205,23 +216,59 @@ var userController = function(apiRouter) {
                     if (err) {
                         res.send(err);
                     }
-                    var articleIndex = user.articles.indexOf(req.body);
-                    user.articles[articleIndex] = req.body;
 
-                    user.save(function(err) {
-                        if (err) {
-                            res.send(err);
-                        } else {
-                            res.status(200).json({
-                                message: 'success, user article updated',
-                                updatedUserArticle: user.articles[articleIndex]
-                            });
-                        }
-                    });
+                    var userArticles = user.articles,
+                        articleIndex;                    
+                    for (articleIndex = 0; articleIndex < userArticles.length; articleIndex++) {
+                      if (userArticles[articleIndex].title === req.body.title) {
+                        break;
+                      }
+                    }
+
+                    console.log('userArticles');
+                    console.log(user.articles);
+
+                    console.log('userArticle');
+                    console.log(userArticles[articleIndex]);
+
+                    console.log('req.body');
+                    console.log(req.body);
+
+                    var article = user.articles[articleIndex];
+                    if (req.body.title) {
+                      article.title = req.body.title;
+                    }
+                    if (req.body.topic) {
+                      article.title = req.body.topic;
+                    }
+                    if (req.body.text) {
+                      article.text = req.body.text;
+                    }
+                    if (req.body.tags) {
+                      article.tags = req.body.tags;
+                    }
+                    user.articles[articleIndex] = article;
+
+                    console.log('userArticles');
+                    console.log(user.articles);
+
+                    console.log('user: ');
+                    console.log(user);
+
+                  User.update({_id: user._id}, {articles: user.articles}, {upsert: true}, function (err, res) {
+                    if (err) {
+                      res.status(500).json({message: err.message});
+                    } else {
+                      res.status(200).json({
+                        message: 'user articles successfully updated',
+                        updatedArticles: user.articles
+                      });
+                    }
+                  });
                 });
             } else {
                 res.status(403).json({
-                    message: 'you can only GET articles that belong to you'
+                    message: 'you can only PUT articles that belong to you'
                 });
             }
         }
@@ -231,13 +278,12 @@ var userController = function(apiRouter) {
         apiRouter.isAuthenticated,
         function(req, res) {
             if (req.user.id === req.params.userId) {
-                // this is a shim until I add unique article endpoints
                 User.findById(req.params.user, function(err, user) {
                     if (err) {
                         res.send(err);
                     }
                     var articleIndex = user.articles.indexOf(req.body);
-                    user.articles[articleIndex] = user.articls.splice(articleIndex, 1);
+                    user.articles[articleIndex] = user.articles.splice(articleIndex, 1);
 
                     user.save(function(err) {
                         if (err) {

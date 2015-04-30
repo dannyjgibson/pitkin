@@ -51,8 +51,9 @@ var articleController = function (apiRouter) {
 			Article.findById(req.params.articleId, function (err, article) {
 				if (err) {
 					res.send(err);
+				} else {
+					res.status(200).json(article);
 				}
-				res.status(200).json(article);
 			});
 		})
 
