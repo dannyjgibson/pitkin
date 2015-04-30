@@ -5,7 +5,7 @@
 var configDatabaseTest = 'http://localhost:3000/';
 
 // not every attribute on the model gets added to the Article View Model
-function WriteViewModel (model) {
+var WriteViewModel = function (model) {
   var self = this;
   self.articleId = ko.observable();
   self.userId = ko.observable();
@@ -16,26 +16,23 @@ function WriteViewModel (model) {
   self.authorName = ko.observable();
   self.userArticles = ko.observableArray();
   self.newFile = ko.observable(true);
-  self.userArticleIdSet = ko.observable();
   self.userArticleTitleSet = ko.observable();
   self.allPublishedArticleIds = ko.observable();
 
   // method to get user info and the user's articles
   self.getUserInformation = function (userId) {
-    var userInfoUrl = configDatabaseTest + 'api/users/' + userId;
+    var userInfoUrl = configDatabaseTest + 
+                      'api/users/' +
+                      userId +
+                      '/articles';
     $.getJSON(userInfoUrl, function (data) {
-      self.userId(userId);
-      self.authorName(data.username);
-      var articlesFromGET = data.articles || [];
+      var articlesFromGET = data || [];
       self.userArticles(articlesFromGET);
-      var articleIdsFromData = {},
-          articleTitlesFromData = {};
+      var articleTitlesFromData = {};
       for (var file in articlesFromGET) {
         var article = articlesFromGET[file];
-        articleIdsFromData[article.id] = true; // unpublished articles ids are undefined ATM, need a mongo collection for ids...
         articleTitlesFromData[article.title] = true;
       }
-      self.userArticleIdSet(articleIdsFromData);
       self.userArticleTitleSet(articleTitlesFromData);
     });
   };
@@ -50,47 +47,48 @@ function WriteViewModel (model) {
       text: self.text()
     };
     if (self.userArticleTitleSet()[articleData.title]) {
-      self.putExistingArticleInformationToUser(articleData);
+      self.putExistingArticleDataToUser(articleData);
     } else {
-      self.putNewArticleInformationToUser(articleData);
+      self.putNewArticleDataToUser(articleData);
     }
   };
 
-  self.putNewArticleInformationToUser = function (articleInfo) {
-    delete articleInfo.articleId;
-    var userInfoUrl = configDatabaseTest + 'api/users/' + self.userId(),
+  self.putNewArticleDataToUser = function (articleData) {
+    delete articleData.articleId;
+    var userInfoUrl = configDatabaseTest +
+                     'api/users/' +
+                      self.userId() +
+                      '/articles',
         updatedArticles = self.userArticles();
-    var toPOSTarticles = updatedArticles.push(articleInfo); // I don't know why, but articles don't work without another var...
-    $.getJSON(userInfoUrl, function (data) {
-        data.articles = updatedArticles;
-      $.ajax({
-        type: 'PUT',
-        url: userInfoUrl,
-        contentType: 'application/json',
-        data: JSON.stringify(data)
-      }).done(function () {
-        console.log('successful PUT to ' + userInfoUrl);
-        self.userArticles(data.articles);
-      }).fail(function () {
-        console.log('failed to PUT to ' + userInfoUrl);
-      });
+    $.ajax({
+      type: 'POST',
+      url: userInfoUrl,
+      contentType: 'application/json',
+      data: JSON.stringify(articleData)
+    }).done(function () {
+      console.log('successful POST to ' + userInfoUrl);
+      self.userArticles(data.articles);
+    }).fail(function () {
+      console.log('failed to POST to ' + userInfoUrl);
     });
   };
 
-  self.putExistingArticleInformationToUser = function (articleInfo) {
-    console.log(self.authorName() + ' already has an article titled ' + articleInfo.title);
+  self.putExistingArticleDataToUser = function (articleData) {
+    console.log(self.authorName() +
+                ' already has an article titled ' +
+                articleData.title);
     
     var userInfoUrl = configDatabaseTest + 'api/users/' + self.userId(),
         updatedArticles = self.userArticles(),
         updatedUser = {};
 
     for (var i = 0; i < updatedArticles.length; i++) {
-      if (updatedArticles[i].title === articleInfo.title) {
+      if (updatedArticles[i].title === articleData.title) {
         break;
       }
     }
 
-    updatedArticles[i] = articleInfo;
+    updatedArticles[i] = articleData;
     $.getJSON(userInfoUrl, function (data) {
         data.articles = updatedArticles;
         updatedUser = data;
@@ -109,7 +107,7 @@ function WriteViewModel (model) {
     
   };
 
-  self.publishArticleData = function(data, event) {
+  self.publishArticleData = function (data, event) {
     self.getAllPublishedArticles();
     var articleData = {
       articleId: self.articleId(),
@@ -118,32 +116,32 @@ function WriteViewModel (model) {
       text: self.text()
     };
     if (self.allPublishedArticleIds()[articleData.articleId]) {
-      self.putArticleInformationToPublished(articleData);
+      self.putArticleDataToPublished(articleData);
     } else {
-      self.postArticleInformationToPublished(articleData);
+      self.postArticleDataToPublished(articleData);
     }
   };
 
   // publish a new article
-  self.postArticleInformationToPublished = function (articleInfo) {
+  self.postArticleDataToPublished = function (articleData) {
     var articlePOSTUrl = configDatabaseTest + 'api/articles/';
-    $.post(articlePOSTUrl, articleInfo, function (res) {
+    $.post(articlePOSTUrl, articleData, function (res) {
       if (res.message.indexOf('success') === -1) {
-        console.log('failed to post ' + articleInfo.id);
+        console.log('failed to post ' + articleData.id);
       } else {
-        console.log('post of: ' + articleInfo.id + ' is a success');
+        console.log('post of: ' + articleData.id + ' is a success');
       }
     });
   };
 
   // publishing an article that already exists
-  self.putArticleInformationToPublished = function (articleInfo) {
-    var articlePUTUrl = configDatabaseTest + 'api/articles/' + articleInfo.id;
+  self.putArticleDataToPublished = function (articleData) {
+    var articlePUTUrl = configDatabaseTest + 'api/articles/' + articleData.id;
     $.ajax({
       type: 'PUT',
       url: articlePUTUrl,
       contentType: 'application/json',
-      data: JSON.stringify(articleInfo)
+      data: JSON.stringify(articleData)
     }).done(function () {
       console.log('successful PUT to ' + articlePUTUrl);
     }).fail(function () {
@@ -162,7 +160,7 @@ function WriteViewModel (model) {
     });
   };
 
-  self.getAllPublishedArticles = function() {
+  self.getAllPublishedArticles = function () {
     var articleInfoUrl = configDatabaseTest + 'api/articles/',
         articleIdsFromData = {};
     $.getJSON(articleInfoUrl, function (data) {
@@ -187,7 +185,8 @@ function WriteViewModel (model) {
   };
 
   var userIdFromDOM = $('.hidden-user-id').text();
+  self.userId(userIdFromDOM);
   self.getUserInformation(userIdFromDOM);
-}
+};
 
 ko.applyBindings(new WriteViewModel());

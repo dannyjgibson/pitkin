@@ -1,3 +1,6 @@
+var enterKey = 13,
+    click = 1;
+
 var SearchItem = function (text, url, image) {
   var self = this;
   self.url = url || '';
@@ -6,7 +9,18 @@ var SearchItem = function (text, url, image) {
   return self;
 };
 
-function SearchResponseViewModel() {
+var addNewTabTarget = function (html) {
+  var toAdd = ' target="_newtab"',
+      splitHtml = html.split(" ");
+  splitHtml[0] = splitHtml[0].concat(toAdd);
+  return splitHtml.join(' ');
+};
+
+var stripUrlToEndpoint = function (url) {
+  return url.substr(url.lastIndexOf('/') + 1);
+};
+
+var SearchResponseViewModel = function () {
   var self = this;
   self.query = ko.observable('Pitkin County'); // undefined in the query string returns a 403, ergo...
   self.responses = ko.observableArray();
@@ -16,12 +30,13 @@ function SearchResponseViewModel() {
   self.abstractImage = ko.observable();
   self.results = ko.observable(false);
 
-  self.searchDuckDuckGo = function(item, event) {
+  self.searchDuckDuckGo = function (item, event) {
     var keyCode = event.which || event.keyCode;
-    // keypress in the search, not enter or click
-    if (keyCode !== 13 && keyCode !== 1) {
+
+    if (keyCode !== enterKey && keyCode !== click) {
       return true;
     }
+
     console.log('getting duckduckgo ' + self.query());
     $.ajax({
       type: 'GET',
@@ -61,17 +76,6 @@ function SearchResponseViewModel() {
       self.searchDuckDuckGo(item, event);  
     }
   };
-}
-
-var addNewTabTarget = function(html) {
-  var toAdd = ' target="_newtab"',
-      splitHtml= html.split(" ");
-  splitHtml[0] = splitHtml[0].concat(toAdd);
-  return splitHtml.join(' ');
-};
-
-var stripUrlToEndpoint = function(url) {
-  return url.substr(url.lastIndexOf('/') + 1);
 };
 
 ko.applyBindings(new SearchResponseViewModel());
