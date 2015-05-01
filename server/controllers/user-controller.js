@@ -145,7 +145,7 @@ var userController = function(apiRouter) {
             }
         });
     apiRouter.route('/users/:userId/articles')
-    
+
         .get(
             apiRouter.isAuthenticated,
             function(req, res) {
@@ -239,7 +239,7 @@ var userController = function(apiRouter) {
                       article.title = req.body.title;
                     }
                     if (req.body.topic) {
-                      article.title = req.body.topic;
+                      article.topic = req.body.topic;
                     }
                     if (req.body.text) {
                       article.text = req.body.text;
@@ -255,9 +255,9 @@ var userController = function(apiRouter) {
                     console.log('user: ');
                     console.log(user);
 
-                  User.update({_id: user._id}, {articles: user.articles}, {upsert: true}, function (err, res) {
+                  User.update({_id: user._id}, {articles: user.articles}, {upsert: true}, function (err, updatedUser) {
                     if (err) {
-                      res.status(500).json({message: err.message});
+                      res.json({message: err.message});
                     } else {
                       res.status(200).json({
                         message: 'user articles successfully updated',

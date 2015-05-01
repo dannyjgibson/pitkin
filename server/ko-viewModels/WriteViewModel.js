@@ -16,7 +16,7 @@ var WriteViewModel = function (model) {
   self.userArticles = ko.observableArray();
   self.newFile = ko.observable(true);
   self.userArticleTitleSet = ko.observable();
-  self.allPublishedArticleIds = ko.observable();
+  self.allPublishedArticleTitlesSet = ko.observable();
 
   // method to get user info and the user's articles
   self.getUserInformation = function (userId) {
@@ -100,34 +100,47 @@ var WriteViewModel = function (model) {
   };
 
   self.publishArticleData = function (data, event) {
-    self.getAllPublishedArticles();
-    var articleData = {
-      articleId: self.articleId(),
-      title: self.title(),
-      topic: self.topic(),
-      text: self.text()
-    };
-    if (self.allPublishedArticleIds()[articleData.articleId]) {
-      self.putArticleDataToPublished(articleData);
-    } else {
-      self.postArticleDataToPublished(articleData);
-    }
+    var articleInfoUrl = configDatabaseTest + 
+                      'api/articles/';
+
+
+    $.getJSON(articleInfoUrl).then(function (data) {
+      var articlesFromGET = data || [],
+          articleData = {
+            articleId: self.articleId(),
+            title: self.title(),
+            topic: self.topic(),
+            text: self.text()
+          };
+
+      console.log('articlesFromGET: ');
+      console.log(articlesFromGET);
+      articleTitles = self.getAllPublishedArticleTitles(articlesFromGET);  
+      console.log('articleTitles: ');
+      console.log(articleTitles);  
+      if (articleTitles[articleData.title]) {
+        self.putArticleDataToPublished(articleData);
+        self.putExistingArticleDataToUser(articleData);
+      } else {
+        self.postArticleDataToPublished(articleData);
+        self.putNewArticleDataToUser(articleData);
+      }
+    }); 
   };
 
-  // publish a new article
   self.postArticleDataToPublished = function (articleData) {
     var articlePOSTUrl = configDatabaseTest + 'api/articles/';
     $.post(articlePOSTUrl, articleData, function (res) {
       if (res.message.indexOf('success') === -1) {
         console.log('failed to post ' + articleData.id);
       } else {
-        console.log('post of: ' + articleData.id + ' is a success');
+        console.log('post of: ' + res.newArticleId + ' is a success');
       }
     });
   };
 
-  // publishing an article that already exists
   self.putArticleDataToPublished = function (articleData) {
+    console.log('articles already have');
     var articlePUTUrl = configDatabaseTest + 'api/articles/' + articleData.id;
     $.ajax({
       type: 'PUT',
@@ -152,15 +165,16 @@ var WriteViewModel = function (model) {
     });
   };
 
-  self.getAllPublishedArticles = function () {
-    var articleInfoUrl = configDatabaseTest + 'api/articles/',
-        articleIdsFromData = {};
-    $.getJSON(articleInfoUrl, function (data) {
-      for (var datum in data) {
-        articleIdsFromData[datum.id] = true;
+  self.getAllPublishedArticleTitles = function (data) {
+    var articleTitlesFromData = {};
+    for (var i = 0; i < data.length; i++) {
+      if (data[i].title){
+        articleTitlesFromData[data[i].title] = true;
       }
-      self.allPublishedArticleIds(articleIdsFromData);
-    });
+    }
+    console.log('getAllPublishedArticleTitles: ');
+    console.log(articleTitlesFromData);
+    return articleTitlesFromData;  
   };
 
   self.loadArticleData = function (data, event) {
