@@ -3,7 +3,7 @@ var mongoose = require('mongoose');
 var articleSchema = new mongoose.Schema({
   topic: String,
   title: String,
-  author: {type: mongoose.Schema.Types.ObjectId, ref:'User'},
+  author: {type: mongoose.Schema.Types.Mixed, ref:'User'}, 
   location: String,
   publishDate: Date,
   createdAt: Date,

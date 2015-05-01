@@ -43,7 +43,6 @@ var WriteViewModel = function (model) {
 
   // wrapper method to check if an article already exists
   self.saveArticleData = function (data, event) {
-    console.log('save data');
     var articleData = {
       articleId: self.articleId(),
       title: self.title(),
@@ -69,18 +68,12 @@ var WriteViewModel = function (model) {
       contentType: 'application/json',
       data: JSON.stringify(articleData)
     }).done(function (data) {
-      console.log('successful POST to ' + userArticlesUrl);
-      console.log(data.updatedUserArticles);
       self.updateUserArticles(data.updatedUserArticles);
     }).fail(function () {
-      console.log('failed to POST to ' + userArticlesUrl);
     });
   };
 
-  self.putExistingArticleDataToUser = function (articleData) {
-    console.log(' already an article titled ' +
-                articleData.title);
-    
+  self.putExistingArticleDataToUser = function (articleData) { 
     var userArticlesUrl = configDatabaseTest + 
                       'api/users/' +
                       self.userId() + 
@@ -92,7 +85,6 @@ var WriteViewModel = function (model) {
       contentType: 'application/json',
       data: JSON.stringify(articleData)
     }).done(function () {
-      console.log('successful PUT to ' + userArticlesUrl);
       // I guess update the UserArticles property in the VM
     }).fail(function () {
       console.log('failed to PUT to ' + userArticlesUrl);
@@ -112,12 +104,6 @@ var WriteViewModel = function (model) {
             topic: self.topic(),
             text: self.text()
           };
-
-      console.log('articlesFromGET: ');
-      console.log(articlesFromGET);
-      articleTitles = self.getAllPublishedArticleTitles(articlesFromGET);  
-      console.log('articleTitles: ');
-      console.log(articleTitles);  
       if (articleTitles[articleData.title]) {
         self.putArticleDataToPublished(articleData);
         self.putExistingArticleDataToUser(articleData);
@@ -140,8 +126,7 @@ var WriteViewModel = function (model) {
   };
 
   self.putArticleDataToPublished = function (articleData) {
-    console.log('articles already have');
-    var articlePUTUrl = configDatabaseTest + 'api/articles/' + articleData.id;
+    var articlePUTUrl = configDatabaseTest + 'api/articles/';
     $.ajax({
       type: 'PUT',
       url: articlePUTUrl,
@@ -172,8 +157,6 @@ var WriteViewModel = function (model) {
         articleTitlesFromData[data[i].title] = true;
       }
     }
-    console.log('getAllPublishedArticleTitles: ');
-    console.log(articleTitlesFromData);
     return articleTitlesFromData;  
   };
 

@@ -73,7 +73,6 @@ var userController = function(apiRouter) {
     .put(
         apiRouter.isAuthenticated,
         function(req, res) {
-            console.log('req.user.id: ' + req.user.id);
             if (req.user.id === req.params.userId) {
 
                 User.findById(req.params.userId, function(err, user) {
@@ -225,15 +224,6 @@ var userController = function(apiRouter) {
                       }
                     }
 
-                    console.log('userArticles');
-                    console.log(user.articles);
-
-                    console.log('userArticle');
-                    console.log(userArticles[articleIndex]);
-
-                    console.log('req.body');
-                    console.log(req.body);
-
                     var article = user.articles[articleIndex];
                     if (req.body.title) {
                       article.title = req.body.title;
@@ -248,13 +238,6 @@ var userController = function(apiRouter) {
                       article.tags = req.body.tags;
                     }
                     user.articles[articleIndex] = article;
-
-                    console.log('userArticles');
-                    console.log(user.articles);
-
-                    console.log('user: ');
-                    console.log(user);
-
                   User.update({_id: user._id}, {articles: user.articles}, {upsert: true}, function (err, updatedUser) {
                     if (err) {
                       res.json({message: err.message});
