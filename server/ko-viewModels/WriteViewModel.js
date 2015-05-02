@@ -98,13 +98,16 @@ var WriteViewModel = function (model) {
 
     $.getJSON(articleInfoUrl).then(function (data) {
       var articlesFromGET = data || [],
+          articleTitles = self.getAllPublishedArticleTitles(data);
           articleData = {
             articleId: self.articleId(),
             title: self.title(),
             topic: self.topic(),
             text: self.text()
           };
-      if (articleTitles[articleData.title]) {
+
+      console.log(articleTitles);
+      if(articleTitles[articleData.title]) {
         self.putArticleDataToPublished(articleData);
         self.putExistingArticleDataToUser(articleData);
       } else {
