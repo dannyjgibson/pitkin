@@ -16,8 +16,9 @@ block content
             .article-text(data-bind="text: $data.text")
           .panel-footer
             span(class="tags" data-bind="foreach: $data.tags")
-              span(class="well well-sm" data-bind="text: $data")
+              span(class="well well-sm tag" data-bind="text: $data")
             if (user)
               span(class="input-group")
                 input(type="text" class="form-control" placeholder="Add Tag...")                
   script(type="text/javascript" src="../ko-viewModels/HomePageViewModel.js")
+  script(src='../scripts/home-interaction.js')

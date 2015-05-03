@@ -88,8 +88,8 @@ html
             if (title==="Pitkin Home")                            
               form(class="navbar-form navbar-left" role="search")
                 .form-group
-                  input(type="text" class="form-control" placeholder="Search by tags")
-                button(type="submit" class="btn btn-default")
+                  input(type="text" class="form-control" placeholder="Search by tags" id="search-tags")
+                .button(class="btn btn-default" id="search-by-tags")
                   | Submit
             if (user)
               ul(class="nav navbar-nav navbar-right bordered-user-items")

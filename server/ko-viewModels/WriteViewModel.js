@@ -106,7 +106,6 @@ var WriteViewModel = function (model) {
             text: self.text()
           };
 
-      console.log(articleTitles);
       if(articleTitles[articleData.title]) {
         self.putArticleDataToPublished(articleData);
         self.putExistingArticleDataToUser(articleData);
