@@ -8,13 +8,16 @@ $(document).ready(function () {
         $(this).find('.tag').each(function (index) {
           articleTags.push($(this).text());
         });
-        var searchTagPresent = false;
+        var searchTagsPresent = false;
         for (var i = 0; i < searchTags.length; i++) {
-          if (articleTags.indexOf(searchTags[i]) !== -1){
-            searchTagPresent = true;
+          if (articleTags.indexOf(searchTags[i]) === -1){
+            searchTagsPresent = false;
+            break;
+          } else {
+            searchTagsPresent = true;
           }
         }
-        if (!searchTagPresent) {
+        if (!searchTagsPresent) {
           $(this).hide();
         }
       });
