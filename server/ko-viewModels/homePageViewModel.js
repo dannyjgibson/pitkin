@@ -7,6 +7,7 @@ var configDatabaseTest = 'http://localhost:3000/';
 function HomePageViewModel () {
   var self = this;
   self.articles = ko.observableArray();
+  self.addedTags = ko.observable({});
 
   self.getArticles = function () {
     var articleUrl = configDatabaseTest + 'api/articles/';
@@ -16,7 +17,9 @@ function HomePageViewModel () {
   };
 
   self.flagAsOffensive = function (item, event) {
-    var articleUrl = configDatabaseTest + 'api/articles/' + item._id,
+    var articleUrl = configDatabaseTest +
+                    'api/articles/' +
+                    item._id,
         data = {offensiveToSomeone: true};
     $.ajax({
       data: data,
@@ -29,6 +32,23 @@ function HomePageViewModel () {
     });
   };
 
+  self.addTags = function (item, event) {
+    var itemId = item._id;
+        articleUrl = configDatabaseTest +
+                     'api/articles/' +
+                     itemId,
+        existingTags = (item.tags).concat(self.addedTags()[itemId].split(/,?\s+/)),
+        updatedData = {tags: existingTags};
+    $.ajax({
+      data: JSON.stringify(updatedData),
+      url: articleUrl,
+      method: 'PUT',
+      contentType: 'application/json',
+      success: function (data) {
+        console.log('success in putting to ' + articleUrl);
+      }
+    });
+  };
   self.getArticles();
 }
 

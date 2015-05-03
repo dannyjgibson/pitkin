@@ -15,10 +15,13 @@ block content
           .panel-body
             .article-text(data-bind="text: $data.text")
           .panel-footer
-            span(class="tags" data-bind="foreach: $data.tags")
-              span(class="well well-sm tag" data-bind="text: $data")
+            .row(class="tags" data-bind="foreach: $data.tags")
+              .col-md-1(class="well well-sm tag" data-bind="text: $data")
             if (user)
-              span(class="input-group")
-                input(type="text" class="form-control" placeholder="Add Tag...")                
+              .input-group
+                input(type="text" class="form-control tags-to-add" placeholder="Add Tag..." data-bind="textInput: $root.addedTags()[$data._id]")
+                span(class="input-group-btn")
+                  .button(class="btn btn-default" type="button" data-bind="click: $root.addTags")
+                    | Add
   script(type="text/javascript" src="../ko-viewModels/HomePageViewModel.js")
   script(src='../scripts/home-interaction.js')
