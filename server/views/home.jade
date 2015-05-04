@@ -6,7 +6,7 @@ block content
       h1 Pitkin
       h2 Research, Write, and Read
       .articles(data-bind="foreach: articles")
-        .article(data-bind="if: $data.text, style: { display: ($data.offensiveToSomeone || !$data.text) ? 'none' : '' }, css: { dontDisplay: ($data.offensiveToSomeone || !$data.text) }, attr: { id : $data.id } " class="panel panel-default")
+        .article(data-bind="if: $data.text, style: { display: ($data.offensiveToSomeone() || !$data.text()) ? 'none' : '' }, css: { dontDisplay: ($data.offensiveToSomeone || !$data.text) }, attr: { id : $data.id } " class="panel panel-default")
           .panel-heading
             if (user)
               span(class="glyphicon glyphicon-flag" data-bind="click: $root.flagAsOffensive")

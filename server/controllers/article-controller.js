@@ -18,7 +18,6 @@ var articleController = function(apiRouter) {
                 article.publishDate = req.body.publishDate;
                 article.createdAt = req.body.createdAt;
                 article.text = req.body.text;
-                article.actions = req.body.actions;
                 article.tags = req.body.tags;
 
                 // maybe handle errs with promises?
@@ -143,9 +142,6 @@ var articleController = function(apiRouter) {
                     }
                     if (req.body.text) {
                         article.text = req.body.text;
-                    }
-                    if (req.body.actions) {
-                        article.actions = req.body.actions;
                     }
                     if (req.body.tags) {
                         article.tags = req.body.tags;

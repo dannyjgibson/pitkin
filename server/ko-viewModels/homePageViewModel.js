@@ -4,6 +4,21 @@
 // This is a crappy shim, and requireJS is the way out
 var configDatabaseTest = 'http://localhost:3000/';
 
+function Article(articleData) {
+  var self = this;
+  self._id = articleData._id;
+  self.topic = ko.observable(articleData.topic);
+  self.title = ko.observable(articleData.title);
+  self.author = ko.observable(articleData.author);
+  self.location = ko.observable(articleData.location);
+  self.publishDate = ko.observable(articleData.publishDate);
+  self.createdAt = ko.observable(articleData.createdAt);
+  self.updatedAt = ko.observable(articleData.updatedAt);
+  self.text = ko.observable(articleData.text);
+  self.tags = ko.observable(articleData.tags);
+  self.offensiveToSomeone = ko.observable(articleData.offensiveToSomeone);
+}
+
 function HomePageViewModel () {
   var self = this;
   self.articles = ko.observableArray();
@@ -12,7 +27,12 @@ function HomePageViewModel () {
   self.getArticles = function () {
     var articleUrl = configDatabaseTest + 'api/articles/';
     $.getJSON(articleUrl, function (articles) {
-      self.articles(articles);
+      var articleCollection = [];
+      for (var i = 0; i < articles.length; i++) {
+        var article = new Article(articles[i]);
+        articleCollection.push(article);
+      }
+      self.articles(articleCollection);
     });      
   };
 
@@ -37,18 +57,30 @@ function HomePageViewModel () {
         articleUrl = configDatabaseTest +
                      'api/articles/' +
                      itemId,
-        existingTags = (item.tags).concat(self.addedTags()[itemId].split(/,?\s+/)),
-        updatedData = {tags: existingTags};
+        tags = (item.tags()).concat(self.addedTags()[itemId].split(/,?\s+/)),
+        updatedData = {tags: tags};
+        console.log(self.addedTags());
     $.ajax({
       data: JSON.stringify(updatedData),
       url: articleUrl,
       method: 'PUT',
       contentType: 'application/json',
       success: function (data) {
-        console.log('success in putting to ' + articleUrl);
+        console.log(data.message);
       }
     });
+
+
+    for (var i = 0; i < self.articles().length; i++) {
+      if (self.articles()[i]._id === itemId) {
+        var updatedArticle = self.articles()[i];
+        updatedArticle.tags(tags);
+        self.articles.replace(self.articles()[i], updatedArticle);
+        break;
+      }
+    }
   };
+  
   self.getArticles();
 }
 

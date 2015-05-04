@@ -9,7 +9,6 @@ var articleSchema = new mongoose.Schema({
   createdAt: Date,
   updatedAt: Date,
   text: String,
-  actions: String,
   tags: [String],
   offensiveToSomeone: Boolean
 });
