@@ -2,7 +2,8 @@
 //var config = require('../config');
 
 // This is a crappy shim, and requireJS is the way out
-var configDatabaseTest = 'http://localhost:3000/';
+var configDatabaseTest = 'http://localhost:3000/',
+    blacklistWords = [];
 
 function Article(articleData) {
   var self = this;
@@ -45,8 +46,8 @@ function HomePageViewModel () {
       data: data,
       url: articleUrl,
       method:'PUT',
-      success: function() {
-        console.log('success putting to ' + articleUrl);
+      success: function (data) {
+        console.log(data.message);
       },
       dataType: 'json'
     });
@@ -58,30 +59,40 @@ function HomePageViewModel () {
                      'api/articles/' +
                      itemId,
         tags = (item.tags()).concat(self.addedTags()[itemId].split(/,?\s+/)),
-        updatedData = {tags: tags};
-        console.log(self.addedTags());
-    $.ajax({
-      data: JSON.stringify(updatedData),
-      url: articleUrl,
-      method: 'PUT',
-      contentType: 'application/json',
-      success: function (data) {
-        console.log(data.message);
-      }
-    });
+        updatedData = {tags: checkTags(tags)};
+    if (updatedData.tags) {
+      $.ajax({
+        data: JSON.stringify(updatedData),
+        url: articleUrl,
+        method: 'PUT',
+        contentType: 'application/json',
+        success: function (data) {
+          console.log(data.message);
+        }
+      });
 
-
-    for (var i = 0; i < self.articles().length; i++) {
-      if (self.articles()[i]._id === itemId) {
-        var updatedArticle = self.articles()[i];
-        updatedArticle.tags(tags);
-        self.articles.replace(self.articles()[i], updatedArticle);
-        break;
+      for (var i = 0; i < self.articles().length; i++) {
+        if (self.articles()[i]._id === itemId) {
+          var updatedArticle = self.articles()[i];
+          updatedArticle.tags(updatedData.tags);
+          self.articles.replace(self.articles()[i], updatedArticle);
+          break;
+        }
       }
-    }
+    }    
   };
   
   self.getArticles();
+}
+
+function checkTags(tags) {
+  var cleanTags = [];
+  for (var i = 0; i < tags.length; i++) {
+    if ((blacklistWords.indexOf(tags[i]) === -1) && (tags[i] !== '')) {
+      cleanTags.push(tags[i]);
+    } 
+  }
+  return cleanTags;
 }
 
 ko.applyBindings(new HomePageViewModel());
