@@ -13,6 +13,8 @@ var express = require('express'),
   config = require('./config'),
   port = config.port,
   User = require('./models/user'),
+  cors = require('cors'),
+  httpProxy = require('http-proxy'),
   app = express();
 
 // view engine setup
@@ -36,10 +38,10 @@ var initializePassport = require('../passport-strategies/init');
 initializePassport(passport);
 
 // enable CORS
-app.use(function (req, res, next) {
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET', 'POST');
-  res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With, content-type, Authorization');
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  res.header('Access-Control-Allow-Credentials', true);
   next();
 });
 

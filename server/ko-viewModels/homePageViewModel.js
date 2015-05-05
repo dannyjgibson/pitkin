@@ -3,6 +3,7 @@
 
 // This is a crappy shim, and requireJS is the way out
 var configDatabaseTest = 'http://localhost:3000/',
+    configDatabaseTor = 'http://drrnw33iylgclylb.onion/api/articles',
     blacklistWords = [];
 
 function Article(articleData) {
@@ -27,14 +28,15 @@ function HomePageViewModel () {
 
   self.getArticles = function () {
     var articleUrl = configDatabaseTest + 'api/articles/';
-    $.getJSON(articleUrl, function (articles) {
+
+    $.getJSON(configDatabaseTor, function (articles) {
       var articleCollection = [];
       for (var i = 0; i < articles.length; i++) {
         var article = new Article(articles[i]);
         articleCollection.push(article);
       }
       self.articles(articleCollection);
-    });      
+    });
   };
 
   self.flagAsOffensive = function (item, event) {
@@ -93,6 +95,24 @@ function checkTags(tags) {
     } 
   }
   return cleanTags;
+}
+
+// Create the XHR object.
+function createCORSRequest(method, url) {
+  var xhr = new XMLHttpRequest();
+  //xhr.setRequestHeader('Origin', 'drrnw33iylgclylb.onion');
+  if ("withCredentials" in xhr) {
+    // XHR for Chrome/Firefox/Opera/Safari.
+    xhr.open(method, url, true);
+  } else if (typeof XDomainRequest != "undefined") {
+    // XDomainRequest for IE.
+    xhr = new XDomainRequest();
+    xhr.open(method, url);
+  } else {
+    // CORS not supported.
+    xhr = null;
+  }
+  return xhr;
 }
 
 ko.applyBindings(new HomePageViewModel());

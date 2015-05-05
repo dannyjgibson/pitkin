@@ -81,8 +81,8 @@ block content
         .file-system-name
           | Your Files
         ul.files(data-bind="foreach: $root.userArticles")
-          li(data-bind="text: $data.title")
-            //- click: $root.loadArticleData"
+          li(data-bind="text: $data.title, click: $root.loadArticleData")
+
         .new-article
           | New Article
     script(type="text/javascript" src="../ko-viewModels/WriteViewModel.js")

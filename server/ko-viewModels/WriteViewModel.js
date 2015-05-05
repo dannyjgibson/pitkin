@@ -2,7 +2,8 @@
 //var config = require('../config');
 
 // This is a crappy shim, and requireJS is the way out
-var configDatabaseTest = 'http://localhost:3000/';
+var configDatabaseTest = 'http://localhost:3000/',
+    configDatabaseTor = 'http://drrnw33iylgclylb.onion/';
 
 // not every attribute on the model gets added to the Article View Model
 var WriteViewModel = function (model) {
@@ -20,7 +21,7 @@ var WriteViewModel = function (model) {
 
   // method to get user info and the user's articles
   self.getUserInformation = function (userId) {
-    var userInfoUrl = configDatabaseTest + 
+    var userInfoUrl = configDatabaseTor +
                       'api/users/' +
                       userId +
                       '/articles';
@@ -58,7 +59,7 @@ var WriteViewModel = function (model) {
 
   self.putNewArticleDataToUser = function (articleData) {
     delete articleData.articleId;
-    var userArticlesUrl = configDatabaseTest +
+    var userArticlesUrl = configDatabaseTor +
                      'api/users/' +
                       self.userId() +
                       '/articles';
@@ -74,7 +75,7 @@ var WriteViewModel = function (model) {
   };
 
   self.putExistingArticleDataToUser = function (articleData) { 
-    var userArticlesUrl = configDatabaseTest + 
+    var userArticlesUrl = configDatabaseTor +
                       'api/users/' +
                       self.userId() + 
                       '/articles';
@@ -92,7 +93,7 @@ var WriteViewModel = function (model) {
   };
 
   self.publishArticleData = function (data, event) {
-    var articleInfoUrl = configDatabaseTest + 
+    var articleInfoUrl = configDatabaseTor +
                       'api/articles/';
 
 
@@ -117,7 +118,7 @@ var WriteViewModel = function (model) {
   };
 
   self.postArticleDataToPublished = function (articleData) {
-    var articlePOSTUrl = configDatabaseTest + 'api/articles/';
+    var articlePOSTUrl = configDatabaseTor + 'api/articles/';
     $.post(articlePOSTUrl, articleData, function (res) {
       if (res.message.indexOf('success') === -1) {
         console.log('failed to post ' + articleData.id);
@@ -128,7 +129,7 @@ var WriteViewModel = function (model) {
   };
 
   self.putArticleDataToPublished = function (articleData) {
-    var articlePUTUrl = configDatabaseTest + 'api/articles/';
+    var articlePUTUrl = configDatabaseTor + 'api/articles/';
     $.ajax({
       type: 'PUT',
       url: articlePUTUrl,
@@ -142,7 +143,7 @@ var WriteViewModel = function (model) {
   };
 
   self.getArticleInformation = function (articleId) {
-    var articleInfoUrl = configDatabaseTest + 'api/articles/' + articleId;
+    var articleInfoUrl = configDatabaseTor + 'api/articles/' + articleId;
     $.getJSON(articleInfoUrl, function (data) {
       self.articleId(data.id);
       self.topic(data.topic);
