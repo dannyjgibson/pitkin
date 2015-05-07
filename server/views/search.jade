@@ -3,12 +3,13 @@ extends layout
 block content
   .container-fluid
     .row
-      .col-lg-12(class="text-center")  
-        h1 Pitkin Answer Search 
-        br
-        h1 <a target="_newtab" data-bind="attr: {href: results() ? ('https://duckduckgo.com/?q='+query()) : 'https://duckduckgo.com/'}"> Results from</a>
-        a(target="_newtab" data-bind="attr: {href: results() ? ('https://duckduckgo.com/?q='+query()) : 'https://duckduckgo.com/'} ")
-          img(src='https://duckduckgo.com/assets/logo_homepage.normal.v107.svg')
+      .col-lg-12(class="text-center")
+          h1(class="lead duckduckgo-info")
+            | Pitkin Answer Search 
+          br
+          h1(class="lead duckduckgo-info") <a target="_newtab" data-bind="attr: {href: results() ? ('https://duckduckgo.com/?q='+query()) : 'https://duckduckgo.com/'}"> Results from</a>
+          a(target="_newtab" data-bind="attr: {href: results() ? ('https://duckduckgo.com/?q='+query()) : 'https://duckduckgo.com/'} ")
+            img(src='https://duckduckgo.com/assets/logo_homepage.normal.v107.svg')
     .row
       .col-lg-12
         .input-group
