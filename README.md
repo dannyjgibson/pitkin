@@ -15,3 +15,6 @@ Once you clone the code. Open up terminal and run `mongod` to get your monogo in
 In a separate terminal window, run `node server/server.js`.
 
 Pitkin is now running on your machine's `localhost:3000`
+
+### Running as Tor Hidden Service
+When the app is up on a Tor circuit, it can be found at this onion address: [drrnw33iylgclylb.onion](drrnw33iylgclylb.onion).
