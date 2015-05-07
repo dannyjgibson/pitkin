@@ -87,5 +87,10 @@ block content
         .file-system-name
           | Your Files
         ul.files(data-bind="foreach: $root.userArticles")
-          li(data-bind="text: $data.title, click: $root.loadArticleData")
+          li
+            input(
+              class="btn"
+              type="button"
+              data-bind="click: $root.loadArticleData, attr: { value: $data.title }"
+            )
     script(type="text/javascript" src="../ko-viewModels/WriteViewModel.js")

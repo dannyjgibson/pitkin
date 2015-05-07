@@ -164,8 +164,11 @@ var WriteViewModel = function (model) {
   };
 
   self.loadArticleData = function (data, event) {
-    console.log(data);
-    self.getArticleInformation(data);
+    self.articleId(data._id);    
+    self.title(data.title);
+    self.topic(data.topic);
+    self.text(data.text);
+    self.tags(data.tags);
   };
 
   self.resetArticleFields = function (data, event) {
