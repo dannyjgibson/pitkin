@@ -47,7 +47,7 @@ app.use(function(req, res, next) {
 
 mongoose.connect(config.database.test, function (err) {
   if (err) {
-    console.log('could not connect to' + config.database.test);    
+    console.log('could not connect to ' + config.database.test);    
   } 
   console.log('connected to mongodb at ' + config.database.test);
 });

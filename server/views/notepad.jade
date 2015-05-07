@@ -77,12 +77,15 @@ block content
               data-bind="click: publishArticleData"
               value="Publish"
             )
+            input(
+              class="btn btn-danger"
+              type="button"
+              data-bind="click: resetArticleFields"
+              value="New"
+            )
       .file-system-info(class="col-md-2")
         .file-system-name
           | Your Files
         ul.files(data-bind="foreach: $root.userArticles")
           li(data-bind="text: $data.title, click: $root.loadArticleData")
-
-        .new-article
-          | New Article
     script(type="text/javascript" src="../ko-viewModels/WriteViewModel.js")

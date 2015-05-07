@@ -9,3 +9,9 @@
 textarea {
   resize: none;
 }
+
+.article-submit {
+  display: inline-block;
+  text-align: right;
+  width: 100%;  
+}

@@ -21,7 +21,7 @@ var WriteViewModel = function (model) {
 
   // method to get user info and the user's articles
   self.getUserInformation = function (userId) {
-    var userInfoUrl = configDatabaseTor +
+    var userInfoUrl = configDatabaseTest +
                       'api/users/' +
                       userId +
                       '/articles';
@@ -59,7 +59,7 @@ var WriteViewModel = function (model) {
 
   self.putNewArticleDataToUser = function (articleData) {
     delete articleData.articleId;
-    var userArticlesUrl = configDatabaseTor +
+    var userArticlesUrl = configDatabaseTest +
                      'api/users/' +
                       self.userId() +
                       '/articles';
@@ -75,7 +75,7 @@ var WriteViewModel = function (model) {
   };
 
   self.putExistingArticleDataToUser = function (articleData) { 
-    var userArticlesUrl = configDatabaseTor +
+    var userArticlesUrl = configDatabaseTest +
                       'api/users/' +
                       self.userId() + 
                       '/articles';
@@ -93,7 +93,7 @@ var WriteViewModel = function (model) {
   };
 
   self.publishArticleData = function (data, event) {
-    var articleInfoUrl = configDatabaseTor +
+    var articleInfoUrl = configDatabaseTest +
                       'api/articles/';
 
 
@@ -118,7 +118,7 @@ var WriteViewModel = function (model) {
   };
 
   self.postArticleDataToPublished = function (articleData) {
-    var articlePOSTUrl = configDatabaseTor + 'api/articles/';
+    var articlePOSTUrl = configDatabaseTest + 'api/articles/';
     $.post(articlePOSTUrl, articleData, function (res) {
       if (res.message.indexOf('success') === -1) {
         console.log('failed to post ' + articleData.id);
@@ -129,7 +129,7 @@ var WriteViewModel = function (model) {
   };
 
   self.putArticleDataToPublished = function (articleData) {
-    var articlePUTUrl = configDatabaseTor + 'api/articles/';
+    var articlePUTUrl = configDatabaseTest + 'api/articles/';
     $.ajax({
       type: 'PUT',
       url: articlePUTUrl,
@@ -143,7 +143,7 @@ var WriteViewModel = function (model) {
   };
 
   self.getArticleInformation = function (articleId) {
-    var articleInfoUrl = configDatabaseTor + 'api/articles/' + articleId;
+    var articleInfoUrl = configDatabaseTest + 'api/articles/' + articleId;
     $.getJSON(articleInfoUrl, function (data) {
       self.articleId(data.id);
       self.topic(data.topic);
@@ -164,7 +164,15 @@ var WriteViewModel = function (model) {
   };
 
   self.loadArticleData = function (data, event) {
+    console.log(data);
     self.getArticleInformation(data);
+  };
+
+  self.resetArticleFields = function (data, event) {
+    self.topic(null);
+    self.title(null);
+    self.text(null);
+    self.tags(null);
   };
 
   self.addTags = function (data, event) {
