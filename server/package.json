@@ -2,7 +2,7 @@
   "name": "pitkin-api",
   "version": "0.0.1",
   "description": "pitkin's simple api",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "test": "mocha tests/"
   },
