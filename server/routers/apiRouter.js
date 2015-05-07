@@ -16,7 +16,7 @@ apiRouter.use(function (req, res, next) {
 
 apiRouter.get('/', function (req, res) {
   // list verbs and routes on html page to serve
-  res.status(200).send('Welcome to the pitkin API. Please pass a route...');
+  res.status(200).render('api', {title: 'Pitkin API'});
 });
    
 // hard coding in controllers

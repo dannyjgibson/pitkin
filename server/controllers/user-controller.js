@@ -9,7 +9,6 @@ var userController = function(apiRouter) {
     apiRouter.route('/users')
 
     .post(
-        apiRouter.isAuthenticated,
         function(req, res) {
             var user = new User();
             user.username = validator.trim(req.body.username);
@@ -55,6 +54,7 @@ var userController = function(apiRouter) {
     apiRouter.route('/users/:userId')
 
     .get(
+      apiRouter.isAuthenticated,
       function(req, res) {
         if (req.user.id == req.params.userId) {
             User.findById(req.params.userId, function(err, user) {

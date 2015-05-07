@@ -16,8 +16,12 @@ textarea {
   width: 100%;  
 }
 
-li input.btn {
+li .btn {
   background: white;
   color: blue;
   padding: 0;
+}
+
+.protected {
+  color: red;
 }
